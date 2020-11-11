@@ -1,6 +1,6 @@
 module.exports = {
     name: '',
-    description: "",
+    description: "sends a link to invite the bot to other servers",
     execute(message, args){
         //the code itself
         message.channel.send('Use this link to invite the bot to other servers:')
