@@ -1,0 +1,22 @@
+{
+  "name": "mcbot",
+  "version": "1.0.0",
+  "description": "A discord bot I use for testing. Also runs the minecraft chat.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheGameWizard12/McBot.git"
+  },
+  "author": "Beni#7999",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheGameWizard12/McBot/issues"
+  },
+  "homepage": "https://github.com/TheGameWizard12/McBot#readme",
+  "dependencies": {
+    "discord.js": "^12.4.1"
+  }
+}
