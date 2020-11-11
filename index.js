@@ -25,10 +25,13 @@ client.on('message', message =>{
     const command = args.shift().toLowerCase();
 
     if(command === "ping"){
-        client.commands.get('ping').execute(message, args);
+        client.commands.get("ping").execute(message, args);
     }
     else if (command == "pog") {
         client.commands.get("pog").execute(message, args);
+    }
+    else if (command == "invite") {
+        client.commands.get("invite").execute(message, args);
     }
 });
 ``
