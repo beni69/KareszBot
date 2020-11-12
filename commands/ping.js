@@ -1,6 +1,6 @@
 module.exports = {
     aliases: ['p'],
     run: (message, args) => {
-        message.reply('pong')
+        message.reply('pong');
     }
 }
