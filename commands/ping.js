@@ -3,4 +3,4 @@ module.exports = {
     run: (message, args) => {
         message.reply('pong')
     }
-};
+}
