@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const WOKCommands = require('wokcommands');
 const client  = new Discord.Client();
 
 const prefix = '.';
@@ -14,6 +15,7 @@ for(const file of commandFiles){
 
 
 client.once('ready', () => {
+    new WOKCommands(client, 'commands', 'features')
     console.log('ready');
 })
 
