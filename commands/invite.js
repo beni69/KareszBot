@@ -1,5 +1,5 @@
 module.exports = {
-    name: '',
+    name: 'invite',
     description: "sends a link to invite the bot to other servers",
     execute(message, args){
         //the code itself
