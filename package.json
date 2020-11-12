@@ -4,7 +4,7 @@
   "description": "A discord bot I use for testing. Also runs the minecraft chat.",
   "main": "index.js",
   "scripts": {
-     "start": "node index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/TheGameWizard12/McBot#readme",
   "dependencies": {
-    "discord.js": "^12.4.1",
-    "request": "2.81.0"
+    "discord.js": "^12.4.1"
   }
 }
