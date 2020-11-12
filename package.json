@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/TheGameWizard12/McBot#readme",
   "dependencies": {
-    "discord.js": "^12.4.1"
+    "discord.js": "^12.4.1",
+    "wokcommands": "^1.0.1"
   }
 }
