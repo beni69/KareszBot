@@ -1,6 +1,6 @@
 module.exports = {
     aliases: ['members'],
-    run: (message, args) => {
+    run: (message, args, text, client, prefix, instance) => {
         client.guilds.cache.forEach((guild) => {
             message.channel.send(`${guild.name} has ${guild.memberCount} members`);
         });
