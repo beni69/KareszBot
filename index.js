@@ -10,4 +10,4 @@ client.on('ready', () => {
   new WOKCommands(client, 'commands', 'features').setDefaultPrefix(config.prefix)
 })
 
-client.login('Nzc2NTI2NTc0NDgwNTIzMjc1.X62Kug.0g7kZDBLBTZ5218Bg1aBkm4KZQE')
+client.login(process.env.BOT_TOKEN)
