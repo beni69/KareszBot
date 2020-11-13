@@ -1,5 +1,7 @@
 module.exports = {
     aliases: [],
+    minArgs: 1,
+    maxArgs: 1,
     run: (message, args, text, client, prefix, instance) => {
         const target = message.mentions.users.first()
         const targetMember = message.guild.members.cache.get(target.id)
