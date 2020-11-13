@@ -8,7 +8,6 @@ module.exports = {
         } else {
             const user = message.mentions.users.first()
             message.channel.send(user.displayAvatarURL({ format: "png", dynamic: true }))
-            // console.log(user)
         }
     }
 }
