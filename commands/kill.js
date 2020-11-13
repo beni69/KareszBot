@@ -3,9 +3,10 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     run: (message, args, text, client, prefix, instance) => {
+        const config = require('./config.json');
         const target = message.mentions.users.first()
         const targetMember = message.guild.members.cache.get(target.id)
-        if (target.id=='376793727794020354') {
+        if (target.id == config.ownerID) {
 
             message.channel.send("I'm sorry, you can't kill god")
 

@@ -1,7 +1,8 @@
 module.exports = {
     aliases: ['changestatus', 'updatestatus'],
     run: (message, args, text, client, prefix, instance) => {
-        if (message.author.id=='376793727794020354') {
+        const config = require('./config.json');
+        if (message.author.id == config.ownerID) {
             client.user.setPresence({
                 activity: {
                     name: text,
