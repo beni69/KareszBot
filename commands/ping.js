@@ -1,6 +1,6 @@
 module.exports = {
     aliases: ['p'],
-    run: (message, args) => {
+    run: (message, args, text, client, prefix, instance) => {
         message.reply('pong');
     }
 }
