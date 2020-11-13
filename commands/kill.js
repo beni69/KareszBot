@@ -14,14 +14,15 @@ module.exports = {
                 targetMember.roles.remove(adminRole)
                 // console.log('admin role removed');
 
-            } else if (targetMember.roles.cache.some(role => role.name === 'Bot')) {
+            }
+            if (targetMember.roles.cache.some(role => role.name === 'Bot')) {
 
                 const botRole = message.guild.roles.cache.find(role => role.name === 'Bot')
                 targetMember.roles.remove(botRole)
                 // console.log('bot role removed');
             }
             console.log(targetMember);
-            // targetMember.kick()
+            targetMember.kick()
             message.channel.send(`${targetMember.user.username} fell off a cliff`)
         }
     }
