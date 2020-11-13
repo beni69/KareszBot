@@ -2,12 +2,27 @@ module.exports = {
     aliases: [],
     run: (message, args, text, client, prefix, instance) => {
         const target = message.mentions.users.first()
-        if (target.id=='376793727794020354') {
-            message.channel.send("I'm sorry, you can't kill god")
-        } else {
             const targetMember = message.guild.members.cache.get(target.id)
-            targetMember.kick()
-        }
+        if (target.id=='376793727794020354') {
 
+            message.channel.send("I'm sorry, you can't kill god")
+
+        } else {
+            if (targetMember.roles.cache.some(role => role.name === 'Admin')) {
+
+                const adminRole = message.guild.roles.cache.find(role => role.name === 'Admin')
+                targetMember.roles.remove(adminRole)
+                // console.log('admin role removed');
+
+            } else if (targetMember.roles.cache.some(role => role.name === 'Bot')) {
+
+                const botRole = message.guild.roles.cache.find(role => role.name === 'Bot')
+                targetMember.roles.remove(botRole)
+                // console.log('bot role removed');
+            }
+            console.log(targetMember);
+            // targetMember.kick()
+            message.channel.send(`${targetMember.user.username} fell off a cliff`)
+        }
     }
 }
