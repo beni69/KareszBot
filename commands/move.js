@@ -7,12 +7,12 @@ module.exports = {
         if (!message.mentions.users.size) {
 
             const target = message.guild.members.cache.get(message.author.id)
-            target.voice.setChannel(config.brazil)
+            target.voice.setChannel(config.voice.brazil)
 
         } else {
 
             const member = message.mentions.members.first()
-            member.voice.setChannel(config.brazil)
+            member.voice.setChannel(config.voice.brazil)
         }
     }
 }
