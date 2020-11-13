@@ -1,5 +1,5 @@
 module.exports = {
-    aliases: ['cc', 'ccc'],
+    aliases: ['cc'],
     minArgs: 1,
     maxArgs: 1,
     run: (message, args, text, client, prefix, instance) => {
