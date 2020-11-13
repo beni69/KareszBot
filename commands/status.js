@@ -8,6 +8,7 @@ module.exports = {
                     type: 0
                 }
             })
+            message.channel.send(':+1:')
         } else {
             message.reply("You don't have permissions to run this command")
         }
