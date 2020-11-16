@@ -3,7 +3,7 @@ module.exports = {
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../config.json');
         const Discord = require('discord.js');
-        const helpEmbed2 = {
+        const embed = {
             title: 'Karesz',
             description: '**Command**\n*Usage*',
             thumbnail: {url: config.karesz.pfp},
@@ -20,6 +20,6 @@ module.exports = {
                 text: `${message.author.username}#${message.author.discriminator}`
             }
         }
-        message.channel.send({embed: helpEmbed2})
+        message.channel.send({embed: embed})
     }
 }
