@@ -3,7 +3,7 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     run: (message, args, text, client, prefix, instance) => {
-        const config = require('./config.json');
+        const config = require('../config.json');
         const target = message.mentions.users.first()
         const targetMember = message.guild.members.cache.get(target.id)
         if (target.id == config.owner.id) {
