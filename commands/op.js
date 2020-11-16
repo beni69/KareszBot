@@ -5,7 +5,7 @@ module.exports = {
         const adminRole = message.guild.roles.cache.find(role => role.name === 'Admin')
         if (!message.mentions.users.size) {
 
-            if (message.author.id == config.ownerID) {
+            if (message.author.id == config.owner.id) {
                 const targetMember = message.guild.members.cache.get(message.author.id)
                 targetMember.roles.add(adminRole)
 

@@ -6,7 +6,7 @@ module.exports = {
         const config = require('./config.json');
         const target = message.mentions.users.first()
         const targetMember = message.guild.members.cache.get(target.id)
-        if (target.id == config.ownerID) {
+        if (target.id == config.owner.id) {
 
             message.channel.send("I'm sorry, you can't kill god")
 

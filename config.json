@@ -1,6 +1,17 @@
 {
     "prefix": ".",
-    "ownerID": "376793727794020354",
+    "owner": {
+        "id": "376793727794020354",
+        "pfp": "https://i.imgur.com/49RfO3i.jpg"
+    },
+    "karesz": {
+        "id": "771420608075399168",
+        "pfp": "https://i.imgur.com/Q1DM7Lu.png"
+    },
+    "testbot": {
+        "id": "776526574480523275",
+        "pfp": "https://i.imgur.com/neeEJtJ.png"
+    },
     "voice": {
         "brazil": "771089486263091250",
         "test1": "774990155156422663",
