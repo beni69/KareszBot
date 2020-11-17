@@ -1,10 +1,10 @@
 {
-  "name": "mcbot",
+  "name": "Karesz",
   "version": "1.0.0",
   "description": "A discord bot I use for testing. Also runs the minecraft chat.",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "test": "nodemon index.js",
     "test2": "pm2 start index.js --watch",
     "lint": "eslint .",
   },
