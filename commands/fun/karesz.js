@@ -1,7 +1,7 @@
 module.exports = {
     aliases: [],
     run: (message, args, text, client, prefix, instance) => {
-        const config = require('../config.json');
+        const config = require('../../config.json');
         if (message.guild.emojis.cache.find(emoji => emoji.name === 'karesz')) {
             console.log('van karesz :)');
         } else {

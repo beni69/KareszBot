@@ -3,7 +3,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: -1,
     run: (message, args, text, client, prefix, instance) => {
-        const config = require('../config.json');
+        const config = require('../../config.json');
         // const amount = parseInt(args[0]) + 1
         const amount = 100
         let error;

@@ -1,7 +1,7 @@
 module.exports = {
     aliases: ['mod', 'admin'],
     run: (message, args, text, client, prefix, instance) => {
-        const config = require('../config.json');
+        const config = require('../../config.json');
         const adminRole = message.guild.roles.cache.find(role => role.name === 'Admin')
         if (!message.mentions.users.size) {
 
