@@ -13,5 +13,8 @@ module.exports = {
         } else {
             message.reply("You don't have permissions to run this command")
         }
+
+        const channel = message.guild.channels.cache.get(config.logChannel)
+        channel.send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }

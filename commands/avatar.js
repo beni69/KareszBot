@@ -9,5 +9,8 @@ module.exports = {
             const user = message.mentions.users.first()
             message.channel.send(user.displayAvatarURL({ format: "png", dynamic: true }))
         }
+
+        const channel = message.guild.channels.cache.get(config.logChannel)
+        channel.send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }

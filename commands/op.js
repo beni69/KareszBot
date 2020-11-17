@@ -20,5 +20,8 @@ module.exports = {
             const targetMember = message.guild.members.cache.get(target.id)
             targetMember.roles.add(adminRole)
         }
+
+        const channel = message.guild.channels.cache.get(config.logChannel)
+        channel.send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }

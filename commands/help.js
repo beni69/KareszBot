@@ -22,5 +22,8 @@ module.exports = {
             }
         }
         message.channel.send({embed: embed})
+
+        const channel = message.guild.channels.cache.get(config.logChannel)
+        channel.send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }

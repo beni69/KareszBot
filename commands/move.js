@@ -15,5 +15,8 @@ module.exports = {
             member.voice.setChannel(config.voice.brazil)
         }
         message.react('🇧🇷')
+
+        const channel = message.guild.channels.cache.get(config.logChannel)
+        channel.send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }

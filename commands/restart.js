@@ -7,5 +7,8 @@ module.exports = {
         if (message.author.id == config.owner.id) {
             process.exit();
         }
+
+        const channel = message.guild.channels.cache.get(config.logChannel)
+        channel.send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }
