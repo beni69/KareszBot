@@ -13,11 +13,12 @@ module.exports = {
                 {name: 'Clear', value: 'clear <amount>'},
                 {name: 'Poll', value: 'poll <message>'},
                 {name: 'Kill', value: 'kill <@someone>'},
-                {name: 'Profilepic', value: 'pfp <@someone>'}
+                {name: 'Profilepic', value: 'pfp <@someone>'},
+                {name: 'Serverinfo', value: 'info'}
             ],
             timestamp: new Date(),
             footer: {
-                text: `${message.author.username}#${message.author.discriminator}`
+                text: message.author.tag
             }
         }
         message.channel.send({embed: embed})
