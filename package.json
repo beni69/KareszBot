@@ -6,7 +6,7 @@
   "scripts": {
     "test": "nodemon index.js",
     "test2": "pm2 start index.js --watch",
-    "lint": "eslint .",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
