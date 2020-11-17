@@ -5,10 +5,10 @@ const config = require('./config.json');
 const client = new DiscordJS.Client()
 
 client.on('ready', () => {
-    // client.channels.cache.get(config.logChannel).send('bot online');
-    console.log('Bot ready');
+    client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${message.member.id}> ran: ${message.content}`)
+    // console.log('Bot ready');
     // Initialize WOKCommands
-    new WOKCommands(client, 'commands', 'features')
+    new WOKCommands(client, 'commands', 'features').setDefaultPrefix(config.prefix)
 })
 
 client.on('message', message => {
