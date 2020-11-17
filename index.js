@@ -7,7 +7,9 @@ const client = new DiscordJS.Client()
 client.on('ready', () => {
     console.log('Bot ready');
   // Initialize WOKCommands
-  new WOKCommands(client, 'commands', 'features').setDefaultPrefix(config.prefix)
+  new WOKCommands(client, 'commands', 'features').setDefaultPrefix(".")
+   const channel = message.guild.channels.cache.get(config.logChannel)
+   channel.send(`bot is online`)
 })
 
 client.on('message', message => {
