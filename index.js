@@ -10,4 +10,15 @@ client.on('ready', () => {
   new WOKCommands(client, 'commands', 'features').setDefaultPrefix(config.prefix)
 })
 
+client.on('message', message => {
+
+    if (message.content.toLowerCase().includes('pog')) {
+        const pog = message.guild.emojis.cache.find(emoji => emoji.name === 'pog');
+        message.react(pog);
+    } else if (message.content.toLowerCase().includes('karesz')) {
+        const karesz = message.guild.emojis.cache.find(emoji => emoji.name === 'karesz');
+        message.react(karesz);
+    }
+})
+
 client.login(process.env.BOT_TOKEN)
