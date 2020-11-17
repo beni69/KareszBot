@@ -6,7 +6,6 @@ module.exports = {
         // message.react(pog);
         message.channel.send('https://cdn.discordapp.com/emojis/718439375792242738.png?v=1');
 
-        const channel = message.guild.channels.cache.get(config.logChannel)
-        channel.send(`<@${message.member.id}> ran: ${message.content}`)
+        client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }

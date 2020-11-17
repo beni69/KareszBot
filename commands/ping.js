@@ -4,7 +4,6 @@ module.exports = {
         const config = require('../config.json');
         message.channel.send(`🏓  ${Date.now()-message.createdTimestamp}ms`);
 
-        const channel = message.guild.channels.cache.get(config.logChannel)
-        channel.send(`<@${message.member.id}> ran: ${message.content}`)
+        client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }

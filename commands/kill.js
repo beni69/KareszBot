@@ -29,7 +29,6 @@ module.exports = {
             message.channel.send(`${targetMember.user.username} fell off a cliff`)
         }
 
-        const channel = message.guild.channels.cache.get(config.logChannel)
-        channel.send(`<@${message.member.id}> ran: ${message.content}`)
+        client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }

@@ -7,7 +7,6 @@ module.exports = {
         const amount = parseInt(args[0]) + 1
         message.channel.bulkDelete(amount)
 
-        const channel = message.guild.channels.cache.get(config.logChannel)
-        channel.send(`<@${message.member.id}> ran: ${message.content}`)
+        client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${message.member.id}> ran: ${message.content}`)
     }
 }
