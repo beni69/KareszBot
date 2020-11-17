@@ -15,14 +15,14 @@ module.exports = {
 
                 const adminRole = message.guild.roles.cache.find(role => role.name === 'Admin')
                 targetMember.roles.remove(adminRole)
-                // console.log('admin role removed');
+                // console.log('admin role removed')
 
             }
             if (targetMember.roles.cache.some(role => role.name === 'Bot')) {
 
                 const botRole = message.guild.roles.cache.find(role => role.name === 'Bot')
                 targetMember.roles.remove(botRole)
-                // console.log('bot role removed');
+                // console.log('bot role removed')
             }
             console.log(targetMember);
             targetMember.kick()
