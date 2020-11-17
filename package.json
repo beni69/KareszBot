@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon index.js",
     "start2": "pm2 start index.js --watch",
-    "lint" : "eslint .",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

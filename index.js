@@ -5,10 +5,10 @@ const config = require('./config.json');
 const client = new DiscordJS.Client()
 
 client.on('ready', () => {
-    client.channels.cache.get(config.logChannel).send('bot online');
+    // client.channels.cache.get(config.logChannel).send('bot online');
     console.log('Bot ready');
-  // Initialize WOKCommands
-  new WOKCommands(client, 'commands', 'features').setDefaultPrefix(".")
+    // Initialize WOKCommands
+    new WOKCommands(client, 'commands', 'features')
 })
 
 client.on('message', message => {
@@ -19,6 +19,10 @@ client.on('message', message => {
     } else if (message.content.toLowerCase().includes('karesz')) {
         const karesz = message.guild.emojis.cache.find(emoji => emoji.name === 'karesz');
         message.react(karesz);
+    } else if (message.content.toLowerCase() == '!snake') {
+        const SnakeGame = require('./commands/snakeGame');
+        const snakeGame = new SnakeGame(client);
+        snakeGame.newGame(message);
     }
 })
 
