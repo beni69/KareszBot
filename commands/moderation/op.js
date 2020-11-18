@@ -12,7 +12,7 @@ module.exports = {
         if (!message.mentions.users.size) {
 
             if (message.author.id == config.owner.id) {
-                targetMember.roles.add(adminRole)
+                memberAuthor.roles.add(adminRole)
 
             } else {
 
