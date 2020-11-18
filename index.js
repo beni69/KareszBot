@@ -6,7 +6,7 @@ const cmdlog = require('./features/commandLog');
 const client = new DiscordJS.Client()
 
 client.on('ready', () => {
-    // client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send("I'm ready!")
+    client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${config.owner.id}> I'm ready`)
     console.log('Bot ready');
     // Initialize WOKCommands
     new WOKCommands(client, 'commands', 'features').setDefaultPrefix(config.prefix)
@@ -28,4 +28,4 @@ client.on('message', message => {
     }
 })
 
-client.login(process.env.BOT_TOKEN)
+client.login(process.env.BOT_TOKEN);
