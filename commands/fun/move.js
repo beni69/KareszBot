@@ -17,6 +17,6 @@ module.exports = {
         }
         message.react('🇧🇷')
 
-        dmdlog.Log(client, message);
+        cmdlog.Log(client, message);
     }
 }
