@@ -1,2 +1,2 @@
-# McBot
- A discord bot I use for testing. Also runs the minecraft chat.
+# Karesz
+A discord bot I use for testing. Also runs the minecraft chat.
