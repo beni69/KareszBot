@@ -4,8 +4,9 @@
   "description": "A discord bot I use for testing. Also runs the minecraft chat.",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js",
-    "test2": "pm2 start index.js --watch",
+    "test": "nodemon testbot.js",
+    "test2": "pm2 start testbot.js --watch",
+    "start": "node index.js",
     "lint": "eslint ."
   },
   "repository": {
