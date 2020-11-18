@@ -1,7 +1,7 @@
 const DiscordJS = require('discord.js')
 const WOKCommands = require('wokcommands')
 const config = require('./config.json');
-const log = require('./features/commandLog');
+const cmdlog = require('./features/commandLog');
 
 const client = new DiscordJS.Client()
 
@@ -22,7 +22,7 @@ client.on('message', message => {
         message.react(karesz);
     } else if (message.content.toLowerCase() == '!snake') {
         const SnakeGame = require('./commands/snakeGame');
-        log.CommandLog(client, message);
+        cmdlog.Log(client, message);
         const snakeGame = new SnakeGame(client);
         snakeGame.newGame(message);
     }
