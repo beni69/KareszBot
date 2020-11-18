@@ -4,7 +4,7 @@ module.exports = {
     maxArgs: 1,
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../../config.json');
-        const log = require('../../features/commandLog.js');
+        const cmdlog = require('../../features/commandLog.js');
         const target = message.mentions.users.first()
         const targetMember = message.guild.members.cache.get(target.id)
         if (target.id == config.owner.id) {
@@ -30,6 +30,6 @@ module.exports = {
             message.channel.send(`${targetMember.user.username} fell off a cliff`)
         }
 
-        log.CommandLog(client, message);
+        cmdlog.Log(client, message);
     }
 }

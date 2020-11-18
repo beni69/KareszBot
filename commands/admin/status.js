@@ -2,7 +2,7 @@ module.exports = {
     aliases: ['changestatus', 'updatestatus'],
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../../config.json');
-        const log = require('../../features/commandLog.js');
+        const cmdlog = require('../../features/commandLog.js');
         if (message.author.id == config.owner.id) {
             client.user.setPresence({
                 activity: {
@@ -15,6 +15,6 @@ module.exports = {
             message.reply("You don't have permissions to run this command")
         }
 
-        log.CommandLog(client, message);
+        cmdlog.Log(client, message);
     }
 }

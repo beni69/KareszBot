@@ -4,7 +4,7 @@ module.exports = {
     maxArgs: -1,
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../../config.json');
-        const log = require('../../features/commandLog.js');
+        const cmdlog = require('../../features/commandLog.js');
         const Discord = require('discord.js');
         const { guild } = message
 
@@ -28,6 +28,6 @@ module.exports = {
         message.channel.send({embed: embed})
         console.log(guild);
 
-        log.CommandLog(client, message);
+        cmdlog.Log(client, message);
     }
 }
