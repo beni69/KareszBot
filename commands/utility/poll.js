@@ -3,10 +3,10 @@ module.exports = {
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../../config.json');
         const cmdlog = require('../../features/commandLog.js');
-        const upvote = message.guild.emojis.cache.find(emoji => emoji.name === 'upvote');
+        const upvote = client.emojis.cache.get('776837718797320234');
         message.react(upvote);
         setTimeout(() => {
-            const downvote = message.guild.emojis.cache.find(emoji => emoji.name === 'downvote');
+            const downvote = client.emojis.cache.get('776836162102099979');
             message.react(downvote);
         })
 
