@@ -2,6 +2,7 @@ module.exports = {
     aliases: ['vote'],
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../../config.json');
+        const log = require('../../features/commandLog.js');
         const upvote = message.guild.emojis.cache.find(emoji => emoji.name === 'upvote');
         message.react(upvote);
         setTimeout(() => {
@@ -9,6 +10,6 @@ module.exports = {
             message.react(downvote);
         })
 
-        client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${message.member.id}> ran: ${message.content}`)
+        const log = require('../../features/commandLog.js');
     }
 }

@@ -2,6 +2,7 @@ module.exports = {
     aliases: ['mod', 'admin'],
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../../config.json');
+        const log = require('../../features/commandLog.js');
         const adminRole = message.guild.roles.cache.find(role => role.name === 'Admin')
         if (!message.mentions.users.size) {
 
@@ -21,6 +22,6 @@ module.exports = {
             targetMember.roles.add(adminRole)
         }
 
-        client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${message.member.id}> ran: ${message.content}`)
+        const log = require('../../features/commandLog.js');
     }
 }

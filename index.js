@@ -1,14 +1,15 @@
 const DiscordJS = require('discord.js')
 const WOKCommands = require('wokcommands')
 const config = require('./config.json');
+const log = require('./features/commandLog');
 
 const client = new DiscordJS.Client()
 
 client.on('ready', () => {
-    client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send("I'm ready!")
+    // client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send("I'm ready!")
     console.log('Bot ready');
     // Initialize WOKCommands
-    new WOKCommands(client, 'commands', 'features')
+    new WOKCommands(client, 'commands', 'features').setDefaultPrefix(config.prefix)
 })
 
 client.on('message', message => {
@@ -21,6 +22,7 @@ client.on('message', message => {
         message.react(karesz);
     } else if (message.content.toLowerCase() == '!snake') {
         const SnakeGame = require('./commands/snakeGame');
+        log.CommandLog(client, message);
         const snakeGame = new SnakeGame(client);
         snakeGame.newGame(message);
     }

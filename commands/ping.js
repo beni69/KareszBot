@@ -2,8 +2,9 @@ module.exports = {
     aliases: [],
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../config.json');
+        const log = require('../features/commandLog.js');
         message.channel.send(`🏓  ${Date.now()-message.createdTimestamp}ms`);
 
-        client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${message.member.id}> ran: ${message.content}`)
+        log.CommandLog(client, message);
     }
 }
