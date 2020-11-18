@@ -107,3 +107,4 @@ dist
 bot-tokens.txt
 .eslintrc.json
 test.js
+testbot.js
