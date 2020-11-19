@@ -1,5 +1,5 @@
 module.exports = {
-    aliases: ['v', 'ver'],
+    aliases: ['karesz'],
     run: (message, args, text, client, prefix, instance) => {
         const config = require('../../config.json');
         const cmdlog = require('../../features/commandLog.js');
