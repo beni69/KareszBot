@@ -11,10 +11,16 @@ module.exports = {
 
             fields: [
                 // {name: 'Command name', value: 'usage\n\n'},
+                {name: 'ping', value: 'ping'},
                 {name: 'Clear', value: 'clear <amount>'},
                 {name: 'Poll', value: 'poll <message>'},
                 {name: 'Kill', value: 'kill <@someone>'},
-                {name: 'Profilepic', value: 'pfp <@someone>'},
+                {name: 'move', value: 'move [@someone] <channel>'},
+                {name: 'brazil', value: 'brazil [@someone] *or* brazil all'},
+                {name: 'snake', value: 'snake'},
+                {name: 'op', value: 'op <@someone>'},
+                {name: 'deop', value: 'deop <@someone>'},
+                {name: 'Profilepic', value: 'pfp [@someone]'},
                 {name: 'Serverinfo', value: 'info'}
             ],
             timestamp: new Date(),
