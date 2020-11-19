@@ -16,8 +16,9 @@ module.exports = {
             vc = client.channels.cache.find(channel => channel.name == args[1]);
             const member = message.mentions.members.first();
             member.voice.setChannel(vc);
-
         }
+
+        message.react('👌')
 
         cmdlog.Log(client, message);
     }
