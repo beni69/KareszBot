@@ -8,8 +8,8 @@ module.exports = {
         setTimeout(() => {
             const downvote = client.emojis.cache.get('776836162102099979');
             message.react(downvote);
-        })
+        });
 
         cmdlog.Log(client, message);
     }
-}
+};

@@ -7,4 +7,4 @@ module.exports = {
 
         cmdlog.Log(client, message);
     }
-}
+};

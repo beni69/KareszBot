@@ -6,7 +6,7 @@ module.exports = {
         const config = require('../../config.json');
         const cmdlog = require('../../features/commandLog.js');
         const Discord = require('discord.js');
-        const { guild } = message
+        const { guild } = message;
 
         const embed = {
             title: guild.name,
@@ -24,10 +24,10 @@ module.exports = {
             footer: {
                 text: message.author.tag
             }
-        }
-        message.channel.send({embed: embed})
+        };
+        message.channel.send({embed: embed});
         console.log(guild);
 
         cmdlog.Log(client, message);
     }
-}
+};
