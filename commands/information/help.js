@@ -27,9 +27,9 @@ module.exports = {
             footer: {
                 text: message.author.tag
             }
-        }
-        message.channel.send({embed: embed})
+        };
+        message.channel.send({embed: embed});
 
         cmdlog.Log(client, message);
     }
-}
+};
