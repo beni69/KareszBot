@@ -19,8 +19,8 @@ client.on('message', message => {
         react.Simple(message, 'pog');
     } else if (message.content.toLowerCase().includes('karesz')) {
         react.Simple(message, 'karesz');
-    } else if (message.content.toLowerCase() == '!snake') {
-        const SnakeGame = require('./commands/snakeGame');
+    } else if (message.content.toLowerCase() == config.prefix + 'snake') {
+        const SnakeGame = require('./commands/fun/snakeGame');
         cmdlog.Log(client, message);
         const snakeGame = new SnakeGame(client);
         snakeGame.newGame(message);
