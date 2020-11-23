@@ -16,11 +16,23 @@ module.exports = {
                     },
                 });
         } else if (args[0] == 'add') {
-            const rolee = message.guild.roles.cache.find(role => role.name == args[1]);
-            message.member.roles.add(rolee);
+            try {
+                const targetRole = message.guild.roles.cache.find(role => role.name == args[1].toLowerCase());
+            } catch (e) {
+                message.channel.send('Invalid role');
+                return;
+            } finally {
+                message.member.roles.add(targetRole);
+            }
         } else if (args[0] == 'remove') {
-            const rolee = message.guild.roles.cache.find(role => role.name == args[1]);
-            message.member.roles.remove(rolee);
+            try {
+                const targetRole = message.guild.roles.cache.find(role => role.name == args[1].toLowerCase());
+            } catch (e) {
+                message.channel.send('Invalid role');
+                return;
+            } finally {
+                message.member.roles.remove(targetRole);
+            }
         }
 
 
