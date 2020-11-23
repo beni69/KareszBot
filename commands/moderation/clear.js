@@ -7,7 +7,9 @@ module.exports = {
         const cmdlog = require('../../features/commandLog.js');
 
         const amount = parseInt(args[0]) + 1;
-        message.channel.bulkDelete(amount);
+        message.channel.bulkDelete(amount, true).catch(err => {
+            console.error(err);
+        });
 
         cmdlog.Log(client, message);
     }
