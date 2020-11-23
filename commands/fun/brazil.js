@@ -6,7 +6,10 @@ module.exports = {
         const config = require('../../config.json');
         const cmdlog = require('../../features/commandLog.js');
 
-        if (message.author.id == config.mate) return;
+        if (message.author.id == config.mate) {
+            cmdlog.Log(client, message, `<@${message.author.id}> tried to run ${message.content}`);
+            return;
+        }
 
         const brazil = client.guilds.cache.get(config.nyf).channels.cache.get(config.voice.brazil);
 
