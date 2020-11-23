@@ -12,8 +12,13 @@ module.exports = {
             while (cName.charAt(0) == ' ') {
                 cName = cName.substring(1);
             }
-
-            const vc = client.channels.cache.find(channel => channel.name == cName);
+            let vc;
+            try {
+                vc = client.channels.cache.find(channel => channel.name == cName);
+            } catch (e) {
+                message.channel.send('Invalid channel');
+                return;
+            }
             message.guild.members.cache.forEach(member => {
                 //guard clause, early return
                 if (!member.voice.channel) return;
@@ -22,7 +27,13 @@ module.exports = {
 
         } else if (!message.mentions.users.size) {
 
-            const vc = client.channels.cache.find(channel => channel.name == text);
+            let vc;
+            try {
+                vc = client.channels.cache.find(channel => channel.name == cName);
+            } catch (e) {
+                message.channel.send('Invalid channel');
+                return;
+            }
             message.member.voice.setChannel(vc);
 
         } else {
@@ -32,7 +43,13 @@ module.exports = {
                 cName = cName.substring(1);
             }
 
-            const vc = client.channels.cache.find(channel => channel.name == cName);
+            let vc;
+            try {
+                vc = client.channels.cache.find(channel => channel.name == cName);
+            } catch (e) {
+                message.channel.send('Invalid channel');
+                return;
+            }
             const member = message.mentions.members.first();
             member.voice.setChannel(vc);
         }
