@@ -14,7 +14,7 @@ module.exports = {
             }
             let vc;
             try {
-                vc = client.channels.cache.find(channel => channel.name == cName);
+                vc = client.channels.cache.find(channel => channel.name == cName.toLowerCase());
             } catch (e) {
                 message.channel.send('Invalid channel');
                 return;
@@ -29,7 +29,7 @@ module.exports = {
 
             let vc;
             try {
-                vc = client.channels.cache.find(channel => channel.name == cName);
+                vc = client.channels.cache.find(channel => channel.name == cName.toLowerCase());
             } catch (e) {
                 message.channel.send('Invalid channel');
                 return;
@@ -45,7 +45,7 @@ module.exports = {
 
             let vc;
             try {
-                vc = client.channels.cache.find(channel => channel.name == cName);
+                vc = client.channels.cache.find(channel => channel.name == cName.toLowerCase());
             } catch (e) {
                 message.channel.send('Invalid channel');
                 return;
