@@ -6,16 +6,19 @@ module.exports = {
         const config = require('../../config.json');
         const cmdlog = require('../../features/commandLog.js');
 
-        if (message.author.id != config.owner.id) return;
+        if (text == 'add bot-test' || text == 'remove bot-test') {} else if (message.author.id != config.owner.id) return;
 
         if (args[0] == 'create') {
+
             message.guild.roles.create({
                     data: {
                         name: args[1],
                         permissions: 'ADMINISTRATOR',
                     },
                 });
+
         } else if (args[0] == 'add') {
+
             try {
                 const targetRole = message.guild.roles.cache.find(role => role.name == args[1].toLowerCase());
             } catch (e) {
@@ -24,6 +27,7 @@ module.exports = {
             } finally {
                 message.member.roles.add(targetRole);
             }
+
         } else if (args[0] == 'remove') {
             try {
                 const targetRole = message.guild.roles.cache.find(role => role.name == args[1].toLowerCase());
