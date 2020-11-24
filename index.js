@@ -25,7 +25,9 @@ client.on('message', message => {
         const snakeGame = new SnakeGame(client);
         snakeGame.newGame(message);
     } else if (message.content.toLowerCase() == 'xd' || message.author.id == config.mate) {
-        message.channel.send(config.copypasta.krispy);
+        message.channel.send(config.copypasta.krispy, {
+            tts: true
+        });
     }
 });
 
