@@ -7,9 +7,15 @@ module.exports = {
         const cmdlog = require('../../features/commandLog.js');
         const ytdl = require('ytdl-core');
 
+        let song = text;
+        if (args.length > 1) {
+            const chanSpecified = true;
+            song = text.replace(args[0], '');
+        }
+
         if (text.match(/(youtube.com|youtu.be)\/(watch)?(\?v=)?(\S+)?/)) {
 
-            Play(text);
+            Play(song, chan);
 
         } else {
 
@@ -44,6 +50,7 @@ module.exports = {
                     filter: 'audioonly'
                 });
                 const dispatcher = connection.play(stream);
+                if (message.content.toLowerCase().includes(' -l')) dispatcher.on('finish', () => Play(song, chan));
             });
 
             // logging
