@@ -34,6 +34,12 @@ module.exports = {
                 const role = message.guild.roles.cache.find(role => role.id == targetMember._roles[i]);
                 targetMember.roles.remove(role).catch(console.error);
             }
+
+            try {
+                targetMember.kick();
+            } catch (e) {
+                message.channel.send('There was an error')
+            } finally {}
         }
 
         cmdlog.Log(client, message);
