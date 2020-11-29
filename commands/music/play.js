@@ -8,14 +8,10 @@ module.exports = {
         const ytdl = require('ytdl-core');
 
         let song = text;
-        if (args.length > 1) {
-            const chanSpecified = true;
-            song = text.replace(args[0], '');
-        }
 
         if (text.match(/(youtube.com|youtu.be)\/(watch)?(\?v=)?(\S+)?/)) {
 
-            Play(song, chan);
+            Play(song);
 
         } else {
 
@@ -24,37 +20,37 @@ module.exports = {
 
         // cmdlog.Log(client, message);
 
-        async function Play(song, chan) {
+        async function Play(song) {
 
             // Joining
             let vc;
-            if (!chan) {
+            if (!message.guild.voice.connection) {
+
                 if (!message.member.voice.channelID) {
                     message.channel.send('Join a voice channel first, dumbass');
                     return;
-                } else {
-                    vc = message.member.voice.channel;
-                }
-            } else {
-                try {
-                    vc = client.channels.cache.find(channel => channel.name == chan);
-                } catch (e) {
-                    message.reply('Invalid channel name');
-                    return;
-                } finally {}
+                } else vc = message.member.voice.channel;
+            } else vc = message.guild.voice.channel;
+
+            try {
+
+                // playing
+                await vc.join().then(connection => {
+                    const stream = ytdl(song, {
+                        filter: 'audioonly'
+                    });
+                    const dispatcher = connection.play(stream);
+                    if (message.content.toLowerCase().includes(' -l')) dispatcher.on('finish', () => Play(song));
+                });
+
+            } catch (e) {
+                message.channel.send('Invalid link');
+            } finally {
+
+                // logging
+                cmdlog.Log(client, message, `<@${message.member.id}>: playing <${song}> in **${vc.name}** in **${message.guild.name}**`);
             }
 
-            // playing
-            await vc.join().then(connection => {
-                const stream = ytdl(song, {
-                    filter: 'audioonly'
-                });
-                const dispatcher = connection.play(stream);
-                if (message.content.toLowerCase().includes(' -l')) dispatcher.on('finish', () => Play(song, chan));
-            });
-
-            // logging
-            cmdlog.Log(client, message, `<@${message.member.id}>: playing <${song}> in **${vc.name}** in **${message.guild.name}**`);
 
         }
 

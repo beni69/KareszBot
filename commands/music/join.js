@@ -53,7 +53,7 @@ let GetChan = function (client, message, chan){
         } catch (e) {
             message.reply('Invalid channel name');
             return 'failed';
-        } finally {connection=connection;}
+        }
     }
 
     cmdlog.Log(client, message, `<@${message.member.id}>: Joined **${vc.name}** in **${message.guild.name}**`);
