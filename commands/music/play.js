@@ -42,7 +42,7 @@ module.exports = {
                     });
                     const dispatcher = connection.play(stream);
 
-                    dispatcher.on('finish', () => Play(song));
+                    if (text.toLowerCase().includes(' -l')) dispatcher.on('finish', () => Play(song));
                 });
 
             } catch (e) {
