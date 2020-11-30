@@ -35,16 +35,19 @@ module.exports = {
             try {
 
                 // playing
-                await vc.join().then(connection => {
+                const ytdl = require('ytdl-core');
+                vc.join().then(connection => {
                     const stream = ytdl(song, {
                         filter: 'audioonly'
                     });
                     const dispatcher = connection.play(stream);
-                    if (message.content.toLowerCase().includes(' -l')) dispatcher.on('finish', () => Play(song));
+
+                    dispatcher.on('finish', () => voiceChannel.leave());
                 });
 
             } catch (e) {
                 message.channel.send('Invalid link');
+                console.error(e);
             } finally {
 
                 // logging
