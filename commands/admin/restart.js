@@ -6,6 +6,7 @@ module.exports = {
         const config = require('../../config.json');
         const cmdlog = require('../../features/commandLog.js');
         if (message.author.id == config.owner.id) {
+            message.react('🚑')
             process.exit();
         }
 
