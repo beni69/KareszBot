@@ -1,5 +1,5 @@
 module.exports = {
-    aliases: [],
+    aliases: ['rs'],
     minArgs: 0,
     maxArgs: -1,
     run: (message, args, text, client, prefix, instance) => {
@@ -7,6 +7,7 @@ module.exports = {
         const cmdlog = require('../../features/commandLog.js');
         if (message.author.id == config.owner.id) {
             message.react('🚑');
+            cmdlog.Log(client, message, 'Restarting..');
             process.exit();
         }
 
