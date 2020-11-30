@@ -36,13 +36,13 @@ module.exports = {
 
                 // playing
                 const ytdl = require('ytdl-core');
-                vc.join().then(connection => {
+                await vc.join().then(connection => {
                     const stream = ytdl(song, {
                         filter: 'audioonly'
                     });
                     const dispatcher = connection.play(stream);
 
-                    dispatcher.on('finish', () => voiceChannel.leave());
+                    dispatcher.on('finish', () => Play(song));
                 });
 
             } catch (e) {
