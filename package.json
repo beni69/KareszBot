@@ -5,13 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "nodemon testbot.js",
-    "test2": "pm2 start testbot.js --watch",
     "start": "node index.js",
-    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheGameWizard12/McBot.git"
+    "url": "git+https://github.com/beni69/Karesz.git"
   },
   "author": "Beni#7999",
   "license": "ISC",
