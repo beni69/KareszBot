@@ -105,6 +105,6 @@ dist
 
 #custom
 bot-tokens.txt
-.eslintrc.json
+.jshintrc
 test.js
 testbot.js
