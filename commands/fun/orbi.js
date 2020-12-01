@@ -24,7 +24,7 @@ module.exports = {
         // dob = 05311963;
         // 1963 may 31 09:51
         // dateObj = new Date(Date.now() + 207972540000)
-        message.channel.send(calculate_age(new Date(1963, 04, 31, 09, 51)));
+        message.channel.send(calculate_age(new Date(1963, 05, 31, 09, 51)));
 
         // cmdlog.Log(client, message);
     }
