@@ -18,10 +18,9 @@
   },
   "homepage": "https://github.com/TheGameWizard12/McBot#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.3.3",
+    "@discordjs/opus": "github:discordjs/opus",
     "discord.js": "^12.5.1",
     "ffmpeg-static": "^4.2.7",
-    "opusscript": "0.0.7",
     "wokcommands": "^1.1.3",
     "ytdl-core": "^4.1.1"
   }
