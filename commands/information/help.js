@@ -5,6 +5,7 @@ module.exports = {
         const cmdlog = require('../../features/commandLog.js');
         const Discord = require('discord.js');
         const embed = {
+            color: 'BLURPLE',
             title: 'Karesz',
             description: '**Command**\n*Usage*',
             thumbnail: {url: config.karesz.pfp},
