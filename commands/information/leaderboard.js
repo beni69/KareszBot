@@ -36,6 +36,7 @@ module.exports = {
                 const embed = {
                     color: 'DARK_GREEN',
                     title: 'Advent of Code Leaderboard',
+                    url: 'https://adventofcode.com/2020/leaderboard/private/view/1022157',
                     description: content.trim(),
                     fields: [],
                     timestamp: new Date(),
