@@ -8,13 +8,16 @@ module.exports = {
         const ytdl = require('ytdl-core');
         const fs = require('fs');
 
-        const file = fs.createWriteStream('./temp/video.mp4');
-
         if (text.match(/(youtube.com|youtu.be)\/(watch)?(\?v=)?(\S+)?/) == false) {
             message.channel.send('Invalid link');
             return;
         }
 
+        if (!fs.existsSync('./temp')) {
+            fs.mkdirSync('./temp');
+        }
+
+        const file = fs.createWriteStream('./temp/video.mp4');
         ytdl(text)
             .pipe(file);
 
