@@ -10,6 +10,11 @@ module.exports = {
 
         const file = fs.createWriteStream('./temp/video.mp4');
 
+        if (text.match(/(youtube.com|youtu.be)\/(watch)?(\?v=)?(\S+)?/) == false) {
+            message.channel.send('Invalid link');
+            return;
+        }
+
         ytdl(text)
             .pipe(file);
 
