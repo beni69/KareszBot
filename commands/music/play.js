@@ -35,7 +35,6 @@ module.exports = {
             try {
 
                 // playing
-                const ytdl = require('ytdl-core');
                 await vc.join().then(connection => {
                     const stream = ytdl(song, {
                         filter: 'audioonly'
