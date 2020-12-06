@@ -17,15 +17,17 @@ module.exports = {
             fs.mkdirSync('./temp');
         }
 
-        const file = fs.createWriteStream('./temp/video.mp4');
-        ytdl(text)
+        const rand = Math.floor(Math.random() * 100);
+        const file = fs.createWriteStream(`./temp/video-${rand}.mp4`);
+        const ref = text;
+
+        ytdl(ref, { quality: 'highest' })
             .pipe(file);
 
         file.on('finish', () => {
-            message.channel.send('a', { files: ['./temp/video.mp4'] });
+            message.channel.send('', { files: [`./temp/video-${rand}.mp4`] }).catch((err) => console.log(err));
 
         });
-
-        cmdlog.Log(client, message);
+        cmdlog.Log(client, message, `<@${message.member.id}> in **${message.guild.name}**:    Downloading ${ref}`);
     }
 };
