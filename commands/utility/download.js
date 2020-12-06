@@ -25,7 +25,10 @@ module.exports = {
             .pipe(file);
 
         file.on('finish', () => {
-            message.channel.send('', { files: [`./temp/video-${rand}.mp4`] }).catch((err) => console.log(err));
+            message.channel.send('', { files: [`./temp/video-${rand}.mp4`] }).catch((err) => {
+                throw err;
+                message.channel.send('There was an error. The video is probably too big');
+            });
 
         });
         cmdlog.Log(client, message, `<@${message.member.id}> in **${message.guild.name}**:    Downloading ${ref}`);
