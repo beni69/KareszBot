@@ -26,8 +26,8 @@ module.exports = {
 
         file.on('finish', () => {
             message.channel.send('', { files: [`./temp/video-${rand}.mp4`] }).catch((err) => {
-                throw err;
                 message.channel.send('There was an error. The video is probably too big');
+                console.error(err);
             });
 
         });
