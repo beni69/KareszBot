@@ -20,9 +20,11 @@
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
     "ffmpeg-static": "^4.2.7",
     "node-fetch": "^2.6.1",
     "wokcommands": "^1.1.3",
+    "yeelight2": "^1.3.8",
     "ytdl-core": "^4.1.3"
   }
 }

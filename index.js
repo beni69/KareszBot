@@ -3,6 +3,7 @@ const WOKCommands = require('wokcommands');
 const config = require('./config.json');
 const cmdlog = require('./features/commandLog');
 const react = require('./features/reaction.js');
+require('dotenv').config();
 
 const client = new DiscordJS.Client();
 
