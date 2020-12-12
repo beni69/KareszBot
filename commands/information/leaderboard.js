@@ -9,7 +9,7 @@ module.exports = {
 
         const opts = {
             headers: {
-                cookie: `session=${config.aocKey}`
+                cookie: `session=${process.env.AOC_KEY}`
             }
         };
         // fetch('https://api.github.com/users/octocat')
