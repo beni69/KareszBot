@@ -8,7 +8,7 @@ require('dotenv').config();
 const client = new DiscordJS.Client();
 
 client.on('ready', () => {
-    client.guilds.cache.get(config.testServer).channels.cache.get(config.logChannel).send(`<@${config.owner.id}> I'm ready`);
+    cmdlog.Log(client, message, `<@${config.owner.id}> I'm ready`);
     console.log('Bot ready');
     // Initialize WOKCommands
     new WOKCommands(client, 'commands', 'features').setDefaultPrefix(config.prefix);
