@@ -11,7 +11,7 @@ client.on('ready', () => {
     cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`);
     console.log('Bot ready');
     // Initialize WOKCommands
-    new WOKCommands(client, 'commands', 'features').setDefaultPrefix(config.prefix);
+    new WOKCommands(client, 'commands', 'features').setDefaultPrefix(process.env.BOT_PREFIX);
 });
 
 client.on('message', message => {
