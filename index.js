@@ -9,8 +9,7 @@ const client = new DiscordJS.Client();
 
 client.on("ready", () => {
 	cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);
-	console.log("Bot ready");
-	// Initialize WOKCommands
+
 	new WOKCommands(client, "commands", "features").setDefaultPrefix(
 		process.env.BOT_PREFIX
 	);
