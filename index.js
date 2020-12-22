@@ -11,6 +11,7 @@ client.on("ready", () => {
     new WOKCommands(client, "commands", "features").setDefaultPrefix(
         process.env.BOT_PREFIX
     );
+    status("Merry Christmas");
 
     cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);
 });
@@ -27,5 +28,14 @@ client.on("message", message => {
         snakeGame.newGame(message);
     }
 });
+
+const status = (msg, type = 0) => {
+    client.user.setPresence({
+        activity: {
+            name: msg,
+            type: type,
+        },
+    });
+};
 
 client.login(process.env.BOT_TOKEN);
