@@ -24,7 +24,7 @@ module.exports = {
                 {name: "Clear", value: "clear <amount>"},
                 {name: "Poll", value: "poll <message>"},
                 {name: "Kill", value: "kill <@someone>"},
-                {name: "Orbi", vaule: "orbi"},
+                {name: "Orbi", value: "orbi"},
                 {name: "move", value: "move [@someone] <channel>"},
                 {name: "brazil", value: "brazil [@someone] *or* brazil all"},
                 {name: "snake", value: "snake"},
