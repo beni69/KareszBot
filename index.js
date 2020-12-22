@@ -8,11 +8,11 @@ require("dotenv").config();
 const client = new DiscordJS.Client();
 
 client.on("ready", () => {
-	cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);
-
 	new WOKCommands(client, "commands", "features").setDefaultPrefix(
 		process.env.BOT_PREFIX
 	);
+
+	cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);
 });
 
 client.on("message", message => {
