@@ -1,11 +1,11 @@
-const DiscordJS = require("discord.js");
+const Discord = require("discord.js");
 const WOKCommands = require("wokcommands");
 const config = require("./config.json");
 const cmdlog = require("./features/commandLog");
 const react = require("./features/reaction.js");
 require("dotenv").config();
 
-const client = new DiscordJS.Client();
+const client = new Discord.Client();
 
 client.on("ready", () => {
 	new WOKCommands(client, "commands", "features").setDefaultPrefix(
