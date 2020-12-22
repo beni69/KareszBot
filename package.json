@@ -1,7 +1,7 @@
 {
-  "name": "Karesz",
+  "name": "karesz",
   "version": "1.0.0",
-  "description": "A discord bot I use for testing. Also runs the minecraft chat.",
+  "description": "A fun discord bot made in javascript.",
   "main": "index.js",
   "scripts": {
     "test": "nodemon testbot.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/beni69/Karesz.git"
+    "url": "git+https://github.com/beni69/karesz.git"
   },
   "author": "Beni#7999",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TheGameWizard12/McBot/issues"
+    "url": "https://github.com/beni69/karesz/issues"
   },
-  "homepage": "https://github.com/TheGameWizard12/McBot#readme",
+  "homepage": "https://github.com/beni69/karesz#readme",
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "discord.js": "^12.5.1",
