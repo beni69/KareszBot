@@ -8,24 +8,24 @@ require("dotenv").config();
 const client = new Discord.Client();
 
 client.on("ready", () => {
-	new WOKCommands(client, "commands", "features").setDefaultPrefix(
-		process.env.BOT_PREFIX
-	);
+    new WOKCommands(client, "commands", "features").setDefaultPrefix(
+        process.env.BOT_PREFIX
+    );
 
-	cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);
+    cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);
 });
 
 client.on("message", message => {
-	if (message.content.toLowerCase().includes("pog")) {
-		react.Simple(client, message, "pog");
-	} else if (message.content.toLowerCase().includes("karesz")) {
-		react.Simple(client, message, "karesz");
-	} else if (message.content.toLowerCase() == config.prefix + "snake") {
-		const SnakeGame = require("./commands/fun/snakeGame");
-		cmdlog.Log(client, message);
-		const snakeGame = new SnakeGame(client);
-		snakeGame.newGame(message);
-	}
+    if (message.content.toLowerCase().includes("pog")) {
+        react.Simple(client, message, "pog");
+    } else if (message.content.toLowerCase().includes("karesz")) {
+        react.Simple(client, message, "karesz");
+    } else if (message.content.toLowerCase() == config.prefix + "snake") {
+        const SnakeGame = require("./commands/fun/snakeGame");
+        cmdlog.Log(client, message);
+        const snakeGame = new SnakeGame(client);
+        snakeGame.newGame(message);
+    }
 });
 
 client.login(process.env.BOT_TOKEN);
