@@ -7,11 +7,11 @@ require("dotenv").config();
 
 const client = new Discord.Client();
 
-client.on("ready", () => {
+client.on("ready", async () => {
     new WOKCommands(client, "commands", "features").setDefaultPrefix(
         process.env.BOT_PREFIX
     );
-    status("Merry Christmas");
+    status("happy 2015");
 
     cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);
 });
