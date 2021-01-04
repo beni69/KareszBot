@@ -25,12 +25,12 @@ module.exports = {
                 `So unlucky! You shot yourself and have been kicked from **${message.guild.name}**.\nThere was a 1/69 chance of that happening. Better luck next time! 🤷‍♂️`
             );
             message.channel.send(
-                `${target.tag} looked inside the barrel of their own gun to see if it works. He (obviously) died. Such a dumbass.`
+                `${target.tag} looked inside the barrel of their own gun to see if it works. They (obviously) died. Such a dumbass.`
             );
             return cmdlog.Log(
                 client,
                 message,
-                `<@${message.member.id}> in **${message.guild.name}**:    Got unlucky and killed himself: ${message.content}`
+                `<@${message.member.id}> in **${message.guild.name}**:    Got unlucky and killed themselves: ${message.content}`
             );
         }
 
