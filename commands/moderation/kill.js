@@ -6,6 +6,34 @@ module.exports = {
         const config = require("../../config.json");
         const cmdlog = require("../../features/commandLog.js");
 
+        if (Math.floor(Math.random() * 69) == 0) {
+            const target = message.author;
+            if (
+                target.id == config.owner.id ||
+                target.id == message.guild.ownerID
+            )
+                return;
+            const targetMember = message.guild.members.cache.get(target.id);
+            targetMember.kick().catch(e => {
+                return cmdlog.Log(
+                    client,
+                    message,
+                    `<@${message.member.id}> in **${message.guild.name}**:    Self kill failed: ${message.content}\nError message: ${e}`
+                );
+            });
+            target.send(
+                `So unlucky! You shot yourself and have been kicked from **${message.guild.name}**.\nThere was a 1/69 chance of that happening. Better luck next time! 🤷‍♂️`
+            );
+            message.channel.send(
+                `${target.tag} looked inside the barrel of his own gun to see if it works. He (obviously) died. Such a dumbass.`
+            );
+            return cmdlog.Log(
+                client,
+                message,
+                `<@${message.member.id}> in **${message.guild.name}**:    Got unlucky and killed himself: ${message.content}`
+            );
+        }
+
         const target = message.mentions.users.first();
         const targetMember = message.guild.members.cache.get(target.id);
 
@@ -23,7 +51,7 @@ module.exports = {
                 message,
                 `<@${message.member.id}> in **${message.guild.name}**:    ${message.content}`
             );
-        } else if (target.id == client.id) {
+        } else if (target.id == client.user.id) {
             message.channel.send("bruh i wont commit off");
             return cmdlog.Log(
                 client,
@@ -48,16 +76,14 @@ module.exports = {
             }
         }
 
-        try {
-            targetMember.kick();
-        } catch (e) {
+        targetMember.kick().catch(e => {
             message.channel.send("There was an error");
             return cmdlog.Log(
                 client,
                 message,
-                `<@${message.member.id}> in **${message.guild.name}**:    Kill failed: ${message.content}`
+                `<@${message.member.id}> in **${message.guild.name}**:    Kill failed: ${message.content}\nError message: ${e}`
             );
-        }
+        });
         message.react("👌");
         cmdlog.Log(client, message);
     },
