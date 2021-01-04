@@ -11,10 +11,25 @@ module.exports = {
 
         if (target.id == config.owner.id) {
             message.channel.send("I'm sorry, you can't kill god");
+            return cmdlog.Log(
+                client,
+                message,
+                `<@${message.member.id}> in **${message.guild.name}**:    ${message.content}`
+            );
         } else if (target.id == message.guild.ownerID) {
             message.channel.send("Sadly, you can't kick the server owner");
+            return cmdlog.Log(
+                client,
+                message,
+                `<@${message.member.id}> in **${message.guild.name}**:    ${message.content}`
+            );
         } else if (target.id == client.id) {
             message.channel.send("bruh i wont commit off");
+            return cmdlog.Log(
+                client,
+                message,
+                `<@${message.member.id}> in **${message.guild.name}**:    ${message.content}`
+            );
         } else if (target.bot) {
             for (var i = 0; i < targetMember._roles.length; i++) {
                 const role = message.guild.roles.cache.find(
@@ -24,8 +39,6 @@ module.exports = {
                     targetMember.roles.remove(role);
                 }
             }
-
-            targetMember.kick();
         } else {
             for (var i = 0; i < targetMember._roles.length; i++) {
                 const role = message.guild.roles.cache.find(
@@ -33,14 +46,19 @@ module.exports = {
                 );
                 targetMember.roles.remove(role).catch(console.error);
             }
-
-            try {
-                targetMember.kick();
-            } catch (e) {
-                message.channel.send("There was an error");
-            }
         }
 
+        try {
+            targetMember.kick();
+        } catch (e) {
+            message.channel.send("There was an error");
+            return cmdlog.Log(
+                client,
+                message,
+                `<@${message.member.id}> in **${message.guild.name}**:    Kill failed: ${message.content}`
+            );
+        }
+        message.react("👌");
         cmdlog.Log(client, message);
     },
 };

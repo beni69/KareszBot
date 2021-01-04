@@ -4,23 +4,29 @@
         "id": "376793727794020354",
         "pfp": "https://i.imgur.com/49RfO3i.jpg"
     },
+
     "karesz": {
         "id": "771420608075399168",
         "pfp": "https://i.imgur.com/Q1DM7Lu.png"
     },
+
     "testbot": {
         "id": "776526574480523275",
         "pfp": "https://i.imgur.com/neeEJtJ.png"
     },
+
     "voice": {
         "brazil": "771089486263091250",
         "test1": "774990155156422663",
         "test2": "774990180922687488"
     },
+
     "testServer": "437232118771482645",
     "logChannel": "778203356765487134",
     "nyf": "718399828970700910",
     "mate": "409294428801597440",
+    "inv": "https://dsc.gg/karesz",
+
     "emoji": {
         "pog": "776786695190085673",
         "karesz": "789941051229077554"
