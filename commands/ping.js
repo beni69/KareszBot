@@ -4,7 +4,7 @@ module.exports = {
         const config = require("../config.json");
         const cmdlog = require("../features/commandLog.js");
 
-        message.channel.send(`🏓  ${client.ws.ping}ms`);
+        message.channel.send(`🏓  ${Date.now() - message.createdTimestam}ms`);
 
         cmdlog.Log(client, message);
     },
