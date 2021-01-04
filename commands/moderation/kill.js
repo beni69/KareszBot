@@ -52,7 +52,7 @@ module.exports = {
                 `<@${message.member.id}> in **${message.guild.name}**:    ${message.content}`
             );
         } else if (target.id == client.user.id) {
-            message.channel.send("bruh i wont commit off");
+            message.channel.send("bruh i wont commit oof");
             return cmdlog.Log(
                 client,
                 message,
