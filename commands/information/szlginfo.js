@@ -1,6 +1,6 @@
 module.exports = {
     aliases: ["info"],
-    run: (message, args, text, client, prefix, instance) => {
+    run: ({message, args, text, client, prefix, instance}) => {
         const config = require("../../config.json");
         const cmdlog = require("../../features/commandLog.js");
         const fetch = require("node-fetch");

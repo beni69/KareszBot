@@ -1,10 +1,10 @@
 module.exports = {
-    aliases: ['vitya', 'mester'],
+    aliases: ["vitya", "mester"],
     minArgs: 0,
     maxArgs: -1,
-    run: (message, args, text, client, prefix, instance) => {
-        const config = require('../../config.json');
-        const cmdlog = require('../../features/commandLog.js');
+    run: ({message, args, text, client, prefix, instance}) => {
+        const config = require("../../config.json");
+        const cmdlog = require("../../features/commandLog.js");
 
         function calculate_age(dob) {
             const diff_ms = Date.now() - dob.getTime();
@@ -20,12 +20,11 @@ module.exports = {
             // return `${Math.abs(age_dt.getFullYear() - 1970)} év, ${}`;
         }
 
-
         // dob = 05311963;
         // 1963 may 31 09:51
         // dateObj = new Date(Date.now() + 207972540000)
         message.channel.send(calculate_age(new Date(1963, 05, 31, 09, 51)));
 
         // cmdlog.Log(client, message);
-    }
+    },
 };

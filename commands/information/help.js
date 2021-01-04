@@ -1,6 +1,6 @@
 module.exports = {
     aliases: ["karesz"],
-    run: (message, args, text, client, prefix, instance) => {
+    run: ({message, args, text, client, prefix, instance}) => {
         const config = require("../../config.json");
         const cmdlog = require("../../features/commandLog.js");
 

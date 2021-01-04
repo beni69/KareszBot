@@ -8,9 +8,12 @@ require("dotenv").config();
 const client = new Discord.Client();
 
 client.on("ready", async () => {
-    new WOKCommands(client, "commands", "features").setDefaultPrefix(
-        process.env.BOT_PREFIX
-    );
+    const messagesPath = "msg.json";
+    new WOKCommands(client, {
+        commandsDir: "commands",
+        featureDir: "features",
+        messagesPath: "config.json",
+    }).setDefaultPrefix(process.env.BOT_PREFIX);
     status("happy 2015");
 
     cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);

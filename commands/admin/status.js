@@ -1,6 +1,6 @@
 module.exports = {
     aliases: ["changestatus", "updatestatus"],
-    run: (message, args, text, client, prefix, instance) => {
+    run: ({message, args, text, client, prefix, instance}) => {
         const config = require("../../config.json");
         const cmdlog = require("../../features/commandLog.js");
         if (message.author.id == config.owner.id) {
