@@ -13,13 +13,14 @@ module.exports = {
             message.channel.send("I'm sorry, you can't kill god");
         } else if (target.id == message.guild.ownerID) {
             message.channel.send("Sadly, you can't kick the server owner");
+        } else if (target.id == client.id) {
+            message.channel.send("bruh i wont commit off");
         } else if (target.bot) {
             for (var i = 0; i < targetMember._roles.length; i++) {
                 const role = message.guild.roles.cache.find(
                     role => role.id == targetMember._roles[i]
                 );
                 if (role.name != target.username) {
-                    // console.log('name good');
                     targetMember.roles.remove(role);
                 }
             }
@@ -37,7 +38,6 @@ module.exports = {
                 targetMember.kick();
             } catch (e) {
                 message.channel.send("There was an error");
-            } finally {
             }
         }
 
