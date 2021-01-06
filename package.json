@@ -1,34 +1,37 @@
 {
-  "name": "karesz",
-  "version": "1.0.0",
-  "description": "A fun discord bot made in javascript.",
-  "main": "index.js",
-  "scripts": {
-    "test": "nodemon testbot.js",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/beni69/karesz.git"
-  },
-  "author": "Beni#7999",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/beni69/karesz/issues"
-  },
-  "homepage": "https://github.com/beni69/karesz#readme",
-  "dependencies": {
-    "@discordjs/opus": "^0.3.3",
-    "discord.js": "^12.5.1",
-    "dotenv": "^8.2.0",
-    "ffmpeg-static": "^4.2.7",
-    "node-fetch": "^2.6.1",
-    "node-gyp": "^7.1.2",
-    "node-pre-gyp": "^0.17.0",
-    "opusscript": "^0.0.7",
-    "pm2": "^4.5.1",
-    "wokcommands": "^1.1.5",
-    "yeelight2": "^1.3.8",
-    "ytdl-core": "^4.2.1"
-  }
+    "name": "karesz",
+    "version": "1.0.0",
+    "description": "A fun discord bot made in javascript.",
+    "main": "index.js",
+    "scripts": {
+        "test": "nodemon testbot.js",
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/beni69/karesz.git"
+    },
+    "author": "Beni#7999",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/beni69/karesz/issues"
+    },
+    "homepage": "https://github.com/beni69/karesz#readme",
+    "dependencies": {
+        "@discordjs/opus": "^0.3.3",
+        "discord.js": "^12.5.1",
+        "dotenv": "^8.2.0",
+        "ffmpeg-static": "^4.2.7",
+        "node-fetch": "^2.6.1",
+        "node-gyp": "^7.1.2",
+        "node-pre-gyp": "^0.17.0",
+        "opusscript": "^0.0.7",
+        "pm2": "^4.5.1",
+        "wokcommands": "^1.1.5",
+        "yeelight2": "^1.3.8",
+        "ytdl-core": "^4.2.1"
+    },
+    "devDependencies": {
+        "axios": ">=0.21.1"
+    }
 }
