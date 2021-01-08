@@ -6,6 +6,9 @@ module.exports = {
         const config = require("../../config.json");
         const cmdlog = require("../../features/commandLog.js");
         const ytdl = require("ytdl-core");
+        const yargs = require("yargs/yargs");
+
+        const argv = yargs(hideBin(text)).argv;
 
         let song = args[0];
 
@@ -35,7 +38,7 @@ module.exports = {
                     });
                     const dispatcher = connection.play(stream);
 
-                    if (args[1] == "-l")
+                    if (argv.l || argv.loop)
                         dispatcher.on("finish", () => Play(song));
                 });
             } catch (e) {
