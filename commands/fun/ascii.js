@@ -5,7 +5,7 @@ module.exports = {
         const cmdlog = require("../../features/commandLog.js");
         const figlet = require("figlet");
 
-        const input = text.replace(/`|\*/gi, "");
+        let input = text.replace(/`|\*/gi, "");
 
         figlet.text(
             input,
@@ -24,16 +24,28 @@ module.exports = {
                 }
                 if (data == "") return;
 
-                const ascii = `\`\`\`\n${data}\n\`\`\``;
+                let ascii = `\`\`\`\n${data}\n\`\`\``;
                 if (ascii.length > 2000) {
                     message.reply(
                         "Sorry, that message would be over the discord character limit (2000 chars)"
                     );
                     console.log("Karesz > Eror while sending ascii");
-                } else message.channel.send(ascii);
+                } else {
+                    ascii = trimEnds(ascii);
+                    message.channel.send(ascii);
+                }
             }
         );
 
         cmdlog.Log(client, message);
+
+        function trimEnds(x) {
+            return x
+                .split(/\n/)
+                .map(function (line) {
+                    return line.replace(/\s+$/, "");
+                })
+                .join("\n");
+        }
     },
 };
