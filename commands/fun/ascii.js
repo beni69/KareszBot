@@ -1,15 +1,34 @@
 module.exports = {
-    aliases: [],
+    aliases: ["figlet"],
     run: ({message, args, text, client, prefix, instance}) => {
         const config = require("../../config.json");
         const cmdlog = require("../../features/commandLog.js");
         const figlet = require("figlet");
+        const yargs = require("yargs/yargs");
+        const fs = require("fs");
 
-        let input = text.replace(/`|\*/gi, "");
+        const argv = yargs(text).argv;
+
+        if (argv.F || argv.fonts || argv.listFonts) {
+            message.channel.send(
+                "Find the list of all available fonts here: <https://bit.ly/2XlwusE>"
+            );
+        }
+
+        let input = argv._.join(" ").replace(/`|\*/gi, "");
+        if (input.startsWith('" ')) {
+            input = input.substring(2);
+        }
+        if (input.endsWith(' "')) {
+            input = input.substring(0, input.length - 1);
+        }
+
+        console.log(argv);
 
         figlet.text(
             input,
             {
+                font: argv.f || argv.font || "Standard",
                 horizontalLayout: "default",
                 verticalLayout: "fitted",
                 width: 140,
