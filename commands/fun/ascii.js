@@ -5,8 +5,12 @@ module.exports = {
         const cmdlog = require("../../features/commandLog.js");
         const figlet = require("figlet");
 
+        const input = text.replace(/`|*/gi, "");
+
+        if (input == "") return;
+
         figlet.text(
-            text,
+            input,
             {
                 horizontalLayout: "default",
                 verticalLayout: "fitted",
