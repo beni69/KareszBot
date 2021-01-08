@@ -5,7 +5,7 @@ module.exports = {
         const cmdlog = require("../../features/commandLog.js");
         const figlet = require("figlet");
 
-        const input = text.replace(/`|*/gi, "");
+        const input = text.replace(/`|\s*/gi, "");
 
         if (input == "") return;
 
