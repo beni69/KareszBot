@@ -7,8 +7,6 @@ module.exports = {
 
         const input = text.replace(/`|\*/gi, "");
 
-        if (input == "") return;
-
         figlet.text(
             input,
             {
@@ -24,8 +22,9 @@ module.exports = {
                     console.dir(err);
                     return;
                 }
+                if (data == "") return;
+
                 const ascii = `\`\`\`\n${data}\n\`\`\``;
-                // console.log(ascii.length);
                 if (ascii.length > 2000) {
                     message.reply(
                         "Sorry, that message would be over the discord character limit (2000 chars)"
