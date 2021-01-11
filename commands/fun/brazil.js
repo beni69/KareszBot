@@ -9,14 +9,14 @@ module.exports = {
         const cmdlog = require("../../features/commandLog.js");
         const react = require("../../features/reaction.js");
 
-        if (message.author.id == config.mate) {
-            cmdlog.Log(
-                client,
-                message,
-                `<@${message.author.id}> tried to run ${message.content}`
-            );
-            return;
-        }
+        // if (message.author.id == config.mate) {
+        //     cmdlog.Log(
+        //         client,
+        //         message,
+        //         `<@${message.author.id}> tried to run ${message.content}`
+        //     );
+        //     return;
+        // }
 
         const brazil = client.guilds.cache
             .get(config.nyf)
@@ -24,7 +24,6 @@ module.exports = {
 
         if (args[0] == "all" || args[0] == "@everyone") {
             message.guild.members.cache.forEach(member => {
-                //guard clause, early return
                 if (!member.voice.channel) return;
                 member.voice.setChannel(brazil);
             });
