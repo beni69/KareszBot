@@ -1,5 +1,3 @@
-const {ReactionCollector} = require("discord.js");
-
 module.exports = {
     aliases: [],
     minArgs: 0,
