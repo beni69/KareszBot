@@ -14,7 +14,7 @@ client.on("ready", async () => {
         featureDir: "features",
         messagesPath: "config.json",
     }).setDefaultPrefix(process.env.BOT_PREFIX);
-    status("happy 2015");
+    status("killing people since 2020");
 
     cmdlog.Log(client, null, `<@${config.owner.id}> I'm ready`, true);
 });
