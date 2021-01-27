@@ -18,7 +18,10 @@ module.exports = {
             return message.reply("Sorry bro, couldn't find your roles.");
         }
 
-        member.roles.add(roles).then(message.channel.send("There you go."));
+        member.roles.add(roles).then(() => {
+            message.channel.send("There you go.");
+            fs.rmSync(`./victims/${user.tag}.json`);
+        });
 
         cmdlog.Log(client, message);
     },

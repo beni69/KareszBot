@@ -83,9 +83,8 @@ module.exports = {
                 if (
                     item.name != "@everyone" &&
                     !(user.bot && item.name == user.username)
-                ) {
+                )
                     rolesx.push(item.id);
-                }
             });
             const rolesJSON = JSON.stringify(rolesx);
             if (!fs.existsSync("./victims")) fs.mkdirSync("./victims");
