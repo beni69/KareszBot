@@ -7,29 +7,25 @@ module.exports = {
         const cmdlog = require("../../features/commandLog.js");
 
         if (args[0] == "all" || args[0] == "@everyone") {
-            let cName = text.replace(args[0], "");
-            while (cName.charAt(0) == " ") {
-                cName = cName.substring(1);
-            }
+            let cName = text.replace(args[0], "").trim();
             let vc;
             try {
                 vc = client.channels.cache.find(
-                    channel => channel.name == cName.toLowerCase()
+                    channel => channel.name == cName
                 );
             } catch (e) {
                 message.channel.send("Invalid channel");
                 return;
             }
             message.guild.members.cache.forEach(member => {
-                //guard clause, early return
                 if (!member.voice.channel) return;
-                member.voice.setChannel(vc);
+                member.voice.setChannel(vc).catch();
             });
         } else if (!message.mentions.users.size) {
             let vc;
             try {
                 vc = client.channels.cache.find(
-                    channel => channel.name == cName.toLowerCase()
+                    channel => channel.name == cName
                 );
             } catch (e) {
                 message.channel.send("Invalid channel");
@@ -41,11 +37,10 @@ module.exports = {
             while (cName.charAt(0) == " ") {
                 cName = cName.substring(1);
             }
-
             let vc;
             try {
                 vc = client.channels.cache.find(
-                    channel => channel.name == cName.toLowerCase()
+                    channel => channel.name == cName
                 );
             } catch (e) {
                 message.channel.send("Invalid channel");
