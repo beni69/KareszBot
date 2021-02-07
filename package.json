@@ -26,6 +26,7 @@
         "node-fetch": "^2.6.1",
         "node-gyp": "^7.1.2",
         "node-pre-gyp": "^0.17.0",
+        "nodemon": "^2.0.7",
         "opusscript": "^0.0.7",
         "pm2": "^4.5.1",
         "wokcommands": "^1.1.5",
