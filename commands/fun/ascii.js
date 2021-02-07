@@ -10,7 +10,7 @@ module.exports = {
         const argv = yargs(text).argv;
 
         if (argv.F || argv.fonts || argv.listFonts) {
-            message.channel.send(
+            return message.channel.send(
                 "Find the list of all available fonts here: <https://bit.ly/2XlwusE>"
             );
         }
