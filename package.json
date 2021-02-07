@@ -1,6 +1,6 @@
 {
     "name": "karesz",
-    "version": "1.0.0",
+    "version": "2.2.0",
     "description": "A fun discord bot made in javascript.",
     "main": "index.js",
     "scripts": {
