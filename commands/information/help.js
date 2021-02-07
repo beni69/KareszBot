@@ -13,6 +13,7 @@ module.exports = {
             title: "Karesz",
             author: {
                 name: "Karesz by Beni#7999",
+                // eslint-disable-next-line camelcase
                 icon_url: ownerPFP,
             },
             description: "**Command**\n*Usage*",
