@@ -1,7 +1,6 @@
+const config = require("../../config.json");
+const cmdlog = require("../../features/commandLog.js");
 let GetChan = function (client, message, chan) {
-    const config = require("../../config.json");
-    const cmdlog = require("../../features/commandLog.js");
-
     let vc;
 
     if (!chan) {
