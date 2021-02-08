@@ -20,7 +20,9 @@ ${prefix}game *[options]*
 -W *[width]*
 --width *[width]* - Set game board width, maximum is 15 *(default: 15)*
 -H *[height]*
---height *[height]* - Set game board height, maximum is 10 *(default: 10)*`);
+--height *[height]* - Set game board height, maximum is 10 *(default: 10)*
+-f
+--force - Ignore game board size limits *(not recommended)*`);
         }
 
         let gameArgs = {
@@ -28,8 +30,8 @@ ${prefix}game *[options]*
             WIDTH: argv.W || argv.width,
             HEIGHT: argv.H || argv.height,
         };
-        if (!gameArgs.HEIGHT == undefined) gameArgs.HEIGHT = maxH;
-        if (!gameArgs.WIDTH == undefined) gameArgs.WIDTH = maxW;
+        if (gameArgs.HEIGHT == undefined) gameArgs.HEIGHT = maxH;
+        if (gameArgs.WIDTH == undefined) gameArgs.WIDTH = maxW;
         if (
             gameArgs.WIDTH > maxW ||
             gameArgs.HEIGHT > maxH ||
