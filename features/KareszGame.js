@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
 
-let WIDTH = 15;
-let HEIGHT = 10;
 let kareszEmoji;
 
 class KareszGame {
@@ -14,14 +12,14 @@ class KareszGame {
         this.message = message;
         this.args = args;
 
-        WIDTH = args.WIDTH;
-        HEIGHT = args.HEIGHT;
+        this.WIDTH = args.WIDTH;
+        this.HEIGHT = args.HEIGHT;
     }
 
     toString() {
         let str = "";
-        for (let y = 0; y < HEIGHT; y++) {
-            for (let x = 0; x < WIDTH; x++) {
+        for (let y = 0; y < this.HEIGHT; y++) {
+            for (let x = 0; x < this.WIDTH; x++) {
                 if (this.karesz.x == x && this.karesz.y == y) {
                     str += `${kareszEmoji}`;
                     // str += "🟦";
@@ -30,7 +28,7 @@ class KareszGame {
                 ) {
                     str += "⬛";
                 } else {
-                    /* str += gameBoard[y * WIDTH + x]; */ str += "⬜";
+                    /* str += gameBoard[y * this.WIDTH + x]; */ str += "⬜";
                 }
             }
             str += "\n";
@@ -40,8 +38,8 @@ class KareszGame {
 
     newGame() {
         this.inGame = true;
-        this.karesz.x = Math.floor(WIDTH / 2);
-        this.karesz.y = Math.floor(HEIGHT / 2);
+        this.karesz.x = Math.floor(this.WIDTH / 2);
+        this.karesz.y = Math.floor(this.HEIGHT / 2);
         kareszEmoji = this.client.emojis.cache.get("789941051229077554");
         const embed = new Discord.MessageEmbed()
             .setColor("BLURPLE")
@@ -78,19 +76,19 @@ class KareszGame {
 
                 switch (r.emoji.name) {
                     case "⬅️":
-                        console.log("Left arrow");
+                        // console.log("Left arrow");
                         this.step(this.karesz.x - 1, this.karesz.y);
                         break;
                     case "⬆️":
-                        console.log("Up arrow");
+                        // console.log("Up arrow");
                         this.step(this.karesz.x, this.karesz.y - 1);
                         break;
                     case "⬇️":
-                        console.log("Down arrow");
+                        // console.log("Down arrow");
                         this.step(this.karesz.x, this.karesz.y + 1);
                         break;
                     case "➡️":
-                        console.log("Right arrow");
+                        // console.log("Right arrow");
                         this.step(this.karesz.x + 1, this.karesz.y);
                         break;
                     case "🔳":
@@ -128,7 +126,7 @@ class KareszGame {
     }
 
     step(x, y) {
-        if (!(x < 0 || y < 0 || x > WIDTH - 1 || y > HEIGHT - 1)) {
+        if (!(x < 0 || y < 0 || x > this.WIDTH - 1 || y > this.HEIGHT - 1)) {
             this.karesz.x = x;
             this.karesz.y = y;
 
