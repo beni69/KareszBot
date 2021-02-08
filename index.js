@@ -11,8 +11,8 @@ client.on("ready", async () => {
     const messagesPath = "msg.json";
     new WOKCommands(client, {
         commandsDir: "commands",
-        featureDir: "features",
-        messagesPath: "config.json",
+        featureDir: "",
+        messagesPath: "",
     }).setDefaultPrefix(process.env.BOT_PREFIX);
     status("killing people since 2020");
 
