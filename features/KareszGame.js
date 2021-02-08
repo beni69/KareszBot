@@ -144,7 +144,9 @@ class KareszGame {
             ) &&
             (this.args.coop
                 ? user.id != this.gameEmbed.author.id
-                : user.id == this.message.author.id)
+                : this.p2
+                ? user.id == this.p1.id || this.p2.id
+                : user.id == this.p1.id)
         );
     }
 
@@ -164,7 +166,6 @@ class KareszGame {
     }
 
     down(x, y) {
-        // this.kavicsok.push(new Kavics(x, y));
         this.kavicsok.push({x: x, y: y});
         this.step(this.karesz.x, this.karesz.y);
     }
@@ -192,13 +193,5 @@ class KareszGame {
     }
 }
 
-class Kavics {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-}
-
 module.exports = KareszGame;
-module.exports.Kavics = Kavics;
 // const game = new KareszGame();

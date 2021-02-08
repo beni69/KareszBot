@@ -33,12 +33,13 @@ ${prefix}game *[options]*
         if (gameArgs.HEIGHT == undefined) gameArgs.HEIGHT = maxH;
         if (gameArgs.WIDTH == undefined) gameArgs.WIDTH = maxW;
         if (
-            gameArgs.WIDTH > maxW ||
-            gameArgs.HEIGHT > maxH ||
-            gameArgs.WIDTH < 1 ||
-            gameArgs.HEIGHT < 1 ||
-            typeof gameArgs.HEIGHT != "number" ||
-            typeof gameArgs.WIDTH != "number"
+            !(argv.f || argv.force) &&
+            (gameArgs.WIDTH > maxW ||
+                gameArgs.HEIGHT > maxH ||
+                gameArgs.WIDTH < 1 ||
+                gameArgs.HEIGHT < 1 ||
+                typeof gameArgs.HEIGHT != "number" ||
+                typeof gameArgs.WIDTH != "number")
         )
             return message.channel.send(
                 `Invalid width/height. Value must be between 1 and the maximum size.\nSee \`${message.content.replace(
@@ -54,6 +55,11 @@ ${prefix}game *[options]*
         if (message.mentions.users.first() && p2)
             gameArgs.p2 = message.guild.members.cache.get(
                 p2.substring(3).slice(0, -1)
+            );
+
+        if (gameArgs.p2 && gameArgs.coop)
+            return message.channel.send(
+                "You can't use the coop and player flags at the same time!"
             );
 
         const game = new KareszGame(client, message, gameArgs);
