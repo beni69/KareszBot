@@ -35,5 +35,11 @@
     "copypasta": {
         "krispy": "New crispy chicken pretzel fries at burger King crunchy pretzel on the outside tenderNew crispy chicken pretzel fries at burger King crunchy pretzel on the outside tender juicy white meat chicken inside New crispy pretzel chicken fries or try original chicken fries only at burger king New crispy chicken pretzel fries atNew crispy chicken pretzel fries at burNew crispy chicken pretzel fries at burger King crunchy pretzel on the outside tender juicy white meat chicken inside New crispy pretzel chicken fries or try original chicken fries only at burger kingNew crispy chicken pretzel fries at burger King crunchy pretzel on the outside tender juicy white meat chicken inside New crispy pretzel chicken fries or try original chicken fries only at burger kingger King crunchy pretzel on the outside tender juicy white meat chicken inside New crispy pretzel chicken fries or try original chicken fries only at burger king New crispy chicken pretzel fries at burger King crunchy pretzel on the outside tender juicy white meat chicken inside New crispy pretzel chicken fries or try original chicken fries only at burger kingburger King crunchy pretzel on the outside tender juicy white meat chicken inside New crispy pretzel chicken fries or try original chicken fries only at burger kingjuicy white meat chicken inside New crispy pretzel chicken fries or try original chicken fries only at burger king"
     },
-    "killchance": 6.9
+
+    "killchance": 6.9,
+
+    "game": {
+        "maxW": 15,
+        "maxH": 10
+    }
 }

@@ -1,26 +1,33 @@
 const Discord = require("discord.js");
+const config = require("../config.json");
 
 let kareszEmoji;
 
 class KareszGame {
     constructor(client, message, args) {
-        this.karesz = {x: 5, y: 5};
+        this.karesz = {x: null, y: null};
+        this.karesz2 = {x: null, y: null};
         this.gameEmbed = null;
         this.inGame = false;
         this.kavicsok = [];
         this.client = client;
         this.message = message;
+        this.p1 = message.member;
         this.args = args;
-
         this.WIDTH = args.WIDTH;
         this.HEIGHT = args.HEIGHT;
+
+        kareszEmoji = this.client.emojis.cache.get(config.emoji.karesz);
+        if (args.p2) this.p2 = args.p2;
     }
 
     toString() {
         let str = "";
         for (let y = 0; y < this.HEIGHT; y++) {
             for (let x = 0; x < this.WIDTH; x++) {
-                if (this.karesz.x == x && this.karesz.y == y) {
+                if (this.karesz2.x == x && this.karesz2.y == y) {
+                    str += `${kareszEmoji}`;
+                } else if (this.karesz.x == x && this.karesz.y == y) {
                     str += `${kareszEmoji}`;
                     // str += "🟦";
                 } else if (
@@ -28,7 +35,7 @@ class KareszGame {
                 ) {
                     str += "⬛";
                 } else {
-                    /* str += gameBoard[y * this.WIDTH + x]; */ str += "⬜";
+                    str += "⬜";
                 }
             }
             str += "\n";
@@ -38,9 +45,11 @@ class KareszGame {
 
     newGame() {
         this.inGame = true;
-        this.karesz.x = Math.floor(this.WIDTH / 2);
-        this.karesz.y = Math.floor(this.HEIGHT / 2);
-        kareszEmoji = this.client.emojis.cache.get("789941051229077554");
+        this.karesz = {
+            x: Math.floor(this.WIDTH / 2),
+            y: Math.floor(this.HEIGHT / 2),
+        };
+        if (this.args.p2) this.karesz2 = {x: 0, y: 0};
         const embed = new Discord.MessageEmbed()
             .setColor("BLURPLE")
             .setTitle(`Karesz Game ${kareszEmoji}`)
@@ -76,27 +85,41 @@ class KareszGame {
 
                 switch (r.emoji.name) {
                     case "⬅️":
-                        // console.log("Left arrow");
-                        this.step(this.karesz.x - 1, this.karesz.y);
+                        if (user.id == this.p2.id)
+                            this.step(this.karesz2.x - 1, this.karesz2.y);
+                        else this.step(this.karesz.x - 1, this.karesz.y);
                         break;
+
                     case "⬆️":
-                        // console.log("Up arrow");
-                        this.step(this.karesz.x, this.karesz.y - 1);
+                        if (user.id == this.p2.id)
+                            this.step(this.karesz2.x, this.karesz2.y - 1);
+                        else this.step(this.karesz.x, this.karesz.y - 1);
                         break;
+
                     case "⬇️":
-                        // console.log("Down arrow");
-                        this.step(this.karesz.x, this.karesz.y + 1);
+                        if (user.id == this.p2.id)
+                            this.step(this.karesz2.x, this.karesz2.y + 1);
+                        else this.step(this.karesz.x, this.karesz.y + 1);
                         break;
+
                     case "➡️":
-                        // console.log("Right arrow");
-                        this.step(this.karesz.x + 1, this.karesz.y);
+                        if (user.id == this.p2.id)
+                            this.step(this.karesz2.x + 1, this.karesz2.y);
+                        else this.step(this.karesz.x + 1, this.karesz.y);
                         break;
+
                     case "🔳":
-                        this.down(this.karesz.x, this.karesz.y);
+                        if (user.id == this.p2.id)
+                            this.down(this.karesz2.x, this.karesz2.y);
+                        else this.down(this.karesz.x, this.karesz.y);
                         break;
+
                     case "🔲":
-                        this.up(this.karesz.x, this.karesz.y);
+                        if (user.id == this.p2.id)
+                            this.up(this.karesz2.x, this.karesz2.y);
+                        else this.up(this.karesz.x, this.karesz.y);
                         break;
+
                     case "🛑":
                         this.gameOver();
                         break;
