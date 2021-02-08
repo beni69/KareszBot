@@ -13,7 +13,7 @@ module.exports = {
         const member = message.guild.members.cache.get(user.id);
 
         try {
-            roles = require(`../../victims/${user.tag}.json`);
+            roles = require(`../../victims/${user.tag}.json`).catch();
         } catch (error) {
             return message.reply("Sorry bro, couldn't find your roles.");
         }
