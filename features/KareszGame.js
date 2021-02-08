@@ -1,17 +1,21 @@
 const Discord = require("discord.js");
 
-const WIDTH = 15;
-const HEIGHT = 10;
+let WIDTH = 15;
+let HEIGHT = 10;
 let kareszEmoji;
 
 class KareszGame {
-    constructor(client, message) {
+    constructor(client, message, args) {
         this.karesz = {x: 5, y: 5};
         this.gameEmbed = null;
         this.inGame = false;
         this.kavicsok = [];
         this.client = client;
         this.message = message;
+        this.args = args;
+
+        WIDTH = args.WIDTH;
+        HEIGHT = args.HEIGHT;
     }
 
     toString() {
@@ -36,6 +40,8 @@ class KareszGame {
 
     newGame() {
         this.inGame = true;
+        this.karesz.x = Math.floor(WIDTH / 2);
+        this.karesz.y = Math.floor(HEIGHT / 2);
         kareszEmoji = this.client.emojis.cache.get("789941051229077554");
         const embed = new Discord.MessageEmbed()
             .setColor("BLURPLE")
@@ -66,6 +72,9 @@ class KareszGame {
             })
             .then(collected => {
                 const r = collected.first();
+                const user = r.users.cache
+                    .filter(user => user.id != this.gameEmbed.author.id)
+                    .first();
 
                 switch (r.emoji.name) {
                     case "⬅️":
@@ -100,7 +109,7 @@ class KareszGame {
                         break;
                 }
 
-                r.users.remove(this.message);
+                r.users.remove(user);
             })
             .catch(() => {
                 this.gameOver();
@@ -111,7 +120,10 @@ class KareszGame {
         return (
             ["⬅️", "⬆️", "⬇️", "➡️", "🔳", "🔲", "🛑"].includes(
                 reaction.emoji.name
-            ) && user.id == this.message.author.id
+            ) &&
+            (this.args.coop
+                ? user.id != this.gameEmbed.author.id
+                : user.id == this.message.author.id)
         );
     }
 
@@ -151,8 +163,8 @@ class KareszGame {
         this.inGame = false;
         const edited = new Discord.MessageEmbed()
             .setColor("GREEN")
-            .setTitle(`Karesz Game ${kareszEmoji}`)
-            .setDescription("Thanks for playing!")
+            .setTitle(`Thanks for playing! ${kareszEmoji}`)
+            .setDescription(this.toString())
             .setTimestamp();
         this.gameEmbed.edit(edited);
         this.gameEmbed.reactions.removeAll();
