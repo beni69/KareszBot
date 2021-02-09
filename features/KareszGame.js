@@ -85,37 +85,37 @@ class KareszGame {
                 switch (r.emoji.name) {
                     case "⬅️":
                         if (this.p2 && user.id == this.p2.id)
-                            this.step(this.karesz2.x - 1, this.karesz2.y);
+                            this.step(this.karesz2.x - 1, this.karesz2.y, 2);
                         else this.step(this.karesz.x - 1, this.karesz.y);
                         break;
 
                     case "⬆️":
                         if (this.p2 && user.id == this.p2.id)
-                            this.step(this.karesz2.x, this.karesz2.y - 1);
+                            this.step(this.karesz2.x, this.karesz2.y - 1, 2);
                         else this.step(this.karesz.x, this.karesz.y - 1);
                         break;
 
                     case "⬇️":
                         if (this.p2 && user.id == this.p2.id)
-                            this.step(this.karesz2.x, this.karesz2.y + 1);
+                            this.step(this.karesz2.x, this.karesz2.y + 1, 2);
                         else this.step(this.karesz.x, this.karesz.y + 1);
                         break;
 
                     case "➡️":
                         if (this.p2 && user.id == this.p2.id)
-                            this.step(this.karesz2.x + 1, this.karesz2.y);
+                            this.step(this.karesz2.x + 1, this.karesz2.y, 2);
                         else this.step(this.karesz.x + 1, this.karesz.y);
                         break;
 
                     case "🔳":
                         if (this.p2 && user.id == this.p2.id)
-                            this.down(this.karesz2.x, this.karesz2.y);
+                            this.down(this.karesz2.x, this.karesz2.y, 2);
                         else this.down(this.karesz.x, this.karesz.y);
                         break;
 
                     case "🔲":
                         if (this.p2 && user.id == this.p2.id)
-                            this.up(this.karesz2.x, this.karesz2.y);
+                            this.up(this.karesz2.x, this.karesz2.y, 2);
                         else this.up(this.karesz.x, this.karesz.y);
                         break;
 
@@ -147,10 +147,15 @@ class KareszGame {
         );
     }
 
-    step(x, y) {
+    step(x, y, player = 1) {
         if (!(x < 0 || y < 0 || x > this.WIDTH - 1 || y > this.HEIGHT - 1)) {
-            this.karesz.x = x;
-            this.karesz.y = y;
+            if (player == 2) {
+                this.karesz2.x = x;
+                this.karesz2.y = y;
+            } else {
+                this.karesz.x = x;
+                this.karesz.y = y;
+            }
 
             const edited = new Discord.MessageEmbed()
                 .setColor("BLURPLE")
