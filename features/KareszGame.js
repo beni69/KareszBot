@@ -129,10 +129,10 @@ class KareszGame {
                         break;
                 }
                 r.users.remove(user);
+            })
+            .catch(() => {
+                this.gameOver();
             });
-        // .catch(() => {
-        //     this.gameOver();
-        // });
     }
 
     filter(reaction, user) {
