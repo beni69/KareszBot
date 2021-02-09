@@ -129,15 +129,15 @@ class KareszGame {
                         break;
                 }
                 r.users.remove(user);
-            })
-            .catch(() => {
-                this.gameOver();
             });
+        // .catch(() => {
+        //     this.gameOver();
+        // });
     }
 
     filter(reaction, user) {
         let u;
-        if (this.args.p2) u = user.id == this.p1.id || this.p2.id;
+        if (this.args.p2) u = user.id == this.p1.id || user.id == this.p2.id;
         else if (this.args.coop) u = user.id != this.gameEmbed.author.id;
         else u = user.id == this.p1.id;
         return (
@@ -170,7 +170,7 @@ class KareszGame {
     up(x, y) {
         for (let i = 0; i < this.kavicsok.length; i++) {
             const item = this.kavicsok[i];
-            if (item.x == x && item.y && y) {
+            if (item.x == x && item.y == y) {
                 this.kavicsok.splice(i, 1);
                 break;
             }
