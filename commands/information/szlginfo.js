@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 module.exports = {
     aliases: ["finfo"],
-    run: ({message, args, text, client, prefix, instance}) => {
+    run: async ({message, args, text, client, prefix, instance}) => {
         const config = require("../../config.json");
         const cmdlog = require("../../features/commandLog.js");
         const fetch = require("node-fetch");
@@ -11,6 +12,9 @@ module.exports = {
             format: "png",
             dynamic: true,
         });
+
+        let res;
+        const succ = await check();
 
         const emb1 = {
             color: "GREEN",
@@ -35,7 +39,7 @@ module.exports = {
             },
         };
 
-        const emb2 = {
+        let emb2 = {
             color: "RED",
             title: "Sad chunger noises 😥",
             author: {
@@ -46,7 +50,7 @@ module.exports = {
                 }),
             },
             url: "https://szlginfo.ptamas.hu/",
-            description: "`szlginfo.ptamas.hu` is down!",
+            description: `\`szlginfo.ptamas.hu\` is down!\nError: ${res.status}, ${res.statusText}`,
             thumbnail: {
                 url: "https://szlginfo.ptamas.hu/assets/img/f_logo.png",
             },
@@ -58,17 +62,14 @@ module.exports = {
             },
         };
 
-        message.channel.send({embed: check() == true ? emb1 : emb2});
+        message.channel.send({embed: succ == true ? emb1 : emb2});
 
         cmdlog.Log(client, message);
 
         async function check() {
-            const res = await fetch(url);
+            res = await fetch(url);
             const up = res.status == 200 && res.statusText == "OK";
             return up;
-            // emb.color == "RED";
-            // emb.title == "Sad chunger noises 😥";
-            // emb.description = `\`${url}\` is down.\nError: ${res.status}, ${res.statusText}`;
         }
     },
 };
