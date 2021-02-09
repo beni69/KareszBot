@@ -1,5 +1,5 @@
 module.exports = {
-    aliases: ["info"],
+    aliases: ["finfo"],
     run: ({message, args, text, client, prefix, instance}) => {
         const config = require("../../config.json");
         const cmdlog = require("../../features/commandLog.js");
@@ -17,7 +17,10 @@ module.exports = {
             title: "Success",
             author: {
                 name: "Karesz",
-                icon_url: config.karesz.pfp,
+                icon_url: client.user.displayAvatarURL({
+                    format: "png",
+                    dynamic: true,
+                }),
             },
             url: "https://szlginfo.ptamas.hu/",
             description: "`szlginfo.ptamas.hu` is up!",
@@ -34,10 +37,13 @@ module.exports = {
 
         const emb2 = {
             color: "RED",
-            title: "sad moment 😔",
+            title: "Sad chunger noises 😥",
             author: {
                 name: "Karesz",
-                icon_url: config.karesz.pfp,
+                icon_url: client.user.displayAvatarURL({
+                    format: "png",
+                    dynamic: true,
+                }),
             },
             url: "https://szlginfo.ptamas.hu/",
             description: "`szlginfo.ptamas.hu` is down!",
@@ -52,15 +58,17 @@ module.exports = {
             },
         };
 
-        message.channel.send({embed: check(url) ? emb1 : emb2});
+        message.channel.send({embed: check() == true ? emb1 : emb2});
 
         cmdlog.Log(client, message);
 
-        async function check(url) {
+        async function check() {
             const res = await fetch(url);
-            const up =
-                res.status == 200 && res.statusText == "OK" ? true : false;
+            const up = res.status == 200 && res.statusText == "OK";
             return up;
+            // emb.color == "RED";
+            // emb.title == "Sad chunger noises 😥";
+            // emb.description = `\`${url}\` is down.\nError: ${res.status}, ${res.statusText}`;
         }
     },
 };
