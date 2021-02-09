@@ -29,7 +29,7 @@ module.exports = {
             },
         };
         message.channel.send({embed: embed});
-        console.log(guild);
+        // console.log(guild);
 
         cmdlog.Log(client, message);
     },
