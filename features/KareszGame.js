@@ -13,12 +13,12 @@ class KareszGame {
         this.client = client;
         this.message = message;
         this.p1 = message.member;
+        this.p2 = args.p2 || null;
         this.args = args;
         this.WIDTH = args.WIDTH;
         this.HEIGHT = args.HEIGHT;
 
         kareszEmoji = this.client.emojis.cache.get(config.emoji.karesz);
-        if (args.p2) this.p2 = args.p2;
     }
 
     toString() {
@@ -29,7 +29,6 @@ class KareszGame {
                     str += `${kareszEmoji}`;
                 } else if (this.karesz.x == x && this.karesz.y == y) {
                     str += `${kareszEmoji}`;
-                    // str += "🟦";
                 } else if (
                     this.kavicsok.some(item => item.x == x && item.y == y)
                 ) {
@@ -85,37 +84,37 @@ class KareszGame {
 
                 switch (r.emoji.name) {
                     case "⬅️":
-                        if (user.id == this.p2.id)
+                        if (this.p2 && user.id == this.p2.id)
                             this.step(this.karesz2.x - 1, this.karesz2.y);
                         else this.step(this.karesz.x - 1, this.karesz.y);
                         break;
 
                     case "⬆️":
-                        if (user.id == this.p2.id)
+                        if (this.p2 && user.id == this.p2.id)
                             this.step(this.karesz2.x, this.karesz2.y - 1);
                         else this.step(this.karesz.x, this.karesz.y - 1);
                         break;
 
                     case "⬇️":
-                        if (user.id == this.p2.id)
+                        if (this.p2 && user.id == this.p2.id)
                             this.step(this.karesz2.x, this.karesz2.y + 1);
                         else this.step(this.karesz.x, this.karesz.y + 1);
                         break;
 
                     case "➡️":
-                        if (user.id == this.p2.id)
+                        if (this.p2 && user.id == this.p2.id)
                             this.step(this.karesz2.x + 1, this.karesz2.y);
                         else this.step(this.karesz.x + 1, this.karesz.y);
                         break;
 
                     case "🔳":
-                        if (user.id == this.p2.id)
+                        if (this.p2 && user.id == this.p2.id)
                             this.down(this.karesz2.x, this.karesz2.y);
                         else this.down(this.karesz.x, this.karesz.y);
                         break;
 
                     case "🔲":
-                        if (user.id == this.p2.id)
+                        if (this.p2 && user.id == this.p2.id)
                             this.up(this.karesz2.x, this.karesz2.y);
                         else this.up(this.karesz.x, this.karesz.y);
                         break;
@@ -129,7 +128,6 @@ class KareszGame {
                         this.waitForInput();
                         break;
                 }
-
                 r.users.remove(user);
             })
             .catch(() => {
@@ -138,15 +136,14 @@ class KareszGame {
     }
 
     filter(reaction, user) {
+        let u;
+        if (this.args.p2) u = user.id == this.p1.id || this.p2.id;
+        else if (this.args.coop) u = user.id != this.gameEmbed.author.id;
+        else u = user.id == this.p1.id;
         return (
             ["⬅️", "⬆️", "⬇️", "➡️", "🔳", "🔲", "🛑"].includes(
                 reaction.emoji.name
-            ) &&
-            (this.args.coop
-                ? user.id != this.gameEmbed.author.id
-                : this.p2
-                ? user.id == this.p1.id || this.p2.id
-                : user.id == this.p1.id)
+            ) && u
         );
     }
 

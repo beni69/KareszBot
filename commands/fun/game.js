@@ -9,20 +9,7 @@ module.exports = {
         const argv = yargs(text).argv;
 
         if (argv.h || argv.help) {
-            return message.channel.send(`
-**Usage:**
-${prefix}game *[options]*
-
-**Options:**
--h - Help menu
--c
---coop - Bot won't ignore reactions from other players *(default: off)*
--W *[width]*
---width *[width]* - Set game board width, maximum is 15 *(default: 15)*
--H *[height]*
---height *[height]* - Set game board height, maximum is 10 *(default: 10)*
--f
---force - Ignore game board size limits *(not recommended)*`);
+            return message.channel.send(help());
         }
 
         let gameArgs = {
@@ -50,12 +37,10 @@ ${prefix}game *[options]*
 
         const p2 = argv.p || argv.player || false;
 
-        console.log(p2);
-
         if (message.mentions.users.first() && p2)
-            gameArgs.p2 = message.guild.members.cache.get(
-                p2.substring(3).slice(0, -1)
-            );
+            gameArgs.p2 = message.guild.members.cache.get(p2.slice(3, -1));
+
+        // console.log(p2);
 
         if (gameArgs.p2 && gameArgs.coop)
             return message.channel.send(
@@ -66,5 +51,20 @@ ${prefix}game *[options]*
         game.newGame();
 
         cmdlog.Log(client, message);
+
+        const help = () => `
+        **Usage:**
+        ${prefix}game *[options]*
+        
+        **Options:**
+        -h - Help menu
+        -c
+        --coop - Bot won't ignore reactions from other players *(default: off)*
+        -W *[width]*
+        --width *[width]* - Set game board width, maximum is 15 *(default: 15)*
+        -H *[height]*
+        --height *[height]* - Set game board height, maximum is 10 *(default: 10)*
+        -f
+        --force - Ignore game board size limits *(not recommended)*`;
     },
 };
