@@ -8,7 +8,7 @@ module.exports = {
         const ytdl = require("ytdl-core");
         const yargs = require("yargs/yargs");
 
-        const argv = yargs(hideBin(text)).argv;
+        const argv = yargs(text).argv;
 
         let song = args[0];
 
