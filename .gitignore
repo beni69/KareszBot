@@ -104,12 +104,4 @@ dist
 .tern-port
 
 #custom
-bot-tokens.txt
-.jshintrc
-test.js
-testbot.js
-testing
-temp
-.vscode
-KareszLight
-victims/
+dist/
