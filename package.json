@@ -4,8 +4,10 @@
     "description": "A fun discord bot made in javascript.",
     "main": "index.js",
     "scripts": {
-        "test": "nodemon testbot.js",
-        "start": "node index.js"
+        "start": "ts-node src/index.ts",
+        "dev": "nodemon src/index.ts",
+        "build": "tsc",
+        "test.ts": "ts-node src/test.ts"
     },
     "repository": {
         "type": "git",
@@ -15,5 +17,16 @@
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/beni69/karesz/issues"
+    },
+    "dependencies": {
+        "discord.js": "^12.5.1",
+        "dotenv": "^8.2.0",
+        "readdirp": "^3.5.0"
+    },
+    "devDependencies": {
+        "@types/node": "^14.14.31",
+        "nodemon": "^2.0.7",
+        "ts-node": "^9.1.1",
+        "typescript": "^4.2.3"
     }
 }
