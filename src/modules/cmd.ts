@@ -1,6 +1,7 @@
 import Discord from "discord.js";
 import { join as pathJoin, dirname as pathDirname } from "path";
 import readdirp from "readdirp";
+import yargs from "yargs";
 import * as reaction from "./reaction";
 
 class Handler {
@@ -129,14 +130,16 @@ class Handler {
                 return message.channel.send("You can't run this command!");
 
             if (command.opts.test && !this.admins.has(message.guild!.id))
-                return;
+                return console.log(
+                    `${message.author.tag} used ${command.opts.names[0]}`
+                );
 
             // running the actual command
             command.run({
                 client: this.client,
                 message,
                 args,
-                argv: null,
+                argv: yargs(args).argv,
                 prefix: this.prefix,
                 handler: this,
             });
@@ -166,7 +169,7 @@ class Command {
         client: Discord.Client;
         message: Discord.Message;
         args: string[];
-        argv: any; // TODO: pass in yargs
+        argv: yargs.Arguments;
         prefix: string;
         handler: Handler;
     }) => void;
@@ -177,7 +180,7 @@ class Command {
             client: Discord.Client;
             message: Discord.Message;
             args: string[];
-            argv: any; // TODO: pass in yargs
+            argv: yargs.Arguments;
             prefix: string;
             handler: Handler;
         }) => void
