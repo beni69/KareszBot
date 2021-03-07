@@ -1,4 +1,5 @@
-import { Command } from "../../cmd";
+import { Command } from "../../modules/cmd";
+
 export const command = new Command(
     { names: "reload", adminOnly: true },
     async ({ message, handler }) => {
@@ -9,3 +10,5 @@ export const command = new Command(
         status.edit("Reload done 👌");
     }
 );
+
+const add = (a: number, b: number): number => a + b;

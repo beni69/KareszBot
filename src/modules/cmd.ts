@@ -1,6 +1,7 @@
 import Discord from "discord.js";
 import { join as pathJoin, dirname as pathDirname } from "path";
 import readdirp from "readdirp";
+import * as reaction from "./reaction";
 
 class Handler {
     client: Discord.Client;
@@ -8,7 +9,9 @@ class Handler {
     commands: Discord.Collection<string, Command>;
     commandsDir: string;
     listening: boolean;
-    admins: Array<Discord.Snowflake>;
+    admins: Set<Discord.Snowflake>;
+    testServers: Set<Discord.Snowflake>;
+    triggers: Discord.Collection<string, Discord.EmojiIdentifierResolvable>;
 
     v: boolean; // verbose mode
 
@@ -18,20 +21,28 @@ class Handler {
         commandsDir,
         verbose = false,
         admins = [],
+        testServers = [],
+        triggers = [],
     }: {
         client: Discord.Client;
         prefix: string;
         commandsDir: string;
         verbose?: boolean;
         admins?: Array<Discord.Snowflake>;
+        testServers?: Array<Discord.Snowflake>;
+        triggers?: Array<Array<string>>;
     }) {
         this.client = client;
         this.prefix = prefix;
-        this.commands = new Discord.Collection();
-        this.v = verbose;
-        this.admins = admins;
         this.commandsDir = pathJoin(pathDirname(process.argv[1]), commandsDir);
+        this.v = verbose;
+        this.admins = new Set(admins);
+        this.testServers = new Set(testServers);
+        this.triggers = new Discord.Collection();
+        triggers.forEach(item => this.triggers.set(item[0], item[1]));
+
         this.listening = false;
+        this.commands = new Discord.Collection();
 
         if (this.v) console.log("Command handler launching in verbose mode");
 
@@ -41,6 +52,7 @@ class Handler {
 
     async loadCommands(dir: string, nuke: boolean = false) {
         if (nuke) this.commands.clear();
+
         if (this.v) console.log(`Loading commands from: ${dir}`);
         let i = 0;
         for await (const entry of readdirp(dir, {
@@ -62,7 +74,7 @@ class Handler {
                 throw new Error(
                     `Command name ${command.opts.names[0]} is being used twice!`
                 );
-            if (command.opts.adminOnly && this.admins.length == 0)
+            if (command.opts.adminOnly && this.admins.size == 0)
                 throw new Error(
                     `Command ${entry.path} is set to admin only, but no admins were defined.`
                 );
@@ -83,8 +95,19 @@ class Handler {
     private listen() {
         if (this.listening) return;
         this.listening = true;
+
         this.client.on("message", message => {
-            // ignore messages that arent commands
+            //* reaction triggers
+            for (const item of this.triggers.keyArray()) {
+                if (message.content.toLowerCase().includes(item)) {
+                    const emoji = this.triggers.get(
+                        item
+                    ) as Discord.EmojiIdentifierResolvable;
+                    reaction.React(message, emoji);
+                }
+            }
+
+            //* executing actual command
             if (!message.content.startsWith(this.prefix)) return;
 
             const args = message.content
@@ -102,11 +125,11 @@ class Handler {
             but isnt actually a command and the bot says some bs */
             if (!command) return;
 
-            if (
-                command.opts.adminOnly &&
-                !this.admins.includes(message.author.id)
-            )
+            if (command.opts.adminOnly && !this.admins.has(message.author.id))
                 return message.channel.send("You can't run this command!");
+
+            if (command.opts.test && !this.admins.has(message.guild!.id))
+                return;
 
             // running the actual command
             command.run({
@@ -138,8 +161,7 @@ class Handler {
 }
 
 class Command {
-    //? have i mentioned that i hate repeating myself?
-    opts: { names: string[]; adminOnly?: boolean };
+    opts: { names: string[]; adminOnly?: boolean; test?: boolean };
     run: (params: {
         client: Discord.Client;
         message: Discord.Message;
@@ -150,7 +172,7 @@ class Command {
     }) => void;
 
     constructor(
-        opts: { names: string[] | string; adminOnly?: boolean },
+        opts: { names: string[] | string; adminOnly?: boolean; test?: boolean },
         run: (params: {
             client: Discord.Client;
             message: Discord.Message;

@@ -1,9 +1,8 @@
-import { Command } from "../cmd";
+import { Command } from "../modules/cmd";
+
 export const command = new Command(
     { names: ["ping", "p"] },
     ({ message, prefix }) => {
-        message.channel.send(
-            `${prefix} 🏓 ${Date.now() - message.createdTimestamp}ms`
-        );
+        message.channel.send(`🏓 ${Date.now() - message.createdTimestamp}ms`);
     }
 );

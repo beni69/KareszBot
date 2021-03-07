@@ -1,6 +1,6 @@
 import Discord from "discord.js";
 import dotenv from "dotenv";
-import * as cmd from "./cmd";
+import * as cmd from "./modules/cmd";
 
 dotenv.config();
 
@@ -14,6 +14,11 @@ client.on("ready", () => {
         prefix: (process.env.BOT_PREFIX as string) || "!",
         commandsDir: "./commands",
         admins: ["376793727794020354"],
+        testServers: ["437232118771482645"],
+        triggers: [
+            ["karesz", "789941051229077554"],
+            ["bruh", "🗿"],
+        ],
     });
 });
 
