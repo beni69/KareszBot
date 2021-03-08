@@ -1,6 +1,7 @@
 import Discord from "discord.js";
 import dotenv from "dotenv";
-import * as cmd from "./modules/cmd";
+// @ts-ignore
+import * as cmd from "@beni69/cmd";
 
 dotenv.config();
 
@@ -20,10 +21,6 @@ client.on("ready", () => {
             ["bruh", "🗿"],
         ],
     });
-});
-
-client.on("message", message => {
-    // console.log({ raw: message.content });
 });
 
 client.login(process.env.BOT_TOKEN);

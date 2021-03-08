@@ -1,4 +1,4 @@
-import { Command } from "../../modules/cmd";
+import { Command } from "@beni69/cmd";
 
 export const command = new Command(
     { names: "reload", adminOnly: true },
