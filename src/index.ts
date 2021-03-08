@@ -1,6 +1,5 @@
 import Discord from "discord.js";
 import dotenv from "dotenv";
-// @ts-ignore
 import * as cmd from "@beni69/cmd";
 
 dotenv.config();
@@ -20,6 +19,7 @@ client.on("ready", () => {
             ["karesz", "789941051229077554"],
             ["bruh", "🗿"],
         ],
+        helpCommand: { names: "help" },
     });
 });
 
