@@ -103,6 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
-#custom
+# typescript
 dist/
+
+# other
 *test*
+*.code-workspace
