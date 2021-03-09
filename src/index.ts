@@ -20,6 +20,16 @@ client.on("ready", () => {
             ["bruh", "🗿"],
         ],
         helpCommand: { names: "help" },
+        logging: {
+            channel: "778203356765487134",
+            format: [
+                "$authorTag$",
+                " in ",
+                "$channelTag$",
+                ":\t",
+                "*$content$*",
+            ],
+        },
     });
 });
 
