@@ -20,11 +20,13 @@
     },
     "dependencies": {
         "@beni69/cmd": "file:..\\discord-cmd",
+        "config": "^3.3.6",
         "discord.js": "^12.5.1",
         "dotenv": "^8.2.0",
         "figlet": "^1.5.0"
     },
     "devDependencies": {
+        "@types/config": "^0.0.38",
         "@types/figlet": "^1.2.1",
         "@types/node": "^14.14.31",
         "nodemon": "^2.0.7",
