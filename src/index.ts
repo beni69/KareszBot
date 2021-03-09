@@ -4,6 +4,8 @@ import * as cmd from "@beni69/cmd";
 
 dotenv.config();
 
+console.clear();
+
 const client = new Discord.Client();
 
 client.on("ready", () => {
@@ -31,6 +33,8 @@ client.on("ready", () => {
             ],
         },
     });
+
+    // handler.logger?.log(undefined,`${client.users.cache.get("376793727794020354")} Bot Ready`);
 });
 
 client.login(process.env.BOT_TOKEN);
