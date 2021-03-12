@@ -1,4 +1,5 @@
 import { Command } from "@beni69/cmd";
+import { MessageEmbed } from "discord.js";
 import figlet from "figlet";
 
 export const command = new Command(
@@ -28,15 +29,14 @@ export const command = new Command(
                 if (err) return message.reply("Error while creating ascii");
                 if (!res) return;
 
-                let fig = "```" + res + "```";
-                fig = trimEnds(fig);
+                const fig = trimEnds(res);
 
                 if (fig.length > 2000)
                     return message.reply(
                         "Sorry, that ascii would be over 2000 characters. (The message limit on discord)"
                     );
 
-                message.channel.send(fig);
+                message.channel.send(fig, { code: true });
             }
         );
 
@@ -47,6 +47,10 @@ export const command = new Command(
                     return line.replace(/\s+$/, "");
                 })
                 .join("\n");
+        }
+
+        function toEmbed(desc: string, title: string) {
+            return new MessageEmbed().setColor("RANDOM").setTitle(title);
         }
     }
 );
