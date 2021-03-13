@@ -20,5 +20,14 @@
         "scope": "javascript,typescript",
         "prefix": "send",
         "body": "message.channel.send($1)"
+    },
+    "export const command...": {
+        "scope": "javascript,typescript",
+        "prefix": "cmd",
+        "body": [
+            "import { Command } from \"@beni69/cmd\";",
+            "",
+            "export const command = new Command({names: $1},({$2})=>{$0})"
+        ]
     }
 }
