@@ -1,8 +1,8 @@
 {
     "name": "karesz",
-    "version": "3.0.0-alpha",
+    "version": "3.0.0",
     "description": "A fun discord bot made in javascript.",
-    "main": "index.js",
+    "main": "dist/index.js",
     "scripts": {
         "start": "ts-node src/index.ts",
         "dev": "nodemon src/index.ts",
@@ -19,17 +19,19 @@
         "url": "https://github.com/beni69/karesz/issues"
     },
     "dependencies": {
-        "@beni69/cmd": "file:..\\discord-cmd",
+        "@beni69/cmd": "^1.0.0",
         "canvas": "^2.7.0",
         "config": "^3.3.6",
         "decode-gif": "^1.0.1",
         "discord.js": "^12.5.1",
         "dotenv": "^8.2.0",
-        "figlet": "^1.5.0"
+        "figlet": "^1.5.0",
+        "mongoose": "^5.12.0"
     },
     "devDependencies": {
         "@types/config": "^0.0.38",
         "@types/figlet": "^1.2.1",
+        "@types/mongoose": "^5.10.3",
         "@types/node": "^14.14.31",
         "nodemon": "^2.0.7",
         "ts-node": "^9.1.1",
