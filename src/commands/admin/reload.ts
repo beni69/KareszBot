@@ -5,10 +5,8 @@ export const command = new Command(
     async ({ message, handler }) => {
         const status = await message.channel.send("Reloading commands...");
 
-        await handler.loadCommands(handler.commandsDir, true);
+        // await handler.loadCommands(handler.commandsDir, true);
 
         status.edit("Reload done 👌");
     }
 );
-
-const add = (a: number, b: number): number => a + b;
