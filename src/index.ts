@@ -1,17 +1,17 @@
-import Discord from "discord.js";
+import { Handler } from "@beni69/cmd";
+import { Client } from "discord.js";
 import dotenv from "dotenv";
-import * as cmd from "@beni69/cmd";
+import { connectDB } from "./Mongoose";
 
 dotenv.config();
-
 console.clear();
-
-const client = new Discord.Client();
+const client = new Client();
+connectDB(process.env.MONGODB as string);
 
 client.on("ready", () => {
     console.log(`Bot ready: ${client.user?.tag}`);
 
-    const handler = new cmd.Handler({
+    const handler = new Handler({
         client,
         prefix: (process.env.BOT_PREFIX as string) || "!",
         commandsDir: "./commands",
@@ -32,9 +32,16 @@ client.on("ready", () => {
                 "*$content$*",
             ],
         },
+        mongodb: process.env.MONGODB as string,
+        pauseCommand: "toggle",
+        verbose: false,
     });
 
-    // handler.logger?.log(undefined,`${client.users.cache.get("376793727794020354")} Bot Ready`);
+    // handler.logger?.send(`${client.users.cache.get("376793727794020354")} Bot Ready`);
 });
+
+// client.on("message", message => {
+//     saveRoles(message.guild!, message.author);
+// });
 
 client.login(process.env.BOT_TOKEN);
