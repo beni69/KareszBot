@@ -34,7 +34,7 @@ client.on("ready", () => {
         },
         mongodb: process.env.MONGODB as string,
         pauseCommand: "toggle",
-        verbose: false,
+        verbose: true,
     });
 
     handler.getLogger?.send("Bot ready!");
