@@ -3,6 +3,9 @@
     "version": "3.0.0",
     "description": "A fun discord bot made in javascript.",
     "main": "dist/index.js",
+    "engines": {
+        "node": "14.x"
+    },
     "scripts": {
         "start": "ts-node src/index.ts",
         "dev": "nodemon src/index.ts",
@@ -11,12 +14,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/beni69/karesz.git"
+        "url": "git+https://github.com/Karesz-Foundation/KareszBot.git"
     },
     "author": "Beni#7999",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/beni69/karesz/issues"
+        "url": "https://github.com/Karesz-Foundation/KareszBot/issues"
     },
     "dependencies": {
         "@beni69/cmd": "^1.0.0",
