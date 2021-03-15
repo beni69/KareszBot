@@ -1,13 +1,13 @@
 {
     "name": "karesz",
     "version": "3.0.0",
-    "description": "A fun discord bot made in javascript.",
+    "description": "A fun discord bot made in typescript.",
     "main": "dist/index.js",
     "engines": {
         "node": "14.x"
     },
     "scripts": {
-        "start": "ts-node src/index.ts",
+        "start": "node .",
         "dev": "nodemon src/index.ts",
         "build": "tsc",
         "test.ts": "ts-node src/test.ts"
@@ -22,7 +22,7 @@
         "url": "https://github.com/Karesz-Foundation/KareszBot/issues"
     },
     "dependencies": {
-        "@beni69/cmd": "^1.0.0",
+        "@beni69/cmd": "^1.1.0",
         "canvas": "^2.7.0",
         "config": "^3.3.6",
         "decode-gif": "^1.0.1",

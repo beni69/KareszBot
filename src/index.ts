@@ -37,11 +37,7 @@ client.on("ready", () => {
         verbose: false,
     });
 
-    // handler.logger?.send(`${client.users.cache.get("376793727794020354")} Bot Ready`);
+    handler.getLogger?.send("Bot ready!");
 });
-
-// client.on("message", message => {
-//     saveRoles(message.guild!, message.author);
-// });
 
 client.login(process.env.BOT_TOKEN);
