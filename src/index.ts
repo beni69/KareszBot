@@ -40,7 +40,9 @@ client.on("ready", () => {
 
     process.on("unhandledRejection", err => {
         console.error("Unhandled promise rejection:", err);
-        handler.getLogger?.send(`Unhandled promise rejection:\n` + "```err```");
+        handler.getLogger?.send(
+            `Unhandled promise rejection:\n` + "```" + err + "```"
+        );
     });
 
     handler.getLogger?.send("Bot ready!");
