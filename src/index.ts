@@ -21,7 +21,6 @@ client.on("ready", () => {
             ["karesz", "789941051229077554"],
             ["bruh", "🗿"],
         ],
-        blacklist: ["780366371083124746", "785239652754915350"],
         helpCommand: { names: "help" },
         logging: {
             channel: "778203356765487134",
@@ -36,11 +35,6 @@ client.on("ready", () => {
         mongodb: process.env.MONGODB as string,
         pauseCommand: "toggle",
         verbose: true,
-    });
-
-    process.on("unhandledRejection", err => {
-        console.error("Unhandled promise rejection:", err);
-        handler.getLogger?.send(`Unhandled promise rejection:\n` + "```err```");
     });
 
     handler.getLogger?.send("Bot ready!");
