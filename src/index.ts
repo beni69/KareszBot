@@ -1,17 +1,16 @@
 import { Handler } from "@beni69/cmd";
-import { Client } from "discord.js";
+import { Client, Message } from "discord.js";
 import dotenv from "dotenv";
 import { connectDB } from "./Mongoose";
 
 dotenv.config();
 console.clear();
 const client = new Client();
+let handler: Handler;
 connectDB(process.env.MONGODB as string);
 
 client.on("ready", () => {
-    console.log(`Bot ready: ${client.user?.tag}`);
-
-    const handler = new Handler({
+    handler = new Handler({
         client,
         prefix: (process.env.BOT_PREFIX as string) || "!",
         commandsDir: "./commands",
@@ -38,14 +37,20 @@ client.on("ready", () => {
         verbose: true,
     });
 
-    process.on("unhandledRejection", err => {
-        console.error("Unhandled promise rejection:", err);
-        handler.getLogger?.send(
-            `Unhandled promise rejection:\n` + "```" + err + "```"
-        );
-    });
+    console.log(`Bot ready: ${client.user?.tag}`);
 
     handler.getLogger?.send("Bot ready!");
 });
 
+client.on("guildMemberAdd", member => {
+    // TODO: auto-res user
+});
+
 client.login(process.env.BOT_TOKEN);
+
+process.on("unhandledRejection", err => {
+    console.error("Unhandled promise rejection:", err);
+    handler.getLogger?.send(
+        `Unhandled promise rejection:\n` + "```" + err + "```"
+    );
+});
