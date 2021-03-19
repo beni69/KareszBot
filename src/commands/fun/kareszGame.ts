@@ -1,7 +1,7 @@
 import { Command } from "@beni69/cmd";
+import config from "config";
 import {
     Client,
-    CollectorFilter,
     EmojiIdentifierResolvable,
     GuildMember,
     Message,
@@ -9,11 +9,12 @@ import {
     MessageReaction,
     User,
 } from "discord.js";
-import config from "config";
 
 export const command = new Command(
     { names: ["karesz", "kareszgame", "game"] },
-    ({ message, prefix, argv }) => {
+    async ({ message, prefix, argv }) => {
+        if (argv.h || argv.help) return message.channel.send(help(prefix));
+
         let gameOpts: gameOptions = {
             width: (argv.W || argv.width || 15) as number,
             height: (argv.H || argv.height || 10) as number,
@@ -21,7 +22,15 @@ export const command = new Command(
             bg: (argv.bg || argv.background || "⬜") as string,
             kavics: (argv.kavics || "⬛") as string,
             coop: (argv.c || argv.coop || false) as boolean,
+            players: [],
         };
+
+        let p = argv.p || argv.player;
+        if (p) {
+            p = await message.guild?.members.fetch(p as string);
+            console.log({ p });
+            gameOpts.players = [p as GuildMember];
+        }
 
         const game = new KareszGame(message, gameOpts);
         game.newGame();
@@ -41,7 +50,8 @@ ${prefix}game *[options]*
 -H *[height]*
 --height *[height]* - Set game board height, maximum is 10 *(default: 10)*
 -f
---force - Ignore game board size limits *(not recommended)*`;
+--force - Ignore game board size limits *(not recommended)*
+`;
 
 export class KareszGame {
     client: Client;
@@ -61,7 +71,7 @@ export class KareszGame {
         this.opts.karesz = message.client.emojis.resolve(opts.karesz)!;
         this.karesz = [{ x: null, y: null }];
         this.kavicsok = [];
-        this.players = [message.member!];
+        this.players = [message.member as GuildMember, ...opts.players];
         this.inGame = false;
     }
 
@@ -236,4 +246,5 @@ export interface gameOptions {
     kavics: string;
     karesz: EmojiIdentifierResolvable;
     coop: boolean;
+    players: Array<GuildMember>;
 }
