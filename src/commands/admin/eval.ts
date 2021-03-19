@@ -7,7 +7,7 @@ export const command = new Command(
 
         try {
             if (argv.r || argv.raw) eval(cmd);
-            else message.channel.send(`${eval(cmd)}`);
+            else message.channel.send(`${eval(cmd)}`, { code: true });
         } catch (err) {
             message.channel.send(`There was an error\n${err}`);
         }
