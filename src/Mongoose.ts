@@ -1,4 +1,4 @@
-import { connect, model, Schema } from "mongoose";
+import { connect, connection, model, Schema } from "mongoose";
 
 export function connectDB(uri: string) {
     try {
@@ -11,6 +11,8 @@ export function connectDB(uri: string) {
         console.log("Connected to DB");
     } catch (err) {
         console.error("Failed to connect to MongoDB: ", err.message);
+    } finally {
+        connection.close();
     }
 }
 
