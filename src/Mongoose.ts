@@ -1,8 +1,8 @@
-import { connect, connection, model, Schema } from "mongoose";
+import { connect, Document, model, Schema } from "mongoose";
 
-export function connectDB(uri: string) {
+export async function connectDB(uri: string) {
     try {
-        connect(uri, {
+        await connect(uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useFindAndModify: false,
@@ -11,20 +11,22 @@ export function connectDB(uri: string) {
         console.log("Connected to DB");
     } catch (err) {
         console.error("Failed to connect to MongoDB: ", err.message);
-    } finally {
-        connection.close();
     }
 }
 
-export const user = model(
-    "user",
+export const guild = model(
+    "guild",
     new Schema({
         _id: String,
         roles: { type: Array, default: [] },
     })
 );
 
-export type user = {
+export type guild = Document & {
     _id: string;
-    roles: Array<string>;
+    roles: Array<savedRole>;
+};
+export type savedRole = {
+    user: string;
+    roles: string[];
 };

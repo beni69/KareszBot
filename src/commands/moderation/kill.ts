@@ -1,10 +1,10 @@
 import { Command } from "@beni69/cmd";
 import { Guild, User } from "discord.js";
-import * as models from "../../Mongoose";
+import { guild as guildModel } from "../../Mongoose";
 
 export const command = new Command(
     {
-        names: "kill",
+        names: ["kill", "kick"],
         cooldown: "24h",
         minArgs: 1,
         maxArgs: 1,
@@ -19,7 +19,7 @@ export const command = new Command(
                 message.author.id == message.guild?.ownerID
             )
                 return message.channel.send(
-                    "You would have been killed, if you weren't the server owner. However, the cooldown stil applies."
+                    "You would have been killed, if you weren't the server owner. However, the cooldown still applies."
                 );
 
             await saveRoles(message.guild!, message.author);
@@ -84,10 +84,38 @@ export const command = new Command(
 );
 
 export async function saveRoles(guild: Guild, user: User) {
-    const member = guild.members.cache.get(user.id);
+    const member = await guild.members.fetch(user.id);
+
+    // get roles
     const roles = member?.roles.cache
         .filter(r => r.name != "@everyone")
         .map(r => r.id);
 
-    await new models.user({ _id: user.id, roles }).save().catch(console.error);
+    if (!guildModel.exists({ _id: guild.id })) {
+        const g = new guildModel({
+            _id: guild.id,
+            cooldowns: [],
+            globalCooldowns: [],
+            roles: [],
+        });
+        await g.save();
+    }
+
+    const g: guildModel | null = (await guildModel.findById(
+        guild.id
+    )) as guildModel;
+
+    const savedRole = { user: user.id, roles };
+
+    if (!g.roles) g.roles = [];
+    // overwrite user if already exists
+    else if (g.roles.find(r => r.user == user.id)) {
+        const i = g.roles.findIndex(r => r.user == user.id);
+        g.roles.splice(i, 1);
+    }
+
+    g.roles.push(savedRole);
+
+    await g.updateOne({ roles: g.roles });
+    console.log("roles saved");
 }
