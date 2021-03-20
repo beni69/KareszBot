@@ -10,12 +10,12 @@ export const command = new Command(
             return false;
         }
 
-        // TODO: fix message splitting
-        // const topText = (argv.t || "") as string;
-        // const bottomText = (argv.b || "") as string;
-
         const topText = text.split("\n")[0] || "";
         const bottomText = text.split("\n")[1] || "";
+
+        console.log({ text, topText, bottomText });
+        console.log(text);
+        console.log(message.content);
 
         //* loading image
         const img = await loadImage(message.attachments.first()!.url).catch(
