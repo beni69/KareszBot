@@ -2,7 +2,7 @@ import { Command } from "@beni69/cmd";
 
 export const command = new Command(
     { names: "eval", adminOnly: true },
-    async ({ message, argv }) => {
+    async ({ message, client, handler, args, argv, text, logger, prefix }) => {
         const cmd = argv._.join(" ");
 
         try {
