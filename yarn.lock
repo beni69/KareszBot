@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@beni69/cmd@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@beni69/cmd/-/cmd-1.2.0.tgz#34abd4054ef4449da7ddbf0590853be70ea3bae3"
-  integrity sha512-oFncMd327Po+si1XEa13CNOiiKXQfmltQTBdzodYm5i3A4G2AwT9xd6U10Qkqf2JQjCOqCb+Op29Zibfr3P8Gg==
+"@beni69/cmd@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@beni69/cmd/-/cmd-1.3.0.tgz#065977ba0565363876ebd2051e3c6d851f6d03ba"
+  integrity sha512-byzZHiOm6ua6SaKVzxrlwr4lQKhlW6Oqa0V5TfUuQdhBspW+CRDgYJcmJckK5nnJs11oHNxHk2QuZoSRc8vgfg==
   dependencies:
     discord.js "^12.5.1"
     mongoose "^5.12.0"
