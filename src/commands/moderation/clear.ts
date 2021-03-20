@@ -15,11 +15,9 @@ export const command = new Command(
 
             //? why is there no Collection.reduceRight()
             const str = deleted.reduce(
-                (acc, item) =>
-                    acc ? `**${item.content}**, ` + acc : `**${item.content}**`,
+                (acc, item) => (acc ? `${item.content}, ` + acc : item.content),
                 ""
             );
-            console.log(str);
             logger.send(`Deleted ${deleted.size} messages:\t${str}`);
         }
     }

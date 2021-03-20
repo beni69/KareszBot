@@ -75,7 +75,7 @@ export const command = new Command(
                           " in ",
                           "$channelTag$",
                           ":\t",
-                          "self kill failed.",
+                          "kill failed.",
                       ])
                     : null;
             });
