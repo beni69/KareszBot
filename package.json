@@ -22,7 +22,7 @@
         "url": "https://github.com/Karesz-Foundation/KareszBot/issues"
     },
     "dependencies": {
-        "@beni69/cmd": "^1.3.0",
+        "@beni69/cmd": "^1.3.1",
         "canvas": "^2.7.0",
         "config": "^3.3.6",
         "decode-gif": "^1.0.1",
