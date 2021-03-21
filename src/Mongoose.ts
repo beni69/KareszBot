@@ -1,4 +1,4 @@
-import { connect, Document, model, Schema } from "mongoose";
+import { connect, Document, model, models, Schema } from "mongoose";
 
 export async function connectDB(uri: string) {
     try {
@@ -14,13 +14,12 @@ export async function connectDB(uri: string) {
     }
 }
 
-export const guild = model(
-    "guild",
-    new Schema({
-        _id: String,
-        roles: { type: Array, default: [] },
-    })
-);
+const guildSchema = new Schema({
+    _id: String,
+    roles: { type: Array, default: [] },
+});
+
+export const guild = models.guild || model("guild", guildSchema);
 
 export type guild = Document & {
     _id: string;
