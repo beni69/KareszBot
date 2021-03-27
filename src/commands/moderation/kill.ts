@@ -1,5 +1,5 @@
 import { Command } from "@beni69/cmd";
-import { Guild, User } from "discord.js";
+import { GuildMember } from "discord.js";
 import { guild as guildModel } from "../../Mongoose";
 
 export const command = new Command(
@@ -22,7 +22,7 @@ export const command = new Command(
                     "You would have been killed, if you weren't the server owner. However, the cooldown still applies."
                 );
 
-            await saveRoles(message.guild!, message.author);
+            await saveRoles(message.member as GuildMember);
 
             message.member
                 ?.kick("Tried to kill, but failed.")
@@ -52,7 +52,9 @@ export const command = new Command(
                 message.channel.send("Mention someone you dumbass.");
                 return false;
             }
-            const targetMember = message.guild?.members.cache.get(target!.id);
+            const targetMember = message.guild?.members.cache.get(
+                target!.id
+            ) as GuildMember;
 
             if (handler.getOpts.admins.has(target.id)) {
                 message.channel.send("Bro I won't kill my owner.");
@@ -65,7 +67,7 @@ export const command = new Command(
                 return false;
             }
 
-            await saveRoles(message.guild!, target);
+            await saveRoles(targetMember);
 
             targetMember?.kick(`Killed by ${message.author.tag}`).catch(err => {
                 message.channel.send("There was an error");
@@ -83,39 +85,32 @@ export const command = new Command(
     }
 );
 
-export async function saveRoles(guild: Guild, user: User) {
-    const member = await guild.members.fetch(user.id);
-
+export async function saveRoles(member: GuildMember) {
     // get roles
     const roles = member?.roles.cache
         .filter(r => r.name != "@everyone")
         .map(r => r.id);
 
-    if (!guildModel.exists({ _id: guild.id })) {
-        const g = new guildModel({
-            _id: guild.id,
-            cooldowns: [],
-            globalCooldowns: [],
-            roles: [],
-        });
-        await g.save();
+    if (!(await guildModel.exists({ _id: member.guild.id }))) {
+        await new guildModel({
+            _id: member.guild.id,
+        }).save();
     }
 
     const g: guildModel | null = (await guildModel.findById(
-        guild.id
+        member.guild.id
     )) as guildModel;
 
-    const savedRole = { user: user.id, roles };
+    const savedRole = { user: member.id, roles, timestamp: Date.now() };
 
     if (!g.roles) g.roles = [];
     // overwrite user if already exists
-    else if (g.roles.find(r => r.user == user.id)) {
-        const i = g.roles.findIndex(r => r.user == user.id);
+    else if (g.roles.find(r => r.user == member.id)) {
+        const i = g.roles.findIndex(r => r.user == member.id);
         g.roles.splice(i, 1);
     }
 
     g.roles.push(savedRole);
 
     await g.updateOne({ roles: g.roles });
-    console.log("roles saved");
 }

@@ -1,7 +1,8 @@
 import { Handler } from "@beni69/cmd";
-import { Client, Message } from "discord.js";
+import { Client } from "discord.js";
 import dotenv from "dotenv";
 import { connectDB } from "./Mongoose";
+import { getRoles } from "./commands/moderation/resurrect";
 
 dotenv.config();
 console.clear();
@@ -42,8 +43,13 @@ client.on("ready", () => {
     handler.getLogger?.send("Bot ready!");
 });
 
-client.on("guildMemberAdd", member => {
-    // TODO: auto-res user
+client.on("guildMemberAdd", async member => {
+    const roles = await getRoles(member);
+    console.log({ roles });
+    if (roles) member.roles.add(roles.roles);
+    // test server
+    else if (member.guild.id == "437232118771482645")
+        member.roles.add("745651494027657247");
 });
 
 client.login(process.env.BOT_TOKEN);

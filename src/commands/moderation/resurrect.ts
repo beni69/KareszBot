@@ -1,5 +1,5 @@
 import { Command } from "@beni69/cmd";
-import { Guild, User, GuildMember, TeamMember } from "discord.js";
+import { GuildMember } from "discord.js";
 import { guild as guildModel } from "../../Mongoose";
 
 export const command = new Command(
@@ -31,10 +31,10 @@ export async function getRoles(member: GuildMember) {
     const g = ((await guildModel.findById(
         member.guild.id
     )) as unknown) as guildModel;
+    if (!g.roles) return null;
+
     const roles = g.roles.find(r => r.user == member.id);
     if (!roles) return null;
-
-    console.log({ roles });
 
     return roles;
 }

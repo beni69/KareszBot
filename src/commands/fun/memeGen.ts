@@ -13,10 +13,6 @@ export const command = new Command(
         const topText = text.split("\n")[0] || "";
         const bottomText = text.split("\n")[1] || "";
 
-        console.log({ text, topText, bottomText });
-        console.log(text);
-        console.log(message.content);
-
         //* loading image
         const img = await loadImage(message.attachments.first()!.url).catch(
             e => {
@@ -70,7 +66,6 @@ export const command = new Command(
         );
 
         //* output
-        // writeFileSync("./out.png", canvas.toBuffer());
         const attch = new MessageAttachment(
             canvas.toBuffer(),
             "karesz-memegen.png"

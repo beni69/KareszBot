@@ -1,4 +1,5 @@
-import { connect, Document, model, models, Schema } from "mongoose";
+import { connect, Document, model, Schema } from "mongoose";
+import { economyMember } from "./commands/economy/economy";
 
 export async function connectDB(uri: string) {
     try {
@@ -17,15 +18,19 @@ export async function connectDB(uri: string) {
 const guildSchema = new Schema({
     _id: String,
     roles: { type: Array, default: [] },
+    economy: { type: Array, default: [] },
 });
 
-export const guild = models.guild || model("guild", guildSchema);
+export const guild = model("guild", guildSchema);
 
 export type guild = Document & {
     _id: string;
     roles: Array<savedRole>;
+    economy: Array<economyMember>;
 };
+
 export type savedRole = {
     user: string;
     roles: string[];
+    timestamp: number;
 };

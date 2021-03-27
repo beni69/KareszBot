@@ -5,11 +5,14 @@ export const command = new Command(
     async ({ message, client, handler, args, argv, text, logger, prefix }) => {
         const cmd = argv._.join(" ");
 
+        const { saveRoles } = await import("../moderation/kill");
+        const { getRoles } = await import("../moderation/resurrect");
+
         try {
-            if (argv.r || argv.raw) eval(cmd);
-            else message.channel.send(`${eval(cmd)}`, { code: true });
+            if (argv.r || argv.raw) await eval(cmd);
+            else message.channel.send(`${await eval(cmd)}`, { code: true });
         } catch (err) {
-            message.channel.send(`There was an error\n${err}`);
+            message.channel.send("There was an error\n```" + err + "```");
         }
     }
 );
