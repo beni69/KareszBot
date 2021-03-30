@@ -1,8 +1,8 @@
 import { Handler } from "@beni69/cmd";
 import { Client } from "discord.js";
 import dotenv from "dotenv";
-import { connectDB } from "./Mongoose";
 import { getRoles } from "./commands/moderation/resurrect";
+import { connectDB } from "./Mongoose";
 
 dotenv.config();
 console.clear();

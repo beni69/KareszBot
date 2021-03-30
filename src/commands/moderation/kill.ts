@@ -10,6 +10,7 @@ export const command = new Command(
         maxArgs: 1,
         noDM: true,
         react: "⚰",
+        blacklist: ["824954982989299722"],
     },
     async ({ message, client, handler, logger }) => {
         // suicide
