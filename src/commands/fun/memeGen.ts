@@ -2,6 +2,7 @@ import { Command } from "@beni69/cmd";
 import { createCanvas, ImageData, loadImage } from "canvas";
 import decodeGif from "decode-gif";
 import { MessageAttachment } from "discord.js";
+// @ts-ignore
 import Gifencoder from "gifencoder";
 import { download } from "./fun";
 
@@ -22,7 +23,6 @@ export const command = new Command(
         //* output
         if (imgURL.endsWith(".gif")) {
             //* gif mode
-            console.log("gif mode");
 
             const gifFile = await download(imgURL);
             const gifData = decodeGif(gifFile);
