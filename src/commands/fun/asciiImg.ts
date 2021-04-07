@@ -1,41 +1,78 @@
 import { Command } from "@beni69/cmd";
 import { createCanvas, ImageData, loadImage } from "canvas";
 import decodeGif from "decode-gif";
-import { readFileSync } from "fs";
+import { download } from "./fun";
 
 let running = false;
 
-export const command = new Command({ names: "img" }, async ({ message }) => {
-    if (running)
-        return message.channel.send(
-            "Already running. Wait a couple of seconds and try again."
-        );
-    running = true;
-    const gif = decodeGif(readFileSync("img/sus.gif"));
-    const asciiFrames = await ascii(gif);
+export const command = new Command(
+    { names: ["asciiImg", "img"] },
+    async ({ message }) => {
+        if (!message.attachments.size) {
+            message.channel.send("No image attachment detected.");
+            return false;
+        }
 
-    const msg = await message.channel.send("get stick bugged lol");
-    for (let i = 0; i < 5; i++) {
-        for (const frame of asciiFrames) {
-            await msg.edit(frame, { code: true });
-            await new Promise(r => setTimeout(r, 1000));
+        if (message.attachments.first()?.url.endsWith(".gif")) {
+            //* gif mode
+            if (running) {
+                message.channel.send(
+                    "Already running. Wait a couple of seconds and try again."
+                );
+                return false;
+            }
+            running = true;
+
+            const gif = decodeGif(
+                await download(message.attachments.first()!.url)
+            );
+            const gifLength = gif.frames[gif.frames.length - 1].timeCode;
+
+            if (gifLength > 5000) {
+                message.channel.send(
+                    "Sorry, gifs longer than 5 seconds are not supported at the moment."
+                );
+            }
+
+            const asciiFrames = await ascii(gif);
+
+            const getLength = (l: number) => Math.round(l / 100) / 0.2;
+            const sleep = async (t = 1000) =>
+                await new Promise(r => setTimeout(r, t));
+
+            const msg = await message.channel.send("gif incoming..");
+
+            if (gifLength < 1000)
+                for (let i = 0; i < 3; i++) {
+                    for (const frame of asciiFrames) {
+                        await msg.edit(frame, { code: true });
+                        await sleep();
+                    }
+                }
+            else
+                for (const frame of asciiFrames) {
+                    await msg.edit(frame, { code: true });
+                    await sleep();
+                }
+
+            running = false;
+        } else {
+            //* image mode
+            const img = await ascii(message.attachments.first()!.url);
+            if (!img) return false;
+
+            message.channel.send(img, { code: true });
         }
     }
-
-    running = false;
-});
+);
 
 export async function ascii(src: string | decodeGif.ResultType) {
     const asciiFrames: string[] = [];
     if (typeof src === "string") {
+        //* image mode
         const image = await loadImage(src);
         const [width, height] = getDimensons(image.width, image.height);
-        console.log({
-            iWidth: image.width,
-            iHeight: image.height,
-            width,
-            height,
-        });
+
         const canvas = createCanvas(width, height);
         const context = canvas.getContext("2d");
 
@@ -46,20 +83,19 @@ export async function ascii(src: string | decodeGif.ResultType) {
         );
 
         context.putImageData(imgData, 0, 0);
+
         const ascii = trimEnds(toAscii(grayScales, width));
 
-        // output
-        // writeFileSync("./out.txt", ascii);
-
-        return asciiFrames;
+        return ascii;
     } else {
+        //* gif mode
         const [width, height] = getDimensons(src.width, src.height);
 
         src.frames.forEach((frame, i) => {
             const canvas = createCanvas(src.width, src.height);
-            const context = canvas.getContext("2d");
+            const ctx = canvas.getContext("2d");
             const d = new ImageData(frame.data, src.width, src.height);
-            context.putImageData(d, 0, 0);
+            ctx.putImageData(d, 0, 0);
 
             const c2 = createCanvas(width, height);
             const ctx2 = c2.getContext("2d");
@@ -69,11 +105,7 @@ export async function ascii(src: string | decodeGif.ResultType) {
             const [imgData, grayScales] = toGrayScales(d2);
             ctx2.putImageData(imgData, 0, 0);
 
-            const ascii = toAscii(grayScales, width);
-
-            // output
-            // writeFileSync(`./out${i}.txt`, ascii);
-            // writeFileSync(`./out${i}.png`, canvas.toBuffer());
+            const ascii = trimEnds(toAscii(grayScales, width));
 
             asciiFrames.push(ascii);
         });
@@ -126,12 +158,16 @@ export async function ascii(src: string | decodeGif.ResultType) {
         return ascii;
     }
 
-    function getDimensons(width: number, height: number) {
-        const MAXIMUM_WIDTH = 28;
-        const MAXIMUM_HEIGHT = 28;
+    function getDimensons(
+        width: number,
+        height: number,
+        MW?: number,
+        MH?: number
+    ) {
+        const MAXIMUM_WIDTH = MW || 25;
+        const MAXIMUM_HEIGHT = MH || 25;
 
         const fr = getFontRatio();
-        // const fr = 1;
         const frWidth = Math.floor(fr * width);
 
         if (height > MAXIMUM_HEIGHT) {

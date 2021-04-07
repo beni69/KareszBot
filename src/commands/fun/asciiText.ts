@@ -3,7 +3,7 @@ import { MessageEmbed } from "discord.js";
 import figlet from "figlet";
 
 export const command = new Command(
-    { names: ["ascii", "figlet"] },
+    { names: ["asciiText", "ascii", "figlet"] },
     ({ message, argv }) => {
         // help menu (sort of)
         if (argv.F || argv.fonts)
