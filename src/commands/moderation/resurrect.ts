@@ -1,6 +1,6 @@
 import { Command } from "@beni69/cmd";
 import { GuildMember } from "discord.js";
-import { guild as guildModel } from "../../Mongoose";
+import { getRoles } from "./moderation";
 
 export const command = new Command(
     { names: ["resurrect", "res"], react: "👌" },
@@ -26,15 +26,3 @@ export const command = new Command(
         console.log(roles.roles);
     }
 );
-
-export async function getRoles(member: GuildMember) {
-    const g = ((await guildModel.findById(
-        member.guild.id
-    )) as unknown) as guildModel;
-    if (!g.roles) return null;
-
-    const roles = g.roles.find(r => r.user == member.id);
-    if (!roles) return null;
-
-    return roles;
-}

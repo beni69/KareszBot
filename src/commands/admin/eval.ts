@@ -5,8 +5,9 @@ export const command = new Command(
     async ({ message, client, handler, args, argv, text, logger, prefix }) => {
         const cmd = argv._.join(" ");
 
-        const { saveRoles } = await import("../moderation/kill");
-        const { getRoles } = await import("../moderation/resurrect");
+        const { saveRoles, getRoles } = await import(
+            "../moderation/moderation"
+        );
 
         try {
             if (argv.r || argv.raw) await eval(cmd);
