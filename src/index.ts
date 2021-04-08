@@ -21,7 +21,7 @@ client.on("ready", () => {
             ["karesz", "789941051229077554"],
             ["bruh", "🗿"],
         ],
-        blacklist: ["780366371083124746", "785239652754915350"],
+        blacklist: ["780366371083124746"],
         helpCommand: { names: "help" },
         logging: {
             channel: "778203356765487134",

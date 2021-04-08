@@ -5,7 +5,7 @@ export async function getRoles(member: GuildMember) {
     const g = ((await guildModel.findById(
         member.guild.id
     )) as unknown) as guildModel;
-    if (!g.roles) return null;
+    if (!g?.roles) return null;
 
     const roles = g.roles.find(r => r.user == member.id);
     if (!roles) return null;
