@@ -1,4 +1,5 @@
 import { Command } from "@beni69/cmd";
+import { MessageEmbed } from "discord.js";
 import { Music, Song } from ".";
 
 // export const command = new Command({ names: "play" }, async ({ message }) => {
@@ -30,20 +31,47 @@ export const command = new Command(
             return false;
         }
 
+        const queue = Music.get(message.guild!);
+
         // support for escaping embeds
         if (text.startsWith("<") && text.endsWith(">"))
             text = text.substring(1, text.length - 1);
 
         const r = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/i;
 
-        if (!r.test(text)) {
-            message.channel.send("Not a valid youtube url.");
-            return false;
+        let song!: Song;
+        if (r.test(text)) {
+            //* url given
+
+            const songData = await Song.GetData(text);
+            if (!songData) {
+                message.channel.send("We couldn't find that video.");
+                return false;
+            }
+
+            song = new Song(text, message.member!, songData);
+        } else {
+            //* vid name given, have to search first
+
+            const res = await Song.Search(text, message.member);
+            if (!res) {
+                message.channel.send("We couldn't find that video.");
+                return false;
+            }
+            song = res;
         }
+        queue.Add(song);
 
-        const queue = Music.get(message.guild!);
+        message.channel.send(
+            new MessageEmbed()
+                .setTitle(song.metadata.title)
+                .setURL(song.url)
+                .setDescription(`By: ${song.metadata.author}`)
+                .setImage(song.metadata.thumbnail)
+                .setColor("BLURPLE")
+                .setTimestamp()
+        );
 
-        queue.Add(new Song(text, message.member!));
         if (!queue.isPlaying || argv.f || argv.force)
             queue.Play(message.member?.voice.channel!);
     }

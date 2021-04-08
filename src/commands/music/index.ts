@@ -6,6 +6,7 @@ import {
     VoiceConnection,
 } from "discord.js";
 import ytdl from "ytdl-core-discord";
+import youtube from "scrape-youtube";
 
 export class MusicManager {
     public queue: Collection<string, Queue>;
@@ -121,24 +122,49 @@ export class Queue {
      * Destroys the queue
      */
     public Destroy() {
+        this.Leave();
         this.manager.queue.delete(this.guild.id);
     }
 }
 
 export class Song {
-    private url: string;
-    private member: GuildMember;
+    public static async GetData(url: string) {
+        if (!ytdl.validateURL(url)) return null;
 
-    constructor(url: string, member: GuildMember) {
+        const res = await ytdl.getBasicInfo(url);
+
+        return {
+            title: res.videoDetails.title,
+            author: res.videoDetails.author.name,
+            thumbnail: res.thumbnail_url,
+        } as SongData;
+    }
+
+    /**
+     * Searches youtube for the specified string, and returns the first result.
+     * @returns Song
+     */
+    public static async Search(str: string, member: GuildMember) {
+        const res = (await youtube.search(str, { type: "video" })).videos[0];
+
+        if (!res) return null;
+
+        return new Song(res.link, member, {
+            title: res.title,
+            author: res.channel.name,
+            thumbnail: res.thumbnail,
+        });
+    }
+
+    public readonly url: string;
+    public readonly member: GuildMember;
+    public readonly metadata: SongData;
+
+    constructor(url: string, member: GuildMember, metadata: SongData) {
         this.url = url;
         this.member = member;
-    }
 
-    public get getURL(): string {
-        return this.url;
-    }
-    public get getMember(): GuildMember {
-        return this.member;
+        this.metadata = metadata;
     }
 
     /**
@@ -148,3 +174,9 @@ export class Song {
         return ytdl(this.url);
     }
 }
+
+type SongData = {
+    title: string;
+    author: string;
+    thumbnail: string;
+};
