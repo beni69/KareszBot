@@ -22,7 +22,8 @@
         "url": "https://github.com/Karesz-Foundation/KareszBot/issues"
     },
     "dependencies": {
-        "@beni69/cmd": "1.3.3",
+        "@beni69/cmd": "1.3.4",
+        "@discordjs/opus": "^0.5.0",
         "canvas": "^2.7.0",
         "config": "^3.3.6",
         "decode-gif": "^1.0.1",
@@ -32,7 +33,8 @@
         "gifencoder": "^2.0.1",
         "mongoose": "^5.12.0",
         "node-fetch": "^2.6.1",
-        "yargs": "^16.2.0"
+        "yargs": "^16.2.0",
+        "ytdl-core-discord": "^1.3.0"
     },
     "devDependencies": {
         "@types/config": "^0.0.38",
