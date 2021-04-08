@@ -34,7 +34,7 @@ export const command = new Command(
         if (text.startsWith("<") && text.endsWith(">"))
             text = text.substring(1, text.length - 1);
 
-        const r = /^https?\:\/\/(www\.)?(youtu\.be\/)|(youtube\.com\/watch\?).$/i;
+        const r = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/i;
 
         if (!r.test(text)) {
             message.channel.send("Not a valid youtube url.");
