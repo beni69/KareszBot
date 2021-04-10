@@ -2,27 +2,6 @@ import { Command } from "@beni69/cmd";
 import { MessageEmbed } from "discord.js";
 import { Music, Song } from ".";
 
-// export const command = new Command({ names: "play" }, async ({ message }) => {
-//     if (!message.member?.voice.channelID) {
-//         message.channel.send("Join a channel, dumbass.");
-//         return false;
-//     }
-
-//     const connection = await message.member.voice.channel?.join();
-//     if (!connection) {
-//         message.channel.send(
-//             "An error occured while joining the voice channel."
-//         );
-//         return false;
-//     }
-
-//     connection
-//         .play(await ytdl("https://youtu.be/SBUu1kBcksQ"), {
-//             type: "opus",
-//         })
-//         .on("finish", () => {});
-// });
-
 export const command = new Command(
     { names: ["play", "add"], noDM: true, react: "👌" },
     async ({ message, text, argv }) => {
@@ -66,8 +45,8 @@ export const command = new Command(
             new MessageEmbed()
                 .setTitle(song.metadata.title)
                 .setURL(song.url)
-                .setDescription(`By: ${song.metadata.author}`)
-                .setImage(song.metadata.thumbnail)
+                .setDescription(`Requested by ${song.member.user.username}`)
+                .setThumbnail(song.metadata.thumbnail)
                 .setColor("BLURPLE")
                 .setTimestamp()
         );
