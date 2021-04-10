@@ -1,6 +1,6 @@
 import { Command } from "@beni69/cmd";
 import { GuildMember } from "discord.js";
-import { getRoles } from "./moderation";
+import { getRoles } from ".";
 
 export const command = new Command(
     { names: ["resurrect", "res"], react: "👌" },

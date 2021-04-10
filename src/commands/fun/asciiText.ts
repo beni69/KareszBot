@@ -6,11 +6,12 @@ export const command = new Command(
     { names: ["asciiText", "ascii", "figlet"] },
     ({ message, argv }) => {
         // help menu (sort of)
-        if (argv.F || argv.fonts)
-            return message.channel.send(
+        if (argv.F || argv.fonts) {
+            message.channel.send(
                 "Find the list of all available fonts here: <https://krsz.me/fonts>"
             );
-
+            return false;
+        }
         const input = argv._.join(" ").replace(/`|\*/gi, "");
 
         const font: any = argv.f || argv.font || "Standard";

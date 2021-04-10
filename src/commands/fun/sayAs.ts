@@ -4,11 +4,16 @@ import { TextChannel, WebhookClient } from "discord.js";
 export const command = new Command(
     { names: ["sayas"] },
     async ({ message, args }) => {
-        if (message.channel.type === "dm")
-            return message.channel.send("can't do this in the dms");
+        if (message.channel.type === "dm") {
+            message.channel.send("can't do this in the dms");
+            return false;
+        }
 
         const target = message.mentions.users.first();
-        if (!target) return message.channel.send("as who?");
+        if (!target) {
+            message.channel.send("as who?");
+            return false;
+        }
 
         const wh = await (message.channel as TextChannel).createWebhook(
             target.username,

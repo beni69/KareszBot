@@ -1,6 +1,6 @@
 import { Command } from "@beni69/cmd";
 import { MessageEmbed } from "discord.js";
-import { Music } from ".";
+import Music from ".";
 
 export const command = new Command(
     { names: ["queue", "q"], noDM: true },

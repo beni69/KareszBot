@@ -10,10 +10,12 @@ export const command = new Command(
         names: ["amogus", "amongus", "sus", "ඞ"],
     },
     async ({ message }) => {
-        if (running)
-            return message.channel.send(
+        if (running) {
+            message.channel.send(
                 "Already running. Wait a couple of seconds and try again."
             );
+            return false;
+        }
         running = true;
         const gif = decodeGif(readFileSync("img/sus.gif"));
         const asciiFrames = await ascii(gif);

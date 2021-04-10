@@ -8,7 +8,10 @@ export const command = new Command(
         const e = new Economy(client, message.guild as Guild);
         const f = await e.getBalance(message.author.id);
 
-        if (!f) return message.channel.send("Your wallet is empty. 😫");
+        if (!f) {
+            message.channel.send("Your wallet is empty. 😫");
+            return false;
+        }
 
         message.channel.send("Your balance: " + f?.balance + f?.currency);
     }

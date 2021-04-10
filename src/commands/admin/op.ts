@@ -10,7 +10,10 @@ export const command = new Command(
                     r.name.toLowerCase() ===
                     ((argv.r || argv.role || "admin") as string)
             );
-        if (!adminRole) return message.channel.send("No role found.");
+        if (!adminRole) {
+            message.channel.send("No role found.");
+            return false;
+        }
 
         if (message.mentions.users.size) {
             const user = await message.guild?.members.fetch(

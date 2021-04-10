@@ -1,6 +1,6 @@
 import { Command } from "@beni69/cmd";
 import { GuildMember } from "discord.js";
-import { saveRoles } from "./moderation";
+import { saveRoles } from ".";
 
 export const command = new Command(
     {
@@ -18,10 +18,12 @@ export const command = new Command(
             if (
                 handler.getOpts.admins.has(message.author.id) ||
                 message.author.id == message.guild?.ownerID
-            )
-                return message.channel.send(
+            ) {
+                message.channel.send(
                     "You would have been killed, if you weren't the server owner. However, the cooldown still applies."
                 );
+                return false;
+            }
 
             await saveRoles(message.member as GuildMember);
 

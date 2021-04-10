@@ -13,7 +13,10 @@ import {
 export const command = new Command(
     { names: ["karesz", "kareszgame", "game"] },
     async ({ message, prefix, argv }) => {
-        if (argv.h || argv.help) return message.channel.send(help(prefix));
+        if (argv.h || argv.help) {
+            message.channel.send(help(prefix));
+            return false;
+        }
 
         let gameOpts: gameOptions = {
             width: (argv.W || argv.width || 15) as number,

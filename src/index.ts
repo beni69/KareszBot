@@ -1,7 +1,7 @@
 import { Handler } from "@beni69/cmd";
 import { Client } from "discord.js";
 import dotenv from "dotenv";
-import { getRoles } from "./commands/moderation/moderation";
+import { getRoles } from "./commands/moderation";
 import { connectDB } from "./Mongoose";
 
 dotenv.config();
