@@ -38,6 +38,7 @@ export class Queue {
     private connection?: VoiceConnection;
     private channel?: VoiceChannel;
     private dispatcher?: StreamDispatcher;
+    public loopLvl: number;
 
     /**
      * Queue
@@ -49,6 +50,7 @@ export class Queue {
         this.guild = guild;
         this.queue = [];
         this.playing = false;
+        this.loopLvl = 0;
     }
 
     public get getSongs() {
@@ -126,6 +128,11 @@ export class Queue {
      * @returns null, when there are no songs left, otherwise it returns the new song
      */
     public Next() {
+        if (this.loopLvl === 2) {
+            this.Play();
+            return this.queue[0];
+        }
+
         if (!this.queue.shift() || !this.queue.length) {
             this.Leave();
             return null;

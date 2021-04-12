@@ -7,6 +7,7 @@ export const command = new Command(
     ({ message, args }) => {
         const queue = Music.get(message.guild!);
         const dp = queue.getDispatcher;
+        // let loopLvl = 0;
 
         switch (args[0]) {
             case "clear":
@@ -24,7 +25,7 @@ export const command = new Command(
             case "volume":
                 if (!args[1]) {
                     message.channel.send(
-                        makeEmbed("", `The volume is at ${dp?.volume! * 100}%`)
+                        makeEmb("", `The volume is at ${dp?.volume! * 100}%`)
                     );
                     return false;
                 } else {
@@ -33,7 +34,7 @@ export const command = new Command(
                     v = parseFloat(args[1]) / 100;
                     if (isNaN(v)) {
                         message.channel.send(
-                            makeEmbed("", "Give me a number, dummy!")
+                            makeEmb("", "Give me a number, dummy!")
                         );
                         return false;
                     }
@@ -45,11 +46,45 @@ export const command = new Command(
                 if (dp?.volume != 8) dp?.setVolume(8);
                 else dp.setVolume(1);
                 break;
+
+            case "loop":
+                switch (queue.loopLvl) {
+                    // no loop -> queue
+                    case 0:
+                        queue.loopLvl = 1;
+                        message.channel.send(
+                            makeEmb(
+                                "",
+                                "Loop mode: **queue**\n*WIP: currently does nothing.*"
+                            )
+                        );
+                        break;
+
+                    // queue -> song
+                    case 1:
+                        queue.loopLvl = 2;
+                        message.channel.send(
+                            makeEmb("", "Loop mode: **song**")
+                        );
+                        break;
+
+                    // song -> no loop
+                    case 2:
+                        queue.loopLvl = 0;
+                        message.channel.send(
+                            makeEmb("", "Loop mode: **none**")
+                        );
+                        break;
+                }
+                break;
+
+            default:
+                break;
         }
     }
 );
 
-function makeEmbed(title: string, desc: string, color?: string) {
+function makeEmb(title: string, desc: string, color?: string) {
     return new MessageEmbed()
         .setTitle(title)
         .setDescription(desc)
