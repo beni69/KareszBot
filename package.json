@@ -24,18 +24,23 @@
     "dependencies": {
         "@beni69/cmd": "^1.3.5",
         "@discordjs/opus": "^0.5.0",
+        "bufferutil": "^4.0.3",
         "canvas": "^2.7.0",
         "config": "^3.3.6",
         "decode-gif": "^1.0.1",
         "discord.js": "^12.5.1",
         "dotenv": "^8.2.0",
+        "erlpack": "^0.1.3",
         "figlet": "^1.5.0",
         "gifencoder": "^2.0.1",
+        "libsodium-wrappers": "^0.7.9",
         "mongoose": "^5.12.0",
         "node-fetch": "^2.6.1",
         "scrape-youtube": "^2.1.3",
+        "utf-8-validate": "^5.0.4",
         "yargs": "^16.2.0",
-        "ytdl-core-discord": "^1.3.0"
+        "ytdl-core-discord": "^1.3.0",
+        "zlib-sync": "^0.1.7"
     },
     "devDependencies": {
         "@types/config": "^0.0.38",
