@@ -15,10 +15,32 @@ export const command = new Command({ names: "format" }, async ({ message }) => {
         return false;
     }
 
-    const res = format(data.code, {
-        ...styleOptions,
-        filepath: `karesz.${data.lang}`,
-    });
+    let res;
+    try {
+        res = format(data.code, {
+            ...styleOptions,
+            filepath: `karesz.${data.lang}`,
+        });
+    } catch (err) {
+        console.error({ name: err.name, message: err.message });
+        // console.error(err);
+
+        let msg = "";
+        switch (err.name) {
+            case "SyntaxError":
+                msg =
+                    "The code contains a syntex error and could not be formatted.";
+                break;
+
+            default:
+                msg = "An unknown error occured.";
+                break;
+        }
+
+        message.reply(msg);
+
+        return false;
+    }
 
     isAttachment
         ? message.channel.send({
@@ -46,6 +68,9 @@ const fromMessage = (
     if (!code || !lang) {
         message.channel.send("Please provide a codeblock with a language.");
         return;
+    } else if (!isExtSupported("." + lang)) {
+        message.channel.send("File type or language isn't supported.");
+        return;
     }
 
     return { code, lang };
@@ -60,7 +85,7 @@ const fromAttachment = async (
 
     console.log({ lang: ext });
 
-    if (!isLangSupported(ext)) {
+    if (!isExtSupported(ext)) {
         message.channel.send("File type or language isn't supported.");
         return;
     }
@@ -74,7 +99,7 @@ const fromAttachment = async (
 const codeBlock = (str: string, lang = "") =>
     "```" + lang + "\n" + str + "\n```";
 
-const isLangSupported = (lang: string) =>
+const isExtSupported = (lang: string) =>
     getSupportInfo()
         .languages.map(l => l.extensions?.includes(lang))
         .includes(true);
