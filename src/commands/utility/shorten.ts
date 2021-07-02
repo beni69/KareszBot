@@ -5,16 +5,27 @@ import fetch from "node-fetch";
 const URL = "https://krsz.me/api/url/create";
 
 export const command = new Command(
-    { names: ["shorten", "shortener", "krszme"] },
-    async ({ message, argv }) => {
+    {
+        names: ["shorten", "shortener", "krszme"],
+        description: "shorten a link",
+        options: [
+            {
+                name: "url",
+                description: "the long link",
+                type: "STRING",
+                required: true,
+            },
+        ],
+    },
+    async ({ trigger, argv, text }) => {
         const emb = new MessageEmbed()
             .setTimestamp()
             .setTitle("krsz.me")
             .setURL("https://krsz.me");
 
-        const text = argv._.join(" ");
+        const dest = trigger.isClassic() ? text : argv.get("url");
 
-        const body = { dest: text };
+        const body = { dest };
 
         const res = await fetch(URL, {
             method: "POST",
@@ -34,11 +45,11 @@ export const command = new Command(
             }
 
             emb.setColor("RED").setDescription(error);
-            message.channel.send(emb);
+            trigger.reply({ embeds: [emb] });
             return false;
         }
 
         emb.setColor("GREEN").setDescription(data.url);
-        message.channel.send(emb);
+        trigger.reply({ embeds: [emb] });
     }
 );

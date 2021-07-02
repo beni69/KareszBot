@@ -1,5 +1,6 @@
+import { Snowflake } from "discord.js";
 import { connect, Document, model, Schema } from "mongoose";
-import { economyDB } from "./commands/economy/economy";
+import { economyDB } from "./commands/economy";
 
 export async function connectDB(uri: string) {
     try {
@@ -34,6 +35,6 @@ export type guild = Document & {
 
 export type savedRole = {
     user: string;
-    roles: string[];
+    roles: Snowflake[];
     timestamp: number;
 };

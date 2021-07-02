@@ -1,41 +1,64 @@
-import { Command } from "@beni69/cmd";
+import { Command, Trigger } from "@beni69/cmd";
 import config from "config";
 import {
     Client,
-    EmojiIdentifierResolvable,
+    EmojiResolvable,
+    GuildEmoji,
     GuildMember,
     Message,
     MessageEmbed,
     MessageReaction,
+    Snowflake,
     User,
 } from "discord.js";
 
 export const command = new Command(
-    { names: ["karesz", "kareszgame", "game"] },
-    async ({ message, prefix, argv }) => {
-        if (argv.h || argv.help) {
-            message.channel.send(help(prefix));
+    {
+        names: ["karesz", "kareszgame", "game"],
+        description: "play the famous karesz game right here in discord",
+        argvAliases: { width: ["W"], height: ["H"], coop: ["c"] },
+        options: [
+            {
+                name: "coop",
+                description:
+                    "allow anyone to control your karesz. NOTE: this is mutually exclusive with the player option",
+                type: "BOOLEAN",
+                required: false,
+            },
+            {
+                name: "player",
+                description: "define a second player you'd like to play with",
+                type: "USER",
+                required: false,
+            },
+        ],
+    },
+    async ({ trigger, prefix, argv }) => {
+        if (argv.get("help")) {
+            trigger.reply(help(prefix));
             return false;
         }
 
+        const _y = argv.get("_yargs");
+
         let gameOpts: gameOptions = {
-            width: (argv.W || argv.width || 15) as number,
-            height: (argv.H || argv.height || 10) as number,
-            karesz: (argv.karesz || config.get("emojis.karesz")) as string,
-            bg: (argv.bg || argv.background || "⬜") as string,
-            kavics: (argv.kavics || "⬛") as string,
-            coop: (argv.c || argv.coop || false) as boolean,
+            width: (argv.get("width") || 15) as number,
+            height: (argv.get("height") || 10) as number,
+            karesz: config.get("emojis.karesz") as Snowflake,
+            bg: "⬜",
+            kavics: "⬛",
+            coop: !!argv.get("coop") || false,
             players: [],
         };
 
-        let p = argv.p || argv.player;
+        let p = argv.get("player");
         if (p) {
-            p = await message.guild?.members.fetch(p as string);
+            p = await trigger.guild?.members.fetch(p as Snowflake);
             console.log({ p });
             gameOpts.players = [p as GuildMember];
         }
 
-        const game = new KareszGame(message, gameOpts);
+        const game = new KareszGame(trigger, gameOpts);
         game.newGame();
     }
 );
@@ -58,7 +81,7 @@ ${prefix}game *[options]*
 
 export class KareszGame {
     client: Client;
-    message: Message;
+    trigger: Trigger;
     gameEmbed: Message | null;
     opts: gameOptions;
     karesz: Array<karesz>;
@@ -66,15 +89,17 @@ export class KareszGame {
     players: Array<GuildMember>;
     inGame: boolean;
 
-    constructor(message: Message, opts: gameOptions) {
-        this.client = message.client;
-        this.message = message;
+    constructor(trigger: Trigger, opts: gameOptions) {
+        this.client = trigger.client;
+        this.trigger = trigger;
         this.gameEmbed = null;
         this.opts = opts;
-        this.opts.karesz = message.client.emojis.resolve(opts.karesz)!;
+        this.opts.karesz = trigger.client.emojis.resolve(
+            opts.karesz
+        ) as GuildEmoji;
         this.karesz = [{ x: null, y: null }];
         this.kavicsok = [];
-        this.players = [message.member as GuildMember, ...opts.players];
+        this.players = [trigger.member as GuildMember, ...opts.players];
         this.inGame = false;
     }
 
@@ -93,7 +118,7 @@ export class KareszGame {
         return str;
     }
 
-    newGame() {
+    async newGame() {
         this.inGame = true;
         this.karesz[0] = {
             x: Math.ceil(this.opts.width / 2),
@@ -103,25 +128,32 @@ export class KareszGame {
 
         const emb = this.render("new")!;
 
-        this.message.channel.send(emb).then(msg => {
-            msg.react("⬅️");
-            msg.react("⬆️");
-            msg.react("⬇️");
-            msg.react("➡️");
-            msg.react("🔳");
-            msg.react("🔲");
-            msg.react("🛑");
+        this.trigger.reply({ embeds: [emb] });
+        const msg = await this.trigger.fetchReply();
+        if (!msg) return;
+        msg.react("⬅️");
+        msg.react("⬆️");
+        msg.react("⬇️");
+        msg.react("➡️");
+        msg.react("🔳");
+        msg.react("🔲");
+        msg.react("🛑");
 
-            this.gameEmbed = msg;
-            this.waitForInput();
-        });
+        this.gameEmbed = msg;
+        this.waitForInput();
 
         return this;
     }
 
     private waitForInput() {
         this.gameEmbed
-            ?.awaitReactions((r, u) => this.filter(r, u), {
+            // .awaitReactions((r, u) => this.filter(r, u), {
+            //     max: 1,
+            //     time: 60000,
+            //     errors: ["time"],
+            // })
+            ?.awaitReactions({
+                filter: (r, u) => this.filter(r, u),
                 max: 1,
                 time: 60000,
                 errors: ["time"],
@@ -170,9 +202,9 @@ export class KareszGame {
     }
 
     // filter for the reaction collector
-    private filter(reaction: MessageReaction, user: GuildMember): boolean {
+    private filter(reaction: MessageReaction, user: User): boolean {
         const emojiRule = ["⬅️", "⬆️", "⬇️", "➡️", "🔳", "🔲", "🛑"].includes(
-            reaction.emoji.name
+            reaction.emoji.name as string
         );
         let userRule;
 
@@ -225,7 +257,7 @@ export class KareszGame {
 
         if (task === "new") return emb;
 
-        this.gameEmbed?.edit(emb);
+        this.gameEmbed?.edit({ embeds: [emb] });
 
         if (task !== "rip") this.waitForInput();
     }
@@ -247,7 +279,7 @@ export interface gameOptions {
     height: number;
     bg: string;
     kavics: string;
-    karesz: EmojiIdentifierResolvable;
+    karesz: EmojiResolvable;
     coop: boolean;
     players: Array<GuildMember>;
 }

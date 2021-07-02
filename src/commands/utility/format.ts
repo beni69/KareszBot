@@ -4,55 +4,60 @@ import fetch from "node-fetch";
 import { extname } from "path";
 import { format, getSupportInfo, Options } from "prettier";
 
-export const command = new Command({ names: "format" }, async ({ message }) => {
-    const isAttachment = !!message.attachments.size;
+export const command = new Command(
+    { names: "format", description: "format code", noSlash: true },
+    async ({ trigger }) => {
+        if (trigger.isSlash()) return;
+        const message = trigger.source;
+        const isAttachment = !!message.attachments.size;
 
-    const data = isAttachment
-        ? await fromAttachment(message)
-        : fromMessage(message);
+        const data = isAttachment
+            ? await fromAttachment(message)
+            : fromMessage(message);
 
-    if (!data?.lang) {
-        return false;
-    }
-
-    let res;
-    try {
-        res = format(data.code, {
-            ...styleOptions,
-            filepath: `karesz.${data.lang}`,
-        });
-    } catch (err) {
-        console.error({ name: err.name, message: err.message });
-        // console.error(err);
-
-        let msg = "";
-        switch (err.name) {
-            case "SyntaxError":
-                msg =
-                    "The code contains a syntex error and could not be formatted.";
-                break;
-
-            default:
-                msg = "An unknown error occured.";
-                break;
+        if (!data?.lang) {
+            return false;
         }
 
-        message.reply(msg);
+        let res;
+        try {
+            res = format(data.code, {
+                ...styleOptions,
+                filepath: `karesz.${data.lang}`,
+            });
+        } catch (err) {
+            console.error({ name: err.name, message: err.message });
+            // console.error(err);
 
-        return false;
+            let msg = "";
+            switch (err.name) {
+                case "SyntaxError":
+                    msg =
+                        "The code contains a syntex error and could not be formatted.";
+                    break;
+
+                default:
+                    msg = "An unknown error occured.";
+                    break;
+            }
+
+            message.reply(msg);
+
+            return false;
+        }
+
+        isAttachment
+            ? message.reply({
+                  files: [
+                      {
+                          attachment: Buffer.from(res),
+                          name: `formatted.${data.lang}`,
+                      },
+                  ],
+              })
+            : message.reply(codeBlock(res, data.lang));
     }
-
-    isAttachment
-        ? message.channel.send({
-              files: [
-                  {
-                      attachment: Buffer.from(res),
-                      name: `formatted.${data.lang}`,
-                  },
-              ],
-          })
-        : message.channel.send(codeBlock(res, data.lang));
-});
+);
 
 const fromMessage = (
     message: Message

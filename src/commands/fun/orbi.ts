@@ -1,8 +1,11 @@
 import { Command } from "@beni69/cmd";
 
 export const command = new Command(
-    { names: ["orbi", "vitya", "mester"] },
-    ({ message }) => {
+    {
+        names: ["orbi", "vitya", "mester"],
+        description: "mennyi ideje szuletett a mester?",
+    },
+    ({ trigger }) => {
         // 1963 may 31 09:51
 
         const dob = new Date(1963, 5, 31, 9, 51);
@@ -15,7 +18,7 @@ export const command = new Command(
         const ageMin = age_dt.getMinutes();
         const ageSec = age_dt.getSeconds();
 
-        message.channel.send(
+        trigger.reply(
             `Viktor ${ageY} év, ${ageM} hónap, ${ageD} nap, ${ageH} óra, ${ageMin} perc, ${ageSec} másodperce született.`
         );
     }

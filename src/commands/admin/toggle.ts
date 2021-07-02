@@ -1,18 +1,18 @@
 import { Command } from "@beni69/cmd";
 
 export const command = new Command(
-    { names: "toggle", react: "👌" },
-    ({ message, handler, logger }) => {
+    { names: "toggle", description: "pause the command handler", react: "👌" },
+    ({ trigger, handler, logger }) => {
         console.log(handler.isPaused);
 
         if (handler.isPaused) {
             handler.pause = false;
-            message.channel.send("Bot unpaused");
-            logger?.log(message, ["$authorTag$", " unpaused the bot."]);
+            trigger.reply("Bot unpaused");
+            logger?.log(trigger, ["$authorTag$", " unpaused the bot."]);
         } else {
             handler.pause = true;
-            message.channel.send("Bot paused");
-            logger?.log(message, ["$authorTag$", " paused the bot."]);
+            trigger.reply("Bot paused");
+            logger?.log(trigger, ["$authorTag$", " paused the bot."]);
         }
     }
 );

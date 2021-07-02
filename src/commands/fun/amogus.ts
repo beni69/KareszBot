@@ -1,29 +1,34 @@
 import { Command } from "@beni69/cmd";
 import decodeGif from "decode-gif";
 import { readFileSync } from "fs";
-import { ascii } from "./asciiImg";
+import { ascii, code } from ".";
 
 let running = false;
 
 export const command = new Command(
     {
         names: ["amogus", "amongus", "sus", "ඞ"],
+        description: "suspicious",
     },
-    async ({ message }) => {
+    async ({ trigger }) => {
         if (running) {
-            message.channel.send(
-                "Already running. Wait a couple of seconds and try again."
-            );
+            trigger.reply({
+                content:
+                    "Already running. Wait a couple of seconds and try again.",
+                ephemeral: true,
+            });
             return false;
         }
         running = true;
         const gif = decodeGif(readFileSync("img/sus.gif"));
         const asciiFrames = await ascii(gif);
 
-        const msg = await message.channel.send("get stick bugged lol");
+        await trigger.reply("get stick bugged lol");
+        const msg = await trigger.fetchReply();
+        if (!msg) return false;
         for (let i = 0; i < 5; i++) {
             for (const frame of asciiFrames) {
-                await msg.edit(frame, { code: true });
+                await msg.edit(code(frame));
                 await new Promise(r => setTimeout(r, 1000));
             }
         }

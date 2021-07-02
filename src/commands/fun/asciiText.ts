@@ -1,22 +1,46 @@
 import { Command } from "@beni69/cmd";
-import { MessageEmbed } from "discord.js";
 import figlet from "figlet";
+import { code } from ".";
+
+const fonts = figlet.fontsSync().map(f => {
+    return { name: f, value: f };
+});
 
 export const command = new Command(
-    { names: ["asciiText", "ascii", "figlet"] },
-    ({ message, argv }) => {
+    {
+        names: ["asciiText", "ascii", "figlet"],
+        description: "turn your text into ascii",
+        options: [
+            {
+                name: "text",
+                description: "the text to convert",
+                type: "STRING",
+                required: true,
+            },
+            {
+                name: "font",
+                description: "the font to use",
+                type: "STRING",
+                // choices: fonts,
+                required: false,
+            },
+        ],
+        argvAliases: { fonts: ["F"], font: ["f"] },
+    },
+    ({ trigger, argv }) => {
         // help menu (sort of)
-        if (argv.F || argv.fonts) {
-            message.channel.send(
-                "Find the list of all available fonts here: <https://krsz.me/fonts>"
+        if (argv.get("fonts")) {
+            trigger.reply(
+                "Find the list of all available fonts here: <https://krsz.me/asciifonts>"
             );
             return false;
         }
-        const input = argv._.join(" ").replace(/`|\*/gi, "");
+        const input = trigger.isClassic()
+            ? argv.get("_yargs")._.join(" ")
+            : argv.get("text");
 
-        const font: any = argv.f || argv.font || "Standard";
+        const font: any = argv.get("font") || "Standard";
 
-        // @ts-ignore
         figlet.text(
             input,
             {
@@ -27,31 +51,29 @@ export const command = new Command(
                 whitespaceBreak: true,
             },
             (err, res) => {
-                if (err) return message.reply("Error while creating ascii");
-                if (!res) return;
+                if (err || !res) {
+                    trigger.reply("Error while creating ascii");
+                    return false;
+                }
 
                 const fig = trimEnds(res);
 
                 if (fig.length > 2000)
-                    return message.reply(
+                    return trigger.reply(
                         "Sorry, that ascii would be over 2000 characters. (The message limit on discord)"
                     );
 
-                message.channel.send(fig, { code: true });
+                trigger.reply(code(fig));
             }
         );
-
-        function trimEnds(str: string) {
-            return str
-                .split(/\n/)
-                .map((line: string) => {
-                    return line.replace(/\s+$/, "");
-                })
-                .join("\n");
-        }
-
-        function toEmbed(desc: string, title: string) {
-            return new MessageEmbed().setColor("RANDOM").setTitle(title);
-        }
     }
 );
+
+function trimEnds(str: string) {
+    return str
+        .split(/\n/)
+        .map((line: string) => {
+            return line.replace(/\s+$/, "");
+        })
+        .join("\n");
+}
