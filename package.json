@@ -24,11 +24,12 @@
     "dependencies": {
         "@beni69/cmd": "^1.3.5",
         "@discordjs/opus": "^0.5.0",
+        "@discordjs/voice": "^0.5.1",
         "bufferutil": "^4.0.3",
         "canvas": "^2.7.0",
         "config": "^3.3.6",
         "decode-gif": "^1.0.1",
-        "discord.js": "^13.0.0-dev.fe6cc0c.1625184228",
+        "discord.js": "^13.0.0-dev.3a718d8.1625270632",
         "dotenv": "^8.2.0",
         "erlpack": "^0.1.3",
         "figlet": "^1.5.0",
@@ -40,7 +41,8 @@
         "scrape-youtube": "^2.1.3",
         "utf-8-validate": "^5.0.4",
         "yargs": "^16.2.0",
-        "ytdl-core-discord": "^1.3.0",
+        "youtube-dl-exec": "^1.2.4",
+        "ytdl-core": "^4.8.3",
         "zlib-sync": "^0.1.7"
     },
     "devDependencies": {
