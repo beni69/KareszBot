@@ -1,57 +1,104 @@
 import { Command } from "@beni69/cmd";
-import { MessageEmbed } from "discord.js";
-import { Music, Song } from ".";
+import {
+    DiscordGatewayAdapterCreator,
+    entersState,
+    joinVoiceChannel,
+    VoiceConnectionStatus,
+} from "@discordjs/voice/dist";
+import { GuildMember } from "discord.js";
+import { MusicManager, Queue, Track } from ".";
 
 export const command = new Command(
-    { names: ["play", "add"], noDM: true, react: "👌" },
-    async ({ message, text, argv }) => {
-        if (!message.member?.voice.channelID) {
-            message.channel.send("Join a channel, dumbass.");
+    {
+        names: "play",
+        description: "play a song",
+        options: [
+            {
+                name: "song",
+                description: "the youtube url or a search term",
+                type: "STRING",
+                required: true,
+            },
+        ],
+        deferred: true,
+        noDM: true,
+    },
+    async ({ trigger, text }) => {
+        const url = text;
+        let queue = MusicManager.get(trigger.guild!.id);
+
+        if (!queue) {
+            if (
+                trigger.member instanceof GuildMember &&
+                trigger.member.voice.channel
+            ) {
+                const { channel } = trigger.member.voice;
+                queue = new Queue(
+                    joinVoiceChannel({
+                        channelId: channel.id,
+                        guildId: channel.guild.id,
+                        adapterCreator: channel.guild
+                            .voiceAdapterCreator as DiscordGatewayAdapterCreator,
+                    }),
+                    channel.guild.id
+                );
+                queue.voiceConnection.on("error", console.warn);
+                MusicManager.set(trigger.guild!.id, queue);
+            }
+        }
+        // user not in a vc
+        if (!queue) {
+            await trigger.followUp({
+                content: "join a channel first",
+                ephemeral: true,
+            });
             return false;
         }
 
-        const queue = Music.get(message.guild!);
-
-        // support for escaping embeds
-        if (text.startsWith("<") && text.endsWith(">"))
-            text = text.substring(1, text.length - 1);
-
-        const r = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/i;
-
-        let song!: Song;
-        if (r.test(text)) {
-            //* url given
-
-            const songData = await Song.GetData(text);
-            if (!songData) {
-                message.channel.send("We couldn't find that video.");
-                return false;
-            }
-
-            song = new Song(text, message.member!, songData);
-        } else {
-            //* vid name given, have to search first
-
-            const res = await Song.Search(text, message.member);
-            if (!res) {
-                message.channel.send("We couldn't find that video.");
-                return false;
-            }
-            song = res;
+        // make sure the connection's ready
+        try {
+            await entersState(
+                queue.voiceConnection,
+                VoiceConnectionStatus.Ready,
+                20e3
+            );
+        } catch (err) {
+            console.warn(err);
+            await trigger.followUp({
+                content: "failed to join channel, try again later",
+                ephemeral: true,
+            });
+            return;
         }
-        queue.Add(song);
 
-        message.channel.send(
-            new MessageEmbed()
-                .setTitle(song.metadata.title)
-                .setURL(song.url)
-                .setDescription(`Requested by ${song.member.user.username}`)
-                .setThumbnail(song.metadata.thumbnail)
-                .setColor("BLURPLE")
-                .setTimestamp()
-        );
-
-        if (!queue.isPlaying || argv.f || argv.force)
-            queue.Play(message.member?.voice.channel!);
+        try {
+            // creating a track
+            const track = await Track.from(url, {
+                onStart() {
+                    trigger.followUp({
+                        content: "now playing!",
+                        ephemeral: true,
+                    });
+                },
+                onFinish() {
+                    trigger.followUp({
+                        content: "now finished",
+                        ephemeral: true,
+                    });
+                },
+                onError(err) {
+                    console.warn(err);
+                    trigger.followUp({
+                        content: `Error: ${err.message}`,
+                        ephemeral: true,
+                    });
+                },
+            });
+            queue.add(track);
+            await trigger.followUp(`Added **${track.title}** to the queue`);
+        } catch (err) {
+            console.warn(err);
+            await trigger.followUp("Failed to play track, try again later");
+        }
     }
 );

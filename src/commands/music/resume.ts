@@ -3,8 +3,8 @@ import { MusicManager } from ".";
 
 export const command = new Command(
     {
-        names: ["skip", "next"],
-        description: "play the next song in the queue",
+        names: "resume",
+        description: "resume music playback",
         noDM: true,
         ephemeral: true,
     },
@@ -16,8 +16,8 @@ export const command = new Command(
             return false;
         }
 
-        queue.audioPlayer.stop(); // stopping the song will trigger the next one
+        queue.audioPlayer.unpause();
 
-        await trigger.reply("skipped song!");
+        await trigger.reply("resumed!");
     }
 );

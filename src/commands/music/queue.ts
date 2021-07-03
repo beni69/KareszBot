@@ -1,26 +1,34 @@
 import { Command } from "@beni69/cmd";
-import { MessageEmbed } from "discord.js";
-import Music from ".";
+import { AudioPlayerStatus } from "@discordjs/voice/dist";
+import { MusicManager, TrackResource } from ".";
 
 export const command = new Command(
-    { names: ["queue", "q"], noDM: true },
-    ({ message }) => {
-        const queue = Music.get(message.guild!);
+    {
+        names: ["queue", "q"],
+        description: "show the music queue",
+        noDM: true,
+        ephemeral: true,
+    },
+    async ({ trigger }) => {
+        const queue = MusicManager.get(trigger.guild!.id);
 
-        const emb = new MessageEmbed()
-            .setTitle("Queue")
-            .setTimestamp()
-            .setColor("BLURPLE");
+        if (queue) {
+            const current =
+                queue.audioPlayer.state.status === AudioPlayerStatus.Idle
+                    ? "nothing's playing"
+                    : `Playing **${
+                          (queue.audioPlayer.state.resource as TrackResource)
+                              .metadata.title
+                      }**`;
 
-        queue.getSongs.forEach(song =>
-            emb.addField(
-                song.metadata.title,
-                `${song.url}\nRequested by: ${song.member.user.username}`
-            )
-        );
+            const q = queue.queue
+                .slice(0, 5)
+                .map((track, i) => `${++i} ${track.title}`)
+                .join("\n");
 
-        if (!emb.fields.length) emb.setDescription("The queue is empty.");
-
-        message.channel.send(emb);
+            await trigger.reply(`${current}\n\n${q}`);
+        } else {
+            await trigger.reply("nothing's playing right now");
+        }
     }
 );
