@@ -3,8 +3,15 @@ import { GuildMember } from "discord.js";
 import { getRoles } from ".";
 
 export const command = new Command(
-    { names: ["resurrect", "res"], react: "👌" },
-    async ({ message }) => {
+    {
+        names: ["resurrect", "res"],
+        description: "get your roles back after getting killed",
+        react: "👌",
+        noSlash: true,
+    },
+    async ({ trigger }) => {
+        if (trigger.isSlash()) return;
+        const message = trigger.source;
         let target: GuildMember;
         if (message.mentions.users.size)
             target = (await message.guild?.members.fetch(
@@ -22,7 +29,6 @@ export const command = new Command(
             message.reply("Roles not found. 💀");
             return false;
         }
-        target.roles.add(roles.roles);
-        console.log(roles.roles);
+        roles.roles.forEach(r => target.roles.add(r));
     }
 );

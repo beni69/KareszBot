@@ -1,5 +1,5 @@
 import { Command } from "@beni69/cmd";
-import { GuildMember } from "discord.js";
+import { GuildChannel, GuildMember } from "discord.js";
 import { saveRoles } from ".";
 
 const KILLCHANCE = 6.9;
@@ -7,44 +7,60 @@ const KILLCHANCE = 6.9;
 export const command = new Command(
     {
         names: ["kill", "kick"],
+        description: "haha funi",
         cooldown: "24h",
         minArgs: 1,
         maxArgs: 1,
         noDM: true,
+        noSlash: true,
         react: "⚰",
         blacklist: ["824954982989299722"],
     },
-    async ({ message, client, handler, logger }) => {
+    async ({ trigger, client, handler, logger }) => {
+        if (trigger.isSlash()) return;
+        const message = trigger.source;
         if (!message.mentions.users.size) {
-            message.channel.send("Next time mention someone you dumbass");
+            await trigger.reply("Next time mention someone you dumbass");
             return false;
         }
 
         const sk = selfKill();
 
-        const target = (sk
-            ? message.member
-            : message.mentions.members?.first()) as GuildMember;
+        const target = (
+            sk ? message.member : message.mentions.members?.first()
+        ) as GuildMember;
         const mention = message.mentions.members?.first() as GuildMember;
 
-        // unkillable
+        //* unkillable
+        // server owner
         if (
             handler.getOpts.admins.has(target.id) ||
             target.id == message.guild?.ownerID
         ) {
-            message.channel.send(
+            await trigger.reply(
                 sk
                     ? "You would have been killed, if you weren't the server owner. However, the cooldown still applies."
                     : "It's impossible to kill the server owner. However, the cooldown still applies."
             );
             return;
         }
-
-        if (target.id === client.user?.id) {
-            message.channel.send("I wont kill myself");
+        // server booster
+        if (target.premiumSinceTimestamp) {
+            await trigger.reply(
+                sk
+                    ? "You would have been killed, if you weren't boosting the server. However, the cooldown still applies."
+                    : "That person is boosting the server, and I won't kill them. However, the cooldown still applies."
+            );
             return false;
-        } else if (!target.manageable) {
-            message.channel.send(
+        }
+        // self (bot)
+        if (target.id === client.user?.id) {
+            await trigger.reply("I wont kill myself");
+            return false;
+        }
+        // higher roles than bot
+        if (!target.manageable) {
+            await trigger.reply(
                 "I don't have the permissions to kill that user."
             );
             return false;
@@ -60,7 +76,7 @@ export const command = new Command(
             )
             .catch(err =>
                 logger
-                    ? logger.log(message, [
+                    ? logger.log(trigger, [
                           "$authorTag$",
                           " in ",
                           "$channelTag$",
@@ -76,7 +92,7 @@ export const command = new Command(
                     `So unlucky! You shot yourself and have been kicked from **${message.guild?.name}**.\nThere was a 1 in ${KILLCHANCE} chance of that happening. Better luck next time! 🤷‍♂️`
                 )
                 .catch(err => {});
-            message.channel.send(
+            await trigger.reply(
                 `${message.author.tag} looked inside the barrel of their own gun to see if it works. They *(obviously)* died. Such a dumbass.`
             );
         } else {
@@ -87,13 +103,13 @@ export const command = new Command(
                 .catch(err => {});
         }
 
-        const invite = await message.guild?.channels.cache
-            .first()
-            ?.createInvite({
-                maxUses: 1,
-                unique: false,
-                reason: `Invite for ${target.user.tag} after they were killed by ${message.author.tag}`,
-            });
+        const invite = await (
+            message.guild?.channels.cache.first() as GuildChannel
+        )?.createInvite({
+            maxUses: 1,
+            unique: false,
+            reason: `Invite for ${target.user.tag} after they were killed by ${message.author.tag}`,
+        });
 
         target.user
             .send(`Dont worry tho, you can come back.\n${invite}`)
