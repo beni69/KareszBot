@@ -1,5 +1,3 @@
-// TODO: looping
-
 import {
     AudioPlayer,
     AudioPlayerStatus,
@@ -13,6 +11,7 @@ import {
     VoiceConnectionStatus,
 } from "@discordjs/voice/dist";
 import { Snowflake } from "discord.js";
+import yt from "scrape-youtube";
 import { raw as ytdl } from "youtube-dl-exec";
 import { getInfo } from "ytdl-core";
 
@@ -31,6 +30,8 @@ export class Queue {
     public queueLock = false;
     public readyLock = false;
     public guildID: Snowflake;
+    public loop = false;
+    public nowPlaying?: Track;
 
     public constructor(voiceConnection: VoiceConnection, guildID: Snowflake) {
         this.voiceConnection = voiceConnection;
@@ -171,7 +172,7 @@ export class Queue {
         if (
             this.queueLock ||
             this.audioPlayer.state.status !== AudioPlayerStatus.Idle ||
-            this.queue.length === 0
+            (!this.loop && this.queue.length === 0)
         )
             return;
 
@@ -179,12 +180,16 @@ export class Queue {
         this.queueLock = true;
 
         // get the next track to play and remove it from the queue
-        const nextTrack = this.queue.shift()!;
+        const nextTrack =
+            this.loop && this.nowPlaying
+                ? this.nowPlaying
+                : this.queue.shift()!;
 
         try {
             const resource = await nextTrack.createAudioResource();
             this.audioPlayer.play(resource);
             this.queueLock = false;
+            this.nowPlaying = nextTrack;
         } catch (err) {
             nextTrack.onError(err);
             this.queueLock = false;
@@ -259,6 +264,7 @@ export class Track implements TrackData {
                             createAudioResource(probe.stream, {
                                 metadata: this,
                                 inputType: probe.type,
+                                inlineVolume: true,
                             })
                         )
                     )
@@ -306,3 +312,11 @@ export class Track implements TrackData {
 export type TrackResource = AudioResource<Track>;
 
 export const MusicManager = new Map<Snowflake, Queue>();
+
+export const YTSearch = async (q: string) => {
+    const res = await yt.search(q, { type: "video" });
+
+    const vid = res.videos[0];
+
+    return vid.link;
+};

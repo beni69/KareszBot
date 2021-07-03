@@ -21,6 +21,7 @@ export const command = new Command(
             },
         ],
         deferred: true,
+        ephemeral: true,
         noDM: true,
     },
     async ({ trigger, text }) => {
