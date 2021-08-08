@@ -1,13 +1,17 @@
 // @ts-nocheck
+//! PROBABLY BROKEN
 
 const Discord = require("discord.js");
-import { Command } from "@beni69/cmd";
+import { Command, Trigger } from "@beni69/cmd";
 
 export const command = new Command(
-    { names: ["snake", "snakeGame"] },
-    ({ message }) => {
+    {
+        names: ["snake", "snakeGame"],
+        description: "play the snake game in discord",
+    },
+    ({ trigger }) => {
         const game = new SnakeGame();
-        game.newGame(message);
+        game.newGame(trigger);
     }
 );
 
@@ -71,7 +75,7 @@ class SnakeGame {
         apple.y = newApplePos.y;
     }
 
-    newGame(msg) {
+    async newGame(msg: Trigger) {
         if (this.inGame) return;
 
         this.inGame = true;
@@ -85,15 +89,15 @@ class SnakeGame {
             .setDescription(this.gameBoardToString())
             .setTimestamp();
 
-        msg.channel.send(embed).then(emsg => {
-            this.gameEmbed = emsg;
-            this.gameEmbed.react("⬅️");
-            this.gameEmbed.react("⬆️");
-            this.gameEmbed.react("⬇️");
-            this.gameEmbed.react("➡️");
+        msg.reply(embed);
 
-            this.waitForReaction();
-        });
+        this.gameEmbed = await msg.fetchReply();
+        this.gameEmbed.react("⬅️");
+        this.gameEmbed.react("⬆️");
+        this.gameEmbed.react("⬇️");
+        this.gameEmbed.react("➡️");
+
+        this.waitForReaction();
     }
 
     step() {

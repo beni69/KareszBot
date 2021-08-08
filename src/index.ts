@@ -1,5 +1,5 @@
 import { Handler } from "@beni69/cmd";
-import { Client, Intents } from "discord.js";
+import { Client } from "discord.js";
 import dotenv from "dotenv";
 import { getRoles } from "./commands/moderation";
 import { connectDB } from "./Mongoose";
@@ -9,7 +9,14 @@ console.clear();
 
 const PROD = process.env.NODE_ENV === "production";
 
-const client = new Client({ intents: Intents.ALL });
+const client = new Client({
+    intents: [
+        "GUILDS",
+        "GUILD_MESSAGES",
+        "DIRECT_MESSAGES",
+        "GUILD_INTEGRATIONS",
+    ],
+});
 let handler: Handler;
 
 connectDB(process.env.MONGODB as string);

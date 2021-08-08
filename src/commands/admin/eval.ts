@@ -8,22 +8,22 @@ export const command = new Command(
         description: "evaluate a string as javascript",
         adminOnly: true,
         noSlash: true,
-        argvAliases: { raw: ["r"] },
     },
     async ({ trigger, client, handler, args, argv, text, logger, prefix }) => {
         if (!trigger.isClassic()) return false;
 
-        // const cmd = argv._.join(" ");
-        const cmd = argv.get("_yargs")._.join(" ");
-
         const { log } = console;
+
+        const cmd =
+            text.startsWith("```") && text.endsWith("```")
+                ? text.slice(3, -3).trim()
+                : text;
 
         // let queue: Queue | undefined = undefined;
         // if (trigger.guild) queue = Music.get(trigger.guild);
 
         try {
-            if (argv.get("raw")) await eval(cmd);
-            else trigger.reply("```" + (await eval(cmd)) + "```");
+            trigger.reply("```" + (await eval(cmd)) + "```");
         } catch (err) {
             trigger.reply("There was an error\n```" + err + "```");
         }

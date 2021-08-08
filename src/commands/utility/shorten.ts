@@ -23,7 +23,7 @@ export const command = new Command(
             .setTitle("krsz.me")
             .setURL("https://krsz.me");
 
-        const dest = trigger.isClassic() ? text : argv.get("url");
+        const dest = trigger.isClassic() ? text : argv.getString("url", true);
 
         const body = { dest };
 

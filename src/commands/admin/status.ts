@@ -1,4 +1,5 @@
 import { Command } from "@beni69/cmd";
+import yargs from "yargs-parser";
 
 export const command = new Command(
     {
@@ -8,8 +9,9 @@ export const command = new Command(
         noSlash: true,
         argvAliases: { type: ["t"], url: ["u"] },
     },
-    ({ trigger, client, argv }) => {
-        if (trigger.isSlash()) return false;
+    ({ trigger, client, args }) => {
+        const argv = yargs(args);
+
         const name = argv.get("_yargs")._.join(" ");
         const type = argv.get("type");
         const url = argv.get("url");

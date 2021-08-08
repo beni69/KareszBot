@@ -1,5 +1,11 @@
 import { Command, Utils } from "@beni69/cmd";
-import { Channel, GuildMember, Snowflake, VoiceChannel } from "discord.js";
+import {
+    Channel,
+    GuildChannel,
+    GuildMember,
+    Snowflake,
+    VoiceChannel,
+} from "discord.js";
 
 export const command = new Command(
     {
@@ -34,8 +40,8 @@ export const command = new Command(
                     c => c.name === (text.replace(args[0], "").trim() as any)
                 ) || undefined;
         } else {
-            target = trigger.guild?.members.resolve(argv.get("user"));
-            ch = trigger.guild?.channels.resolve(argv.get("channel"));
+            target = argv.getMember("user") as GuildMember;
+            ch = argv.getChannel("channel") as GuildChannel;
         }
 
         if (!target) {

@@ -1,8 +1,6 @@
 import { Command } from "@beni69/cmd";
-import { GuildChannel, GuildMember } from "discord.js";
-import { saveRoles } from ".";
-
-const KILLCHANCE = 6.9;
+import { GuildMember, Snowflake, TextChannel } from "discord.js";
+import { ALLOWED_SERVERS, KILLCHANCE, saveRoles } from ".";
 
 export const command = new Command(
     {
@@ -14,10 +12,15 @@ export const command = new Command(
         noDM: true,
         noSlash: true,
         react: "⚰",
-        blacklist: ["824954982989299722"],
     },
     async ({ trigger, client, handler, logger }) => {
         if (trigger.isSlash()) return;
+
+        if (!ALLOWED_SERVERS.includes(trigger.guild?.id as Snowflake)) {
+            trigger.reply("this command is not available in this server");
+            return false;
+        }
+
         const message = trigger.source;
         if (!message.mentions.users.size) {
             await trigger.reply("Next time mention someone you dumbass");
@@ -35,7 +38,7 @@ export const command = new Command(
         // server owner
         if (
             handler.getOpts.admins.has(target.id) ||
-            target.id == message.guild?.ownerID
+            target.id == (await message.guild?.fetchOwner())?.id
         ) {
             await trigger.reply(
                 sk
@@ -51,7 +54,7 @@ export const command = new Command(
                     ? "You would have been killed, if you weren't boosting the server. However, the cooldown still applies."
                     : "That person is boosting the server, and I won't kill them. However, the cooldown still applies."
             );
-            return false;
+            return;
         }
         // self (bot)
         if (target.id === client.user?.id) {
@@ -104,8 +107,10 @@ export const command = new Command(
         }
 
         const invite = await (
-            message.guild?.channels.cache.first() as GuildChannel
-        )?.createInvite({
+            trigger.guild?.channels.cache
+                .filter(c => c.isText())
+                .first() as TextChannel
+        ).createInvite({
             maxUses: 1,
             unique: false,
             reason: `Invite for ${target.user.tag} after they were killed by ${message.author.tag}`,

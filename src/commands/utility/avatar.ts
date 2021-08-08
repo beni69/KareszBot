@@ -13,21 +13,9 @@ export const command = new Command(
             },
         ],
     },
-    ({ trigger, client, argv }) => {
-        const user = trigger.isClassic()
-            ? trigger.source.mentions.users.first()
-            : client.users.resolve(argv.get("user"));
-        if (user) {
-            trigger.reply(
-                user!.displayAvatarURL({ dynamic: true, format: "png" })
-            );
-        } else {
-            trigger.reply(
-                trigger.author.displayAvatarURL({
-                    dynamic: true,
-                    format: "png",
-                })
-            );
-        }
+    ({ trigger, argv }) => {
+        const user = argv.getUser("user") || trigger.author;
+
+        trigger.reply(user.displayAvatarURL({ dynamic: true, format: "png" }));
     }
 );

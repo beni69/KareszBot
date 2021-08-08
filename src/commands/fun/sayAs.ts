@@ -23,9 +23,7 @@ export const command = new Command(
         noDM: true,
     },
     async ({ trigger, client, args, argv, text }) => {
-        const target = trigger.isClassic()
-            ? trigger.source.mentions.users.first()
-            : client.users.resolve(argv.get("target"));
+        const target = argv.getUser("target");
 
         if (!target) {
             trigger.reply("as who?");
@@ -37,7 +35,9 @@ export const command = new Command(
             { avatar: target.displayAvatarURL({ dynamic: true }) }
         );
 
-        await wh.send(text.replace(args[0], ""));
+        const msg=trigger.isClassic()?text:argv.getString("message",true)
+
+        await wh.send(msg);
         await wh.delete();
 
         trigger.isSlash() && trigger.reply("✅");

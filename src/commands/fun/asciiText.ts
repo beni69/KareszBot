@@ -27,19 +27,17 @@ export const command = new Command(
         ],
         argvAliases: { fonts: ["F"], font: ["f"] },
     },
-    ({ trigger, argv }) => {
+    ({ trigger, argv, text }) => {
         // help menu (sort of)
-        if (argv.get("fonts")) {
+        if (argv.getBoolean("fonts")) {
             trigger.reply(
                 "Find the list of all available fonts here: <https://krsz.me/asciifonts>"
             );
             return false;
         }
-        const input = trigger.isClassic()
-            ? argv.get("_yargs")._.join(" ")
-            : argv.get("text");
+        const input = trigger.isClassic() ? text : argv.getString("text", true);
 
-        const font: any = argv.get("font") || "Standard";
+        const font: any = argv.getString("font") || "Standard";
 
         figlet.text(
             input,
@@ -52,6 +50,7 @@ export const command = new Command(
             },
             (err, res) => {
                 if (err || !res) {
+                    console.error(err);
                     trigger.reply("Error while creating ascii");
                     return false;
                 }

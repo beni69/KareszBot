@@ -12,7 +12,7 @@ export const command = new Command(
         description: "create a funny meme",
         noSlash: true,
     },
-    async ({ trigger, argv, text }) => {
+    async ({ trigger, text }) => {
         if (trigger.isSlash()) return false;
         const message = trigger.source;
 
