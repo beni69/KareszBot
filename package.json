@@ -4,7 +4,7 @@
     "description": "A fun discord bot made in typescript.",
     "main": "dist/index.js",
     "engines": {
-        "node": "14.x"
+        "node": ">14.0.0"
     },
     "scripts": {
         "start": "node dist/index.js",
@@ -22,7 +22,7 @@
         "url": "https://github.com/Karesz-Foundation/KareszBot/issues"
     },
     "dependencies": {
-        "@beni69/cmd": "^1.3.5",
+        "@beni69/cmd": "^1.3.6",
         "@discordjs/opus": "^0.5.0",
         "bufferutil": "^4.0.3",
         "canvas": "^2.7.0",
@@ -30,7 +30,6 @@
         "decode-gif": "^1.0.1",
         "discord.js": "^12.5.1",
         "dotenv": "^8.2.0",
-        "erlpack": "^0.1.3",
         "figlet": "^1.5.0",
         "gifencoder": "^2.0.1",
         "libsodium-wrappers": "^0.7.9",
