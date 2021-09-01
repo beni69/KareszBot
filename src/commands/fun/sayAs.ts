@@ -2,7 +2,7 @@ import { Command } from "@beni69/cmd";
 import { TextChannel, WebhookClient } from "discord.js";
 
 export const command = new Command(
-    { names: ["sayas"] },
+    { names: ["sayas"], cooldown: "10s" },
     async ({ message, args }) => {
         if (message.channel.type === "dm") {
             message.channel.send("can't do this in the dms");
