@@ -12,7 +12,7 @@ export async function connectDB(uri: string) {
         });
         console.log("Connected to DB");
     } catch (err) {
-        console.error("Failed to connect to MongoDB: ", err.message);
+        console.error("Failed to connect to MongoDB: ", (err as Error).message);
     }
 }
 

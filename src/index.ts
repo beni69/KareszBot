@@ -11,10 +11,13 @@ const PROD = process.env.NODE_ENV === "production";
 
 const client = new Client({
     intents: [
-        "GUILDS",
-        "GUILD_MESSAGES",
         "DIRECT_MESSAGES",
+        "GUILDS",
+        "GUILD_MEMBERS",
+        "GUILD_MESSAGES",
+        "GUILD_MESSAGE_REACTIONS",
         "GUILD_INTEGRATIONS",
+        "GUILD_VOICE_STATES",
     ],
 });
 let handler: Handler;

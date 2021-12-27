@@ -9,11 +9,14 @@ import {
     VoiceConnection,
     VoiceConnectionDisconnectReason,
     VoiceConnectionStatus,
-} from "@discordjs/voice/dist";
+} from "@discordjs/voice";
 import { Snowflake } from "discord.js";
-import yt from "scrape-youtube";
+import { search as ytsearch } from "scrape-youtube";
 import { raw as ytdl } from "youtube-dl-exec";
 import { getInfo } from "ytdl-core";
+
+export const YTVID_RE =
+    /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/i;
 
 const wait = (t: number) =>
     new Promise(resolve => setTimeout(resolve, t).unref());
@@ -191,7 +194,7 @@ export class Queue {
             this.queueLock = false;
             this.nowPlaying = nextTrack;
         } catch (err) {
-            nextTrack.onError(err);
+            nextTrack.onError(err as Error);
             this.queueLock = false;
             return this.processQueue();
         }
@@ -242,7 +245,7 @@ export class Track implements TrackData {
                     q: "",
                     f: "bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio",
                     r: "100K",
-                },
+                } as any,
                 { stdio: ["ignore", "pipe", "ignore"] }
             );
             if (!process.stdout) {
@@ -314,7 +317,7 @@ export type TrackResource = AudioResource<Track>;
 export const MusicManager = new Map<Snowflake, Queue>();
 
 export const YTSearch = async (q: string) => {
-    const res = await yt.search(q, { type: "video" });
+    const res = await ytsearch(q, { type: "video" });
 
     const vid = res.videos[0];
 

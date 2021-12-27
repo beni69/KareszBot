@@ -4,9 +4,9 @@ import {
     entersState,
     joinVoiceChannel,
     VoiceConnectionStatus,
-} from "@discordjs/voice/dist";
+} from "@discordjs/voice";
 import { GuildMember } from "discord.js";
-import { MusicManager, Queue, Track } from ".";
+import { MusicManager, Queue, Track, YTSearch, YTVID_RE } from ".";
 
 export const command = new Command(
     {
@@ -25,7 +25,7 @@ export const command = new Command(
         noDM: true,
     },
     async ({ trigger, text }) => {
-        const url = text;
+        let url = text;
         let queue = MusicManager.get(trigger.guild!.id);
 
         if (!queue) {
@@ -73,6 +73,9 @@ export const command = new Command(
         }
 
         try {
+            // if the url is a search term
+            if (!YTVID_RE.test(url)) url = await YTSearch(url);
+
             // creating a track
             const track = await Track.from(url, {
                 onStart() {

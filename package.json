@@ -4,7 +4,7 @@
     "description": "A fun discord bot made in typescript.",
     "main": "dist/index.js",
     "engines": {
-        "node": "16.x"
+        "node": ">=16"
     },
     "scripts": {
         "start": "node dist/index.js",
@@ -28,8 +28,9 @@
         "canvas": "^2.7.0",
         "config": "^3.3.6",
         "decode-gif": "^1.0.1",
-        "discord.js": "^13.0.1",
+        "discord.js": "^13.4.0",
         "dotenv": "^8.2.0",
+        "ffmpeg-static": "^4.4.0",
         "figlet": "^1.5.0",
         "gifencoder": "^2.0.1",
         "mongoose": "^5.12.0",
@@ -44,6 +45,7 @@
     },
     "devDependencies": {
         "@types/config": "^0.0.38",
+        "@types/ffmpeg-static": "^3.0.1",
         "@types/figlet": "^1.2.1",
         "@types/mongoose": "^5.10.3",
         "@types/ms": "^0.7.31",

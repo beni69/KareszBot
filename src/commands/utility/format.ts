@@ -12,8 +12,8 @@ export const command = new Command(
         const isAttachment = !!message.attachments.size;
 
         const data = isAttachment
-            ? await fromAttachment(message)
-            : fromMessage(message);
+            ? await fromAttachment(message as unknown as Message) // typescript is really dumb
+            : fromMessage(message as unknown as Message);
 
         if (!data?.lang) {
             return false;
@@ -25,9 +25,8 @@ export const command = new Command(
                 ...styleOptions,
                 filepath: `karesz.${data.lang}`,
             });
-        } catch (err) {
+        } catch (err: any) {
             console.error({ name: err.name, message: err.message });
-            // console.error(err);
 
             let msg = "";
             switch (err.name) {

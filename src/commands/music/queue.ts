@@ -1,5 +1,5 @@
 import { Command } from "@beni69/cmd";
-import { AudioPlayerStatus } from "@discordjs/voice/dist";
+import { AudioPlayerStatus } from "@discordjs/voice";
 import { MusicManager, TrackResource } from ".";
 
 export const command = new Command(
