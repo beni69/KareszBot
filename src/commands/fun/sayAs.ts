@@ -2,28 +2,48 @@ import { Command } from "@beni69/cmd";
 import { TextChannel, WebhookClient } from "discord.js";
 
 export const command = new Command(
-    { names: ["sayas"], cooldown: "10s" },
-    async ({ message, args }) => {
-        if (message.channel.type === "dm") {
-            message.channel.send("can't do this in the dms");
-            return false;
-        }
+    {
+        names: ["sayas"],
+        description: "disguise yourself as someone else",
+        options: [
+            {
+                name: "target",
+                description: "the user you want to impersonate",
+                type: "USER",
+                required: true,
+            },
+            {
+                name: "message",
+                description: "whatever you want to say",
+                type: "STRING",
+                required: true,
+            },
+        ],
+        ephemeral: true,
+        noDM: true,
+    },
+    async ({ trigger, argv, text }) => {
+        const target = argv.getUser("target");
 
-        const target = message.mentions.users.first();
         if (!target) {
-            message.channel.send("as who?");
+            trigger.reply("as who?");
             return false;
         }
 
-        const wh = await (message.channel as TextChannel).createWebhook(
+        const wh = await (trigger.channel as TextChannel).createWebhook(
             target.username,
             { avatar: target.displayAvatarURL({ dynamic: true }) }
         );
 
-        args.shift();
+        const msg = trigger.isClassic()
+            ? text
+            : argv.getString("message", true);
 
-        await wh.send(args.join(" "));
+        await wh.send(msg);
+        await wh.delete();
 
-        wh.delete();
+        trigger.isSlash() && trigger.reply("✅");
+
+        return true;
     }
 );

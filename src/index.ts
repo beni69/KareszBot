@@ -6,8 +6,22 @@ import { connectDB } from "./Mongoose";
 
 dotenv.config();
 console.clear();
-const client = new Client();
+
+const PROD = process.env.NODE_ENV === "production";
+
+const client = new Client({
+    intents: [
+        "DIRECT_MESSAGES",
+        "GUILDS",
+        "GUILD_MEMBERS",
+        "GUILD_MESSAGES",
+        "GUILD_MESSAGE_REACTIONS",
+        "GUILD_INTEGRATIONS",
+        "GUILD_VOICE_STATES",
+    ],
+});
 let handler: Handler;
+
 connectDB(process.env.MONGODB as string);
 
 client.on("ready", () => {
@@ -26,7 +40,7 @@ client.on("ready", () => {
         logging: {
             channel: "778203356765487134",
             format: [
-                "$authorTag$",
+                "$authorName$",
                 " in ",
                 "$channelTag$",
                 ":\t",
@@ -35,6 +49,7 @@ client.on("ready", () => {
         },
         mongodb: process.env.MONGODB as string,
         pauseCommand: "toggle",
+        testMode: !PROD,
         verbose: true,
     });
 

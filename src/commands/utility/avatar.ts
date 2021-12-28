@@ -1,20 +1,21 @@
 import { Command } from "@beni69/cmd";
 
 export const command = new Command(
-    { names: ["pfp", "profilepic", "avatar"] },
-    ({ message }) => {
-        if (message.mentions.users.size) {
-            const user = message.mentions.users.first();
-            message.channel.send(
-                user!.displayAvatarURL({ dynamic: true, format: "png" })
-            );
-        } else {
-            message.channel.send(
-                message.author.displayAvatarURL({
-                    dynamic: true,
-                    format: "png",
-                })
-            );
-        }
+    {
+        names: ["avatar", "pfp", "profilepic"],
+        description: "get someones profile pic",
+        options: [
+            {
+                name: "user",
+                description: "whos profile pic to get",
+                type: "USER",
+                required: false,
+            },
+        ],
+    },
+    ({ trigger, argv }) => {
+        const user = argv.getUser("user") || trigger.author;
+        trigger.reply(user.displayAvatarURL({ dynamic: true, format: "png" }));
+        return true;
     }
 );

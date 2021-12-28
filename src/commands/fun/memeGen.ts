@@ -4,11 +4,18 @@ import decodeGif from "decode-gif";
 import { MessageAttachment } from "discord.js";
 // @ts-ignore
 import Gifencoder from "gifencoder";
-import { download } from "./fun";
+import { download, captionImage } from ".";
 
 export const command = new Command(
-    { names: ["memegen", "meme"] },
-    async ({ message, argv, text }) => {
+    {
+        names: ["meme", "memegen"],
+        description: "create a funny meme",
+        noSlash: true,
+    },
+    async ({ trigger, text }) => {
+        if (trigger.isSlash()) return false;
+        const message = trigger.source;
+
         if (!message.attachments.size) {
             message.reply("No image atatchment detected");
             return false;
@@ -30,15 +37,17 @@ export const command = new Command(
 
             //* one-frame gif (image mode)
             if (gifData.frames.length == 1) {
-                const canvas = await captionImage(imgURL);
+                const canvas = await captionImage(imgURL, topText, bottomText);
                 if (!canvas) return;
 
-                message.channel.send(
-                    new MessageAttachment(
-                        canvas.toBuffer(),
-                        "karesz-memegen.png"
-                    )
-                );
+                message.channel.send({
+                    files: [
+                        new MessageAttachment(
+                            canvas.toBuffer(),
+                            "karesz-memegen.png"
+                        ),
+                    ],
+                });
                 return;
             }
 
@@ -60,7 +69,11 @@ export const command = new Command(
 
             let i = 0;
             for (const frame of gifData.frames) {
-                const canvas = await captionImage(frameToBuffer(frame));
+                const canvas = await captionImage(
+                    frameToBuffer(frame),
+                    topText,
+                    bottomText
+                );
                 if (!canvas) continue;
 
                 encoder.addFrame(canvas.getContext("2d"));
@@ -68,72 +81,23 @@ export const command = new Command(
             encoder.finish();
 
             const buffer = encoder.out.getData();
-            message.channel.send(
-                new MessageAttachment(buffer, "karesz-memegen.gif")
-            );
+            message.channel.send({
+                files: [new MessageAttachment(buffer, "karesz-memegen.gif")],
+            });
         } else {
             //* image mode
-            const canvas = await captionImage(imgURL);
+            const canvas = await captionImage(imgURL, topText, bottomText);
             if (!canvas) return;
 
-            message.channel.send(
-                new MessageAttachment(canvas.toBuffer(), "karesz-memegen.png")
-            );
-        }
-
-        async function captionImage(src: string | Buffer) {
-            const img = await loadImage(src).catch(e => {
-                console.error(e);
-                message.reply(`${e}`);
+            message.channel.send({
+                files: [
+                    new MessageAttachment(
+                        canvas.toBuffer(),
+                        "karesz-memegen.png"
+                    ),
+                ],
             });
-            if (!img) return false;
-
-            const canvas = createCanvas(img.width, img.height);
-            const ctx = canvas.getContext("2d");
-
-            //* processing image
-            ctx.drawImage(img, 0, 0);
-
-            const fontSize = p(img.height, 12);
-            ctx.font = `${fontSize}px Impact`;
-            ctx.fillStyle = "#ffffff";
-            ctx.textAlign = "center";
-            ctx.lineWidth = p(fontSize, 3.5);
-            ctx.shadowOffsetX = 3;
-            ctx.shadowOffsetY = 3;
-            ctx.shadowBlur = 4;
-            ctx.shadowColor = "rgba(0,0,0,1)";
-
-            ctx.fillText(
-                topText.toUpperCase(),
-                img.width / 2,
-                p(img.height, 15),
-                p(img.width, 80)
-            );
-            ctx.fillText(
-                bottomText.toUpperCase(),
-                img.width / 2,
-                img.height - p(img.height, 5),
-                p(img.width, 80)
-            );
-
-            ctx.shadowColor = "rgba(0,0,0,0)";
-            ctx.strokeText(
-                topText.toUpperCase(),
-                img.width / 2,
-                p(img.height, 15),
-                p(img.width, 80)
-            );
-            ctx.strokeText(
-                bottomText.toUpperCase(),
-                img.width / 2,
-                img.height - p(img.height, 5),
-                p(img.width, 80)
-            );
-
-            return canvas;
         }
+        return true;
     }
 );
-
-const p = (num: number, percent: number) => num * (percent / 100);

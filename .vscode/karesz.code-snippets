@@ -27,7 +27,7 @@
         "body": [
             "import { Command } from \"@beni69/cmd\";",
             "",
-            "export const command = new Command({names: $1},({$2})=>{$0})"
+            "export const command = new Command({names: $1, description: $2},({$3})=>{$0})"
         ]
     }
 }

@@ -1,5 +1,6 @@
+import { Snowflake } from "discord.js";
 import { connect, Document, model, Schema } from "mongoose";
-import { economyDB } from "./commands/economy/economy";
+import { economyDB } from "./commands/economy";
 
 export async function connectDB(uri: string) {
     try {
@@ -11,7 +12,7 @@ export async function connectDB(uri: string) {
         });
         console.log("Connected to DB");
     } catch (err) {
-        console.error("Failed to connect to MongoDB: ", err.message);
+        console.error("Failed to connect to MongoDB: ", (err as Error).message);
     }
 }
 
@@ -34,6 +35,6 @@ export type guild = Document & {
 
 export type savedRole = {
     user: string;
-    roles: string[];
+    roles: Snowflake[];
     timestamp: number;
 };

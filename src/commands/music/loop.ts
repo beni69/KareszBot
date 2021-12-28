@@ -3,8 +3,8 @@ import { MusicManager } from ".";
 
 export const command = new Command(
     {
-        names: ["leave", "stop", "stfu"],
-        description: "stop the music and leave the channel",
+        names: ["loop", "l"],
+        description: "keep playing the current song",
         noDM: true,
         ephemeral: true,
     },
@@ -16,8 +16,9 @@ export const command = new Command(
             return false;
         }
 
-        queue.destroy();
-        await trigger.reply("bye! 👋");
+        queue.loop = !queue.loop;
+
+        await trigger.reply(queue.loop ? "looping on" : "looping off");
         return true;
     }
 );

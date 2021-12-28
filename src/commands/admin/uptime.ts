@@ -1,9 +1,10 @@
 import { Command } from "@beni69/cmd";
-import { toTime } from "@beni69/cmd/dist/modules/Utils";
+import ms from "ms";
 
 export const command = new Command(
-    { names: "uptime" },
-    ({ message, client }) => {
-        message.channel.send(`${toTime(client.uptime!, true)}`);
+    { names: "uptime", description: "display the bot's uptime" },
+    ({ trigger, client }) => {
+        trigger.reply(`${ms(client.uptime!, { long: true })}`);
+        return true;
     }
 );

@@ -1,10 +1,17 @@
-import { GuildMember } from "discord.js";
+import { GuildMember, Snowflake } from "discord.js";
 import { guild as guildModel } from "../../Mongoose";
 
+export const ALLOWED_SERVERS: Snowflake[] = [
+    "718399828970700910",
+    "437232118771482645",
+];
+
+export const KILLCHANCE = 6.9;
+
 export async function getRoles(member: GuildMember) {
-    const g = ((await guildModel.findById(
+    const g = (await guildModel.findById(
         member.guild.id
-    )) as unknown) as guildModel;
+    )) as unknown as guildModel;
     if (!g?.roles) return null;
 
     const roles = g.roles.find(r => r.user == member.id);

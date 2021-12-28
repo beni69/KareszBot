@@ -1,18 +1,16 @@
 import { Command } from "@beni69/cmd";
 import { Guild } from "discord.js";
-import { Economy } from "./economy";
+import { Economy } from ".";
 
 export const command = new Command(
-    { names: ["balance", "bal"], noDM: true },
-    async ({ message, client }) => {
-        const e = new Economy(client, message.guild as Guild);
-        const f = await e.getBalance(message.author.id);
+    { names: ["balance", "bal"], description: "get your balance", noDM: true },
+    async ({ trigger, client }) => {
+        const e = new Economy(client, trigger.guild as Guild);
+        const f = await e.getBalance(trigger.author.id);
 
-        if (!f) {
-            message.channel.send("Your wallet is empty. 😫");
-            return false;
-        }
+        if (!f) trigger.reply("Your wallet is empty. 😫");
+        else trigger.reply("Your balance: " + f?.balance + f?.currency);
 
-        message.channel.send("Your balance: " + f?.balance + f?.currency);
+        return true;
     }
 );
