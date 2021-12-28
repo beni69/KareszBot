@@ -8,4 +8,6 @@ RUN npm i
 
 COPY . /code
 
-CMD [ "node", "." ]
+RUN npm run build
+
+CMD [ "node", "dist/index.js" ]
