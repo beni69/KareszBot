@@ -5,5 +5,6 @@ export const command = new Command(
     { names: "uptime", description: "display the bot's uptime" },
     ({ trigger, client }) => {
         trigger.reply(`${ms(client.uptime!, { long: true })}`);
+        return true;
     }
 );

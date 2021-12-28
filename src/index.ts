@@ -40,7 +40,7 @@ client.on("ready", () => {
         logging: {
             channel: "778203356765487134",
             format: [
-                "$authorTag$",
+                "$authorName$",
                 " in ",
                 "$channelTag$",
                 ":\t",

@@ -10,5 +10,7 @@ export const command = new Command(
 
         if (!f) trigger.reply("Your wallet is empty. 😫");
         else trigger.reply("Your balance: " + f?.balance + f?.currency);
+
+        return true;
     }
 );

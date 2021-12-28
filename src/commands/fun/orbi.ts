@@ -21,5 +21,6 @@ export const command = new Command(
         trigger.reply(
             `Viktor ${ageY} év, ${ageM} hónap, ${ageD} nap, ${ageH} óra, ${ageMin} perc, ${ageSec} másodperce született.`
         );
+        return true;
     }
 );

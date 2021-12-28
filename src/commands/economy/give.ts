@@ -22,5 +22,6 @@ export const command = new Command(
             return false;
         }
         await e.give(trigger.author.id, n);
+        return false;
     }
 );

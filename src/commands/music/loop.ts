@@ -19,5 +19,6 @@ export const command = new Command(
         queue.loop = !queue.loop;
 
         await trigger.reply(queue.loop ? "looping on" : "looping off");
+        return true;
     }
 );

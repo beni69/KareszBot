@@ -6,9 +6,10 @@ export const command = new Command(
         names: ["snake", "snakeGame"],
         description: "play the snake game in discord",
     },
-    ({ trigger }) => {
+    async ({ trigger }) => {
         const game = new SnakeGame();
-        game.newGame(trigger);
+        await game.newGame(trigger);
+        return true;
     }
 );
 

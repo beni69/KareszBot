@@ -14,5 +14,7 @@ export const command = new Command(
             trigger.reply("Bot paused");
             logger?.log(trigger, ["$authorTag$", " paused the bot."]);
         }
+
+        return true;
     }
 );

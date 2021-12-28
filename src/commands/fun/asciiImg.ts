@@ -71,5 +71,6 @@ export const command = new Command(
 
             message.channel.send(code(img));
         }
+        return true;
     }
 );

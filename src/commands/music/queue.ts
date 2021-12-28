@@ -30,5 +30,6 @@ export const command = new Command(
         } else {
             await trigger.reply("nothing's playing right now");
         }
+        return true;
     }
 );

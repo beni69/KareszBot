@@ -100,6 +100,7 @@ export const command = new Command(
             });
             queue.add(track);
             await trigger.followUp(`Added **${track.title}** to the queue`);
+            return true;
         } catch (err) {
             console.warn(err);
             await trigger.followUp("Failed to play track, try again later");

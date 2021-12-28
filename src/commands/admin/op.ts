@@ -37,25 +37,13 @@ export const command = new Command(
             return false;
         }
 
-        // if (trigger.source.mentions.users.size) {
-        //     const user = await trigger.guild?.members.fetch(
-        //         trigger.source.mentions.users.first()!.id
-        //     );
-        //     try {
-        //         user?.roles.add(adminRole as Role);
-        //     } catch (err) {
-        //         console.log(err);
-        //     }
-        // } else {
-        //     await trigger.member?.roles.add(adminRole as Role);
-        // }
-
         const target =
             (argv.getMember("target") as GuildMember | undefined) ||
             trigger.member;
 
         try {
             await target?.roles.add([adminRole]);
+            return true;
         } catch (err) {
             trigger.reply("error adding roles");
             console.error(err);

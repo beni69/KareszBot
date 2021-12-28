@@ -51,5 +51,6 @@ export const command = new Command(
 
         emb.setColor("GREEN").setDescription(data.url);
         trigger.reply({ embeds: [emb] });
+        return true;
     }
 );

@@ -47,5 +47,7 @@ export const command = new Command(
             const reply = await trigger.fetchReply();
             reply && (await reply.delete());
         }
+
+        return true;
     }
 );

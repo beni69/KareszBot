@@ -18,5 +18,6 @@ export const command = new Command(
 
         queue.destroy();
         await trigger.reply("bye! 👋");
+        return true;
     }
 );

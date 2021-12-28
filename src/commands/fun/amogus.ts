@@ -34,5 +34,6 @@ export const command = new Command(
         }
 
         running = false;
+        return true;
     }
 );

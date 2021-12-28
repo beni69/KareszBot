@@ -51,7 +51,7 @@ export const command = new Command(
             players: [],
         };
 
-        let p = argv.get("player");
+        let p = argv.get("player") as any; // FIXME
         if (p) {
             p = await trigger.guild?.members.fetch(p as Snowflake);
             console.log({ p });
@@ -60,6 +60,7 @@ export const command = new Command(
 
         const game = new KareszGame(trigger, gameOpts);
         game.newGame();
+        return true;
     }
 );
 

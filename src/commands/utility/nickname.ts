@@ -18,5 +18,6 @@ export const command = new Command(
     ({ trigger, text }) => {
         trigger.member?.setNickname(text);
         trigger.isSlash() && trigger.reply("✅");
+        return true;
     }
 );

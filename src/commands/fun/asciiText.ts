@@ -21,13 +21,13 @@ export const command = new Command(
                 name: "font",
                 description: "the font to use",
                 type: "STRING",
-                // choices: fonts,
                 required: false,
             },
         ],
-        argvAliases: { fonts: ["F"], font: ["f"] },
+        yargs: true,
+        argvAliases: { fonts: ["F"], font: ["f"], text: ["_"] },
     },
-    ({ trigger, argv, text }) => {
+    ({ trigger, argv }) => {
         // help menu (sort of)
         if (argv.getBoolean("fonts")) {
             trigger.reply(
@@ -35,7 +35,11 @@ export const command = new Command(
             );
             return false;
         }
-        const input = trigger.isClassic() ? text : argv.getString("text", true);
+        // console.log({ text, args, argv });
+
+        const input = trigger.isClassic()
+            ? argv.getString("text", true)
+            : argv.getString("text", true);
 
         const font: any = argv.getString("font") || "Standard";
 

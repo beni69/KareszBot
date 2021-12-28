@@ -19,5 +19,6 @@ export const command = new Command(
         queue.audioPlayer.pause();
 
         await trigger.reply("paused!");
+        return true;
     }
 );

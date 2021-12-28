@@ -1,6 +1,5 @@
 import { Command } from "@beni69/cmd";
 import { saveRoles, getRoles } from "../moderation";
-// import { Music, Queue } from "../music";
 
 export const command = new Command(
     {
@@ -19,11 +18,9 @@ export const command = new Command(
                 ? text.slice(3, -3).trim()
                 : text;
 
-        // let queue: Queue | undefined = undefined;
-        // if (trigger.guild) queue = Music.get(trigger.guild);
-
         try {
             trigger.reply("```" + (await eval(cmd)) + "```");
+            return true;
         } catch (err) {
             trigger.reply("There was an error\n```" + err + "```");
         }

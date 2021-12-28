@@ -98,5 +98,6 @@ export const command = new Command(
                 ],
             });
         }
+        return true;
     }
 );

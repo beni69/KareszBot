@@ -1,22 +1,51 @@
 import { Command } from "@beni69/cmd";
-import yargs from "yargs-parser";
+import { PresenceStatusData } from "discord.js";
 
 export const command = new Command(
     {
         names: "status",
         description: "change the bots status",
+        react: "👌",
         adminOnly: true,
         noSlash: true,
-        argvAliases: { type: ["t"], url: ["u"] },
+        options: [
+            {
+                name: "name",
+                description: "",
+                type: "STRING",
+                required: true,
+            },
+            {
+                name: "type",
+                description: "",
+                type: "STRING",
+                required: false,
+            },
+            {
+                name: "url",
+                description: "",
+                type: "STRING",
+                required: false,
+            },
+            {
+                name: "status",
+                description: "",
+                type: "STRING",
+                required: false,
+            },
+        ],
+        yargs: true,
+        argvAliases: { name: ["_"], type: ["t"], url: ["u"], status: ["s"] },
     },
-    ({ trigger, client, args }) => {
-        const argv = yargs(args);
-
-        const name = argv.get("_yargs")._.join(" ");
-        const type = argv.get("type");
-        const url = argv.get("url");
-        const status = argv.get("status") || "online";
+    ({ client, argv }) => {
+        const name = argv.getString("name") ?? undefined,
+            type = (argv.getString("type")?.toUpperCase() as any) ?? undefined,
+            url = argv.getString("url") ?? undefined,
+            status =
+                (argv.getString("status") as PresenceStatusData) || "online";
 
         client.user?.setPresence({ status, activities: [{ name, type, url }] });
+
+        return true;
     }
 );

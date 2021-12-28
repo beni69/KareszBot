@@ -55,6 +55,8 @@ export const command = new Command(
                   ],
               })
             : message.reply(codeBlock(res, data.lang));
+
+        return true;
     }
 );
 

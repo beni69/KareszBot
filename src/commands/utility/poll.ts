@@ -18,5 +18,6 @@ export const command = new Command(
         const msg = await trigger.fetchReply();
         msg.react("776837718797320234"); // upvote
         msg.react("776836162102099979"); // downvote
+        return true;
     }
 );

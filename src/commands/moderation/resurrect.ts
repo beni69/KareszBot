@@ -30,5 +30,7 @@ export const command = new Command(
             return false;
         }
         roles.roles.forEach(r => target.roles.add(r));
+
+        return true;
     }
 );

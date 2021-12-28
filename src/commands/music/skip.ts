@@ -19,5 +19,6 @@ export const command = new Command(
         queue.audioPlayer.stop(); // stopping the song will trigger the next one
 
         await trigger.reply("skipped song!");
+        return true;
     }
 );

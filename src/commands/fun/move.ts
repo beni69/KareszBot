@@ -66,7 +66,9 @@ export const command = new Command(
                 trigger.isSlash() && (await trigger.reply("✅"));
             } catch (err) {
                 trigger.reply("an error occured");
+                return false;
             }
         }
+        return true;
     }
 );

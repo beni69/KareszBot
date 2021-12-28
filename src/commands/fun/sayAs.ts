@@ -22,7 +22,7 @@ export const command = new Command(
         ephemeral: true,
         noDM: true,
     },
-    async ({ trigger, client, args, argv, text }) => {
+    async ({ trigger, argv, text }) => {
         const target = argv.getUser("target");
 
         if (!target) {
@@ -35,11 +35,15 @@ export const command = new Command(
             { avatar: target.displayAvatarURL({ dynamic: true }) }
         );
 
-        const msg=trigger.isClassic()?text:argv.getString("message",true)
+        const msg = trigger.isClassic()
+            ? text
+            : argv.getString("message", true);
 
         await wh.send(msg);
         await wh.delete();
 
         trigger.isSlash() && trigger.reply("✅");
+
+        return true;
     }
 );

@@ -46,5 +46,6 @@ export const command = new Command(
                 `Done! new volume is ${playerVolume.volume * 100}%`
             );
         }
+        return true;
     }
 );

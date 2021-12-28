@@ -15,7 +15,7 @@ export const command = new Command(
     },
     ({ trigger, argv }) => {
         const user = argv.getUser("user") || trigger.author;
-
         trigger.reply(user.displayAvatarURL({ dynamic: true, format: "png" }));
+        return true;
     }
 );

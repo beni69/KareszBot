@@ -119,6 +119,8 @@ export const command = new Command(
         target.user
             .send(`Dont worry tho, you can come back.\n${invite}`)
             .catch(err => {});
+
+        return true;
     }
 );
 
