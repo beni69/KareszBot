@@ -23,7 +23,7 @@
     },
     "dependencies": {
         "@beni69/cmd": "^2.0.0",
-        "@discordjs/opus": "^0.5.0",
+        "@discordjs/opus": "^0.8.0",
         "@discordjs/voice": "^0.5.6",
         "canvas": "^2.7.0",
         "config": "^3.3.6",
