@@ -35,7 +35,7 @@
         "gifencoder": "^2.0.1",
         "mongoose": "^5.12.0",
         "ms": "^2.1.3",
-        "node-fetch": "^3.1.1",
+        "node-fetch": "^3.2.10",
         "prettier": "^2.3.1",
         "scrape-youtube": "^2.1.3",
         "sodium": "^3.0.2",
